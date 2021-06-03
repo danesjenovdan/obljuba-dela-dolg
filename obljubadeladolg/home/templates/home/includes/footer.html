@@ -1,0 +1,18 @@
+{% load static wagtailcore_tags %}
+
+<div class="footer bg-white pt-5 pb-3">
+    <footer class="container">
+        {% for footer_link in settings.home.MetaSettings.footer_links %}
+            <li class="nav-item mx-2">
+                <a class="nav-link px-3 btn {% if request.path == footer_link.value.page.url %}active{% endif %}"
+                    href="{% if footer_link.value.url %}{{ footer_link.value.url }}{% elif footer_link.value.page %}{% pageurl footer_link.value.page %}{% endif %}">
+                    {% if footer_link.value.name %}
+                        {{ footer_link.value.name }}
+                    {% elif footer_link.value.page %}
+                        {{ footer_link.value.page.title }}
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </footer>
+</div>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block content %}
+
+{% include "home/includes/header.html" %}
+
+<div class="container">
+{% block page_body %}
+
+{% endblock %}
+</div>
+
+{% include "home/includes/footer.html" %}
+
+{% endblock content %}

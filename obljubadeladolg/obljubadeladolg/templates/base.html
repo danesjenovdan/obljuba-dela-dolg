@@ -1,24 +1,52 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar wagtailimages_tags %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>
-            {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
-            {% endblock %}
-        </title>
-        <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        {% with self.get_site.site_name as site_name %}
+            <title>
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+                {% if site_name %}- {{ site_name }}{% endif %}
+            </title>
+            <meta property="og:title" content="{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ settings.home.MetaSettings.meta_title }}{% endif %}">
+            <meta name="twitter:title" content="{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ settings.home.MetaSettings.meta_title }}{% endif %}">
+            <meta property="og:site_name" content="{% if site_name %}{{ site_name }}{% endif %}">
+        {% endwith %}
+
+        <meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% else %}{{ settings.home.MetaSettings.meta_description }}{% endif %}">
+        <meta property="og:description" content="{% if self.search_description %}{{ self.search_description }}{% else %}{{ settings.home.MetaSettings.meta_description }}{% endif %}">
+        <meta name="twitter:description" content="{% if self.search_description %}{{ self.search_description }}{% else %}{{ settings.home.MetaSettings.meta_description }}{% endif %}">
+
+        {% image settings.home.MetaSettings.meta_image max-1200x630 as og_image %}
+        <meta property="og:image" content="{{ og_image.url }}">
+        <meta name="twitter:image" content="{{ og_image.url }}">
+
+        <meta name="author" content="Danes je nov dan">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:creator" content="@danesjenovdan">
+
+        <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+        <link rel="shortcut icon" href="{% static 'favicon-32x32.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'favicon-512x512.png' %}" sizes="512x512">
+
+        {# Font stylesheets #}
+        {% comment %} <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&amp;display=swap" rel="preload" as="style">
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="{% static 'fonts/okolaks-webfont.css' %}" rel="preload" as="style">
+        <link href="{% static 'fonts/okolaksregular-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/okolaksregularitalic-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/okolaksbold-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/okolaksbolditalic-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/okolaks-webfont.css' %}" rel="stylesheet" media="print" onload="this.media='all'"> {% endcomment %}
+
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/obljubadeladolg.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bundle.css' %}">
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -31,6 +59,7 @@
         {% block content %}{% endblock %}
 
         {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/obljubadeladolg.js' %}"></script>
 
         {% block extra_js %}
