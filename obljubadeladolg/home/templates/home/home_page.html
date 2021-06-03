@@ -1,16 +1,67 @@
 {% extends "home/base_page.html" %}
+{% load wagtailcore_tags %}
 
 {% block body_class %}page page--home{% endblock %}
 
 {% block page_body %}
 
 <div class="row">
-    <h1>
-        {{ page.title }}
-    </h1>
-    <p>
-        {{ page.description }}
-    </p>
+    <div class="col">
+        <h1>
+            {{ page.title }}
+        </h1>
+        <p>
+            {{ page.description }}
+        </p>
+        <a href="{% pageurl page.more_link %}">VEČ -></a>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col">
+        <h2>{{ page.categories_heading }}</h2>
+        <div>
+            KATEGORIJE TU
+        </div>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col">
+        <h2>{{ page.search_heading }}</h2>
+        <form action="{% pageurl page.search_link %}" method="get">
+            <input type="text" placeholder="{{ page.search_placeholder }}">
+            <input type="submit" value="->">
+        </form>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col">
+        <h2>{{ page.latest_heading }}</h2>
+        <div>
+            TABELA
+        </div>
+        <div>
+            <a href="{% pageurl page.latest_link %}">VSE -></a>
+        </div>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col">
+        <h2>{{ page.social_heading }}</h2>
+        <div>
+            SOCIALS AND NEWSLETTER
+            {% comment %}
+                Uporabi to za tekste pri social in newsletter sekcijah
+
+                settings.home.MetaSettings.social_label
+                settings.home.MetaSettings.newsletter_label
+                settings.home.MetaSettings.newsletter_consent
+            {% endcomment %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
