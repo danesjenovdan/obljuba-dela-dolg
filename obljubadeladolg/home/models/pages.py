@@ -72,6 +72,55 @@ class HomePage(Page):
         FieldPanel("social_heading"),
     ]
 
+    parent_page_types = []
+
+
+class PromiseListingPage(Page):
+    search_title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    category_label = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    category_placeholder = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    search_label = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    search_placeholder = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    status_help_label = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    status_help_text = models.TextField(
+        null=True,
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("search_title"),
+        FieldPanel("category_label"),
+        FieldPanel("category_placeholder"),
+        FieldPanel("search_label"),
+        FieldPanel("search_placeholder"),
+        FieldPanel("status_help_label"),
+        FieldPanel("status_help_text"),
+    ]
+
 
 class ContentPage(Page):
     description = models.TextField(
