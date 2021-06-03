@@ -1,0 +1,6 @@
+# IDEs
+.vscode
+.idea
+
+# kustomize secrets
+/kustomize/secrets.yaml
