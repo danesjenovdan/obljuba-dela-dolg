@@ -25,4 +25,11 @@
     {{ status.slug }}
 {% endfor %}
 
+---
+
+{% for promise in promises %}
+    {{ promise.title }}
+    {{ promise.status }}
+{% endfor %}
+
 {% endblock %}

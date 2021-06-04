@@ -46,7 +46,10 @@
     <div class="col">
         <h2>{{ page.latest_heading }}</h2>
         <div>
-            TABELA
+            {% for promise in promises %}
+                {{ promise.title }}
+                {{ promise.status }}
+            {% endfor %}
         </div>
         <div>
             <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">VSE -></a>

@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.db.models import Max
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import (
@@ -86,6 +87,12 @@ class HomePage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
+        context["promises"] = (
+            PromisePage.objects.all()
+            .live()
+            .annotate(latest_update=Max("updates__date"))
+            .order_by("-latest_update")[:10]
+        )
         return context
 
 
@@ -125,6 +132,8 @@ class PromisePage(Page):
         InlinePanel("updates", label="Posodobitve"),
     ]
 
+    parent_page_types = ["home.PromiseListingPage"]
+
     def sorted_updates(self):
         return self.updates.order_by("-date")
 
@@ -142,6 +151,7 @@ class PromiseListingPage(Page):
         max_length=255,
         null=True,
         blank=True,
+        verbose_name=_("Naslov te strani, ko prikazuje rezultate iskanja"),
     )
     category_label = models.CharField(
         max_length=255,
@@ -183,10 +193,18 @@ class PromiseListingPage(Page):
         FieldPanel("status_help_text"),
     ]
 
+    parent_page_types = ["home.HomePage"]
+
     def get_context(self, request):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
         context["promise_statuses"] = PromiseStatus.objects.all()
+        context["promises"] = (
+            PromisePage.objects.all()
+            .child_of(self)
+            .annotate(latest_update=Max("updates__date"))
+            .order_by("-latest_update")
+        )
         return context
 
     class Meta:
