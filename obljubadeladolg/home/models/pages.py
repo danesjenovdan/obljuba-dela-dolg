@@ -1,6 +1,14 @@
+from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, StreamFieldPanel
+from modelcluster.fields import ParentalManyToManyField
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    PageChooserPanel,
+    StreamFieldPanel,
+)
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 
@@ -81,6 +89,54 @@ class HomePage(Page):
         return context
 
 
+class PromisePage(Page):
+    full_text = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Polno besedilo obljube"),
+    )
+    source_name = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name=_("Ime vira"),
+    )
+    source_url = models.URLField(
+        null=True,
+        blank=True,
+        verbose_name=_("Povezava do vira"),
+    )
+    categories = ParentalManyToManyField(
+        "home.PromiseCategory",
+        blank=True,
+        verbose_name=_("Kategorije"),
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("full_text"),
+        MultiFieldPanel(
+            [
+                FieldPanel("source_name"),
+                FieldPanel("source_url"),
+            ],
+            heading="Vir",
+        ),
+        FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
+        InlinePanel("updates", label="Posodobitve"),
+    ]
+
+    def sorted_updates(self):
+        return self.updates.order_by("-date")
+
+    def status(self):
+        latest_update = self.updates.order_by("-date").last()
+        return latest_update.status if latest_update else None
+
+    class Meta:
+        verbose_name = "Obljuba"
+        verbose_name_plural = "Obljube"
+
+
 class PromiseListingPage(Page):
     search_title = models.CharField(
         max_length=255,
@@ -133,6 +189,10 @@ class PromiseListingPage(Page):
         context["promise_statuses"] = PromiseStatus.objects.all()
         return context
 
+    class Meta:
+        verbose_name = "Seznam obljub"
+        verbose_name_plural = "Seznami obljub"
+
 
 class ContentPage(Page):
     description = models.TextField(
@@ -151,3 +211,7 @@ class ContentPage(Page):
         FieldPanel("description"),
         StreamFieldPanel("body"),
     ]
+
+    class Meta:
+        verbose_name = "Vsebina"
+        verbose_name_plural = "Vsebine"

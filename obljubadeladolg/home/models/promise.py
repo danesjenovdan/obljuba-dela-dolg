@@ -1,6 +1,10 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from modelcluster.fields import ParentalKey
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Orderable
 
 
 class PromiseCategory(models.Model):
@@ -36,6 +40,7 @@ class PromiseStatus(models.Model):
     description = models.TextField(
         null=True,
         blank=True,
+        verbose_name=_("Opis"),
     )
     slug = models.CharField(
         max_length=255,
@@ -62,3 +67,32 @@ class PromiseStatus(models.Model):
     class Meta:
         verbose_name = "Stanje obljub"
         verbose_name_plural = "Stanja obljub"
+
+
+class PromiseUpdate(Orderable):
+    page = ParentalKey(
+        "home.PromisePage",
+        on_delete=models.CASCADE,
+        related_name="updates",
+    )
+    title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name=_("Naslov"),
+    )
+    date = models.DateField(
+        default=timezone.now,
+        verbose_name=_("Datum"),
+    )
+    status = models.ForeignKey(
+        "home.PromiseStatus",
+        on_delete=models.SET_NULL,
+        related_name="+",
+        null=True,
+        blank=True,
+        verbose_name=_("Stanje"),
+    )
+    content = RichTextField(
+        verbose_name=_("Vsebina"),
+    )
