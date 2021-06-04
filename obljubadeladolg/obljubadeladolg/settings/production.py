@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = False
+DEBUG = bool(os.getenv('DJANGO_DEBUG', False))
 
 DATABASES = {
     'default': {
