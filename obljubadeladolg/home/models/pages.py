@@ -1,4 +1,5 @@
 from django import forms
+from django.core.paginator import Paginator
 from django.db import models
 from django.db.models import Max
 from django.utils.translation import gettext_lazy as _
@@ -199,12 +200,19 @@ class PromiseListingPage(Page):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
         context["promise_statuses"] = PromiseStatus.objects.all()
-        context["promises"] = (
+
+        all_promises = (
             PromisePage.objects.all()
             .child_of(self)
             .annotate(latest_update=Max("updates__date"))
             .order_by("-latest_update")
         )
+        paginator = Paginator(all_promises, 100)
+        page_number = request.GET.get('page')
+        promises = paginator.get_page(page_number)
+        context["promises"] = promises
+        context["paginator"] = paginator
+
         return context
 
     class Meta:
