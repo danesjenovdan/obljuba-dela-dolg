@@ -5,6 +5,7 @@ from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 
 from ..blocks import RichTextBlock
+from .promise import PromiseCategory, PromiseStatus
 
 
 class HomePage(Page):
@@ -74,6 +75,11 @@ class HomePage(Page):
 
     parent_page_types = []
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["promise_categories"] = PromiseCategory.objects.all()
+        return context
+
 
 class PromiseListingPage(Page):
     search_title = models.CharField(
@@ -120,6 +126,12 @@ class PromiseListingPage(Page):
         FieldPanel("status_help_label"),
         FieldPanel("status_help_text"),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["promise_categories"] = PromiseCategory.objects.all()
+        context["promise_statuses"] = PromiseStatus.objects.all()
+        return context
 
 
 class ContentPage(Page):

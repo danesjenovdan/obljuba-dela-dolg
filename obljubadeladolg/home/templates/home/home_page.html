@@ -23,6 +23,12 @@
         <div>
             KATEGORIJE TU
         </div>
+        <div>
+            {% for category in promise_categories %}
+                {{ category.name }}
+                {{ category.slug }}
+            {% endfor %}
+        </div>
     </div>
 </div>
 

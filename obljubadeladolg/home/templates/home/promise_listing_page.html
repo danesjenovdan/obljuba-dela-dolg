@@ -14,4 +14,15 @@
     </p>
 </div>
 
+
+{% for category in promise_categories %}
+    {{ category.name }}
+    {{ category.slug }}
+{% endfor %}
+
+{% for status in promise_statuses %}
+    {{ status.name }}
+    {{ status.slug }}
+{% endfor %}
+
 {% endblock %}
