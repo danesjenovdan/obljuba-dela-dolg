@@ -70,6 +70,8 @@ spec:
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: obljubadeladolg.settings.production
+            - name: DJANGO_DEBUG
+              value: True
         - name: obljubadeladolg-nginx
           ports:
             - name: http
