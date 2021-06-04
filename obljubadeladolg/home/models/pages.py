@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
+from wagtail.search import index
 
 from ..blocks import RichTextBlock
 from .promise import PromiseCategory, PromiseStatus
@@ -133,6 +134,10 @@ class PromisePage(Page):
         InlinePanel("updates", label="Posodobitve"),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField("full_text"),
+    ]
+
     parent_page_types = ["home.PromiseListingPage"]
 
     def sorted_updates(self):
@@ -207,8 +212,17 @@ class PromiseListingPage(Page):
             .annotate(latest_update=Max("updates__date"))
             .order_by("-latest_update")
         )
+
+        search_query = request.GET.get("query", None)
+
+        if search_query:
+            all_promises = all_promises.search(
+                search_query,
+                operator="and",
+            )
+
         paginator = Paginator(all_promises, 100)
-        page_number = request.GET.get('page')
+        page_number = request.GET.get("page", 1)
         promises = paginator.get_page(page_number)
         context["promises"] = promises
         context["paginator"] = paginator
