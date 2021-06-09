@@ -1,30 +1,105 @@
-<h1>
-{{ page.title }}
-</h1>
+{% extends "home/base_page.html" %}
+{% load wagtailcore_tags %}
 
-<div>
-{{ page.full_text }}
-</div>
-<div>
-{{ page.status }}
+{% block body_class %}page page--promise{% endblock %}
+
+{% block page_body %}
+
+<div class="container-fluid bg-primary promise-page py-5">
+    <div class="container">
+        <div class="row hero text-light">
+            <div class="col-lg-7 offset-lg-1">
+                <h2 class="mb-4">
+                    {{ page.title }}
+                </h2>
+                <p>
+                    {{ page.full_text }}
+                </p>
+                <div>
+                    {% for category in page.categories.all %}
+                    <span class="tag">{{ category }}</span>
+                    {% endfor %}
+                </div>
+                <div class="my-4 source">
+                    Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
+                </div>
+            </div>
+            <div class="col-4 position-relative">
+                <div class="white-blob"></div>
+                <div>
+                    <span>ikona</span>
+                    <span>{{ page.status }}</span>
+                    <hr>
+                    <p>Ni mogoce najti dokazov o napredku.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-{% for category in page.categories.all %}
-    {{ category }}
-{% endfor %}
+<div class="container promise-page my-5">
+    <div class="row">
+        <div class="col-8">
+            {% for update in page.sorted_updates.all %}
+            <div class="row">
+                <div class="col-2 d-flex flex-column align-items-center position-relative">
+                    <div class="icon-status d-flex justify-content-center align-items-center position-absolute" style="">
+                        {{ update.status.color }}
+                    </div>
+                    <div class="line"></div>
+                </div>
+                <div class="col pl-0 my-5">
+                    <div>
+                        <h6 class="text-uppercase">
+                            {{ update.title }}
+                        </h6>
+                        <span></span>
+                        <p>{{ update.title }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <div class="box socials">
+                <h2>{{ settings.home.MetaSettings.social_label }}</h2>
+                <div class="d-flex justify-content-center">
+                    <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <span class="fb-icon"></span>
+                    </div>
+                    <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <span class="twitter-icon"></span>
+                    </div>
+                    <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <span class="email-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="box newsletter">
+                <h2>{{ settings.home.MetaSettings.newsletter_label }}</h2>
+                <h5>{{ settings.home.MetaSettings.newsletter_sublabel }}</h5>
+                <div class="position-relative mt-4">
+                    <input type="text" class="form-control">
+                    <button type="submit" class="btn btn-primary position-absolute search-button">
+                        <span></span>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center my-3">
+                    <input type="checkbox" id="newsletter-consent" />
+                    <label for="newsletter-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+{% comment %}
 {% for update in page.updates.all %}
 <div>
     {{ update.title }}
     {{ update.status }}
 </div>
 {% endfor %}
----
-{% for update in page.sorted_updates.all %}
-<div>
-    {{ update.title }}
-    {{ update.status }}
-</div>
-{% endfor %}
+{% endcomment %}
+
+{% endblock %}

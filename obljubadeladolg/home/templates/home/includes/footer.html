@@ -1,7 +1,46 @@
 {% load static wagtailcore_tags %}
 
-<div class="footer bg-white pt-5 pb-3">
-    <footer class="container">
+<div class="footer bg-black p-4">
+    <footer class="container text-light">
+        <div class="row">
+            <div class="col-4">
+                <h6>Spremljaj Obljuba dela dolg na družbenih omrežjih</h6>
+                <div class="d-flex">
+                    <div class="social-circle d-flex justify-content-center align-items-center">
+                        <span class="fb-icon"></span>
+                    </div>
+                    <div class="social-circle d-flex justify-content-center align-items-center">
+                        <span class="twitter-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <h6>Ostani na tekočem z obljubami!</h6>
+                <div>Prijavi se na naš mesečnik</div>
+                <div class="position-relative">
+                    <input type="text" class="form-control">
+                    <button type="submit" class="btn btn-primary position-absolute search-button">
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="footer-navigation">
+                    {% for footer_link in settings.home.MetaSettings.footer_links %}
+                    <div class="">
+                        <a class=""
+                           href="{% if footer_link.value.url %}{{ footer_link.value.url }}{% elif footer_link.value.page %}{% pageurl footer_link.value.page %}{% endif %}">
+                            {% if footer_link.value.name %}
+                            {{ footer_link.value.name }}
+                            {% elif footer_link.value.page %}
+                            {{ footer_link.value.page.title }}
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         {% comment %}
             Uporabi to za tekste pri social in newsletter sekcijah
 
@@ -9,17 +48,18 @@
             settings.home.MetaSettings.newsletter_label
             settings.home.MetaSettings.newsletter_consent
         {% endcomment %}
-        {% for footer_link in settings.home.MetaSettings.footer_links %}
-            <li class="nav-item mx-2">
-                <a class="nav-link px-3 btn {% if request.path == footer_link.value.page.url %}active{% endif %}"
-                    href="{% if footer_link.value.url %}{{ footer_link.value.url }}{% elif footer_link.value.page %}{% pageurl footer_link.value.page %}{% endif %}">
-                    {% if footer_link.value.name %}
-                        {{ footer_link.value.name }}
-                    {% elif footer_link.value.page %}
-                        {{ footer_link.value.page.title }}
-                    {% endif %}
-                </a>
-            </li>
-        {% endfor %}
+
+        <hr />
+        <div class="logos d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <span>Platforma je plod partnerstva med</span>
+                <a href="https://www.ostro.si/"><img src="{% static 'images/ostro_logo-white.png' %}" alt="logo Ostro"></a>
+                <a href="https://danesjenovdan.si/"><img src="{% static 'images/djnd_logo-white.svg' %}" alt="logo DJND"></a>
+            </div>
+            <div class="d-flex align-items-center">
+                <span>Projekt je nastal s podporo</span>
+                <a href="https://acfslovenia.si/"><img src="{% static 'images/active-citizens-fund_logo-white.png' %}" alt="logo ACF"></a>
+            </div>
+        </div>
     </footer>
 </div>

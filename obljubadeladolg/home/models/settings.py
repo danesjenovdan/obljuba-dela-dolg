@@ -86,6 +86,11 @@ class MetaSettings(BaseSetting):
         null=True,
         blank=True,
     )
+    newsletter_sublabel = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
     newsletter_consent = models.CharField(
         max_length=255,
         null=True,
@@ -100,6 +105,7 @@ class MetaSettings(BaseSetting):
         FieldPanel("email"),
         FieldPanel("social_label"),
         FieldPanel("newsletter_label"),
+        FieldPanel("newsletter_sublabel"),
         FieldPanel("newsletter_consent"),
     ]
 

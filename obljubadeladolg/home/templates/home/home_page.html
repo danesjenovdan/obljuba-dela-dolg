@@ -1,76 +1,143 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}page page--home{% endblock %}
 
 {% block page_body %}
 
-<div class="row">
-    <div class="col">
-        <h1>
-            {{ page.title }}
-        </h1>
-        <p>
-            {{ page.description }}
-        </p>
-        <a href="{% if page.more_link %}{% pageurl page.more_link %}{% endif %}">VEČ -></a>
-    </div>
-</div>
-
-<div class="row text-center mt-5">
-    <div class="col">
-        <h2>{{ page.categories_heading }}</h2>
-        <div>
-            KATEGORIJE TU
-        </div>
-        <div>
-            {% for category in promise_categories %}
-                {{ category.name }}
-                {{ category.slug }}
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
-<div class="row text-center mt-5">
-    <div class="col">
-        <h2>{{ page.search_heading }}</h2>
-        <form action="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}" method="get">
-            <input type="text" placeholder="{{ page.search_placeholder }}">
-            <input type="submit" value="->">
-        </form>
-    </div>
-</div>
-
-<div class="row text-center mt-5">
-    <div class="col">
-        <h2>{{ page.latest_heading }}</h2>
-        <div>
-            {% for promise in promises %}
-                {{ promise.title }}
-                {{ promise.status }}
-            {% endfor %}
-        </div>
-        <div>
-            <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">VSE -></a>
+<div class="container-fluid bg-primary">
+    <div class="container">
+        <div class="row hero text-light">
+            <div class="col-lg-8">
+                <div>{% image page.image width-1444 class="img-fluid w-100" %}</div>
+            </div>
+            <div class="col-lg-4 d-flex flex-column justify-content-end">
+                {% comment %}
+                <h1 class="mb-4">
+                    {{ page.title }}
+                </h1>
+                {% endcomment %}
+                <p class="mb-4">
+                    {{ page.description }}
+                </p>
+                {% if page.more_link and page.more_link_text %}
+                <div class="my-5">
+                    <a href="{% pageurl page.more_link %}">
+                        <span>{{ page.more_link_text }}</span>
+                        <span class="ml-1">-></span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 
-<div class="row text-center mt-5">
-    <div class="col">
-        <h2>{{ page.social_heading }}</h2>
-        <div>
-            SOCIALS AND NEWSLETTER
-            {% comment %}
-                Uporabi to za tekste pri social in newsletter sekcijah
-
-                settings.home.MetaSettings.social_label
-                settings.home.MetaSettings.newsletter_label
-                settings.home.MetaSettings.newsletter_consent
-            {% endcomment %}
+<div class="container-fluid bg-beige py-5 home-page">
+    <div class="container">
+        <div class="row categories">
+            <div class="col">
+                <h2 class="my-4 text-center">{{ page.categories_heading }}</h2>
+                <div class="row">
+                    {% for category in promise_categories %}
+                    <div class="col-lg-3 my-3">
+                        <a href="/{{ category.slug }}">
+                            <div class="category-box h-100 p-3">
+                                <h4>{{ category.name }}</h4>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="container-fluid bg-beige py-5 home-page">
+    <div class="container">
+        <div class="row justify-content-center position-relative">
+            <div class="col-8 blob">
+                <img src="{% static 'images/blob-beige.svg' %}" />
+            </div>
+            <div class="col-12 search-section">
+                <h2 class="my-4 text-center">{{ page.search_heading }}</h2>
+                <form action="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}" method="get">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 position-relative">
+                            <input type="text" placeholder="{{ page.search_placeholder }}" class="form-control">
+                            <button type="submit" class="input-btn btn-primary search-button">
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container home-page">
+    <div class="row text-center mt-5">
+        <div class="col">
+            <h2>{{ page.latest_heading }}</h2>
+            <div>
+                {% for promise in promises %}
+                    {{ promise.title }}
+                    {{ promise.status }}
+                {% endfor %}
+            </div>
+            <div>
+                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">VSE -></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid bg-beige py-5 home-page">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center mb-5">{{ page.social_heading }}</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="newsletter bg-primary text-light h-100">
+                            <div class="row">
+                                <div class="col-4 newsletter-img"></div>
+                                <div class="col-8">
+                                    <form onsubmit="">
+                                        <h5><label for="newsletter">{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
+                                        <div class="go-input position-relative">
+                                            <input type="text" id="newsletter" class="form-control" />
+                                            <button type="submit" class="input-btn btn-primary">
+                                                <span></span>
+                                            </button>
+                                        </div>
+                                        <div class="mt-2">
+                                            <input type="checkbox" id="newsletter-consent" />
+                                            <label for="newsletter-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="socials bg-primary text-light h-100">
+                            <h5>{{ settings.home.MetaSettings.social_label }}</h5>
+                            <div class="d-flex justify-content-center">
+                                <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                                    <span class="fb-icon"></span>
+                                </div>
+                                <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                                    <span class="twitter-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

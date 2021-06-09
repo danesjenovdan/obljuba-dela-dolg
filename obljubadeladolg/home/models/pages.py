@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
@@ -31,6 +32,19 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+    )
+    more_link_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
     categories_heading = models.CharField(
         max_length=255,
@@ -75,6 +89,8 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("description"),
         PageChooserPanel("more_link"),
+        FieldPanel("more_link_text"),
+        ImageChooserPanel("image"),
         FieldPanel("categories_heading"),
         FieldPanel("search_heading"),
         FieldPanel("search_placeholder"),
