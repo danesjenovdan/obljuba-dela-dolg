@@ -1,23 +1,67 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags %}
+{% load static wagtailcore_tags %}
 
 {% block body_class %}page page--content{% endblock %}
 
 {% block page_body %}
 
-<div class="row">
-    <h1>
-        {{ page.title }}
-    </h1>
-    <p>
-        {{ page.description }}
-    </p>
+<div class="container-fluid bg-primary">
+    <div class="container">
+        <div class="row hero text-light">
+            <h1>
+                {{ page.title }}
+            </h1>
+            <p>
+                {{ page.description }}
+            </p>
+        </div>
+    </div>
 </div>
 
-{% for block in page.body %}
-<div class="row">
-    {% include_block block %}
+<div class="container my-5 content-page">
+    <div class="row">
+        <div class="col-8">
+            {% for block in page.body %}
+            <div class="row mb-5">
+                {% include_block block %}
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="row">
+                <div class="col-12 d-flex align-items-center acf-logo">
+                    <span>Projekt je nastal s podporo</span>
+                    <img src="{% static 'images/active-citizens-fund_logo.png' %}" alt="ACF logo">
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="box socials">
+                <h2>{{ settings.home.MetaSettings.social_label }}</h2>
+                <div class="d-flex justify-content-center">
+                    <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <span class="fb-icon"></span>
+                    </div>
+                    <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <span class="twitter-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="box newsletter">
+                <h2>{{ settings.home.MetaSettings.newsletter_label }}</h2>
+                <h5>{{ settings.home.MetaSettings.newsletter_sublabel }}</h5>
+                <div class="position-relative mt-4">
+                    <input type="text" class="form-control">
+                    <button type="submit" class="btn btn-primary position-absolute search-button">
+                        <span></span>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center my-3">
+                    <input type="checkbox" id="newsletter-consent" />
+                    <label for="newsletter-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endfor %}
 
 {% endblock %}
