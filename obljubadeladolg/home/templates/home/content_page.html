@@ -42,12 +42,16 @@
                 <div class="box socials">
                     <h2>{{ settings.home.MetaSettings.social_label }}</h2>
                     <div class="d-flex justify-content-center">
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
-                            <span class="fb-icon"></span>
-                        </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
-                            <span class="twitter-icon"></span>
-                        </div>
+                        <a href="{{ settings.home.MetaSettings.facebook }}" class="mt-4 mx-2">
+                            <div class="social-circle d-flex justify-content-center align-items-center">
+                                <span class="fb-icon"></span>
+                            </div>
+                        </a>
+                        <a href="{{ settings.home.MetaSettings.twitter }}" class="mt-4 mx-2">
+                            <div class="social-circle d-flex justify-content-center align-items-center">
+                                <span class="twitter-icon"></span>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="box newsletter">

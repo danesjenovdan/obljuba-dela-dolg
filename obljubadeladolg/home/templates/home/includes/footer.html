@@ -6,21 +6,25 @@
             {% if request.path != "/" %}
             <div class="col-4">
                 <div class="w-75">
-                    <h5>Spremljaj Obljuba dela dolg na družbenih omrežjih</h5>
+                    <h5>{{ settings.home.MetaSettings.social_label }}</h5>
                     <div class="d-flex">
-                        <div class="social-circle d-flex justify-content-center align-items-center">
-                            <span class="fb-icon"></span>
-                        </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center">
-                            <span class="twitter-icon"></span>
-                        </div>
+                        <a href="{{ settings.home.MetaSettings.facebook }}">
+                            <div class="social-circle d-flex justify-content-center align-items-center">
+                                <span class="fb-icon"></span>
+                            </div>
+                        </a>
+                        <a href="{{ settings.home.MetaSettings.facebook }}">
+                            <div class="social-circle d-flex justify-content-center align-items-center">
+                                <span class="twitter-icon"></span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="col-4">
-                <div class="w-75">
-                    <h5>Ostani na tekočem z obljubami!</h5>
-                    <div>Prijavi se na naš mesečnik</div>
+                <div class="w-75 newsletter">
+                    <h5>{{ settings.home.MetaSettings.newsletter_label }}</h5>
+                    <div>{{ settings.home.MetaSettings.newsletter_sublabel }}</div>
                     <div class="position-relative go-input mt-3 mb-2">
                         <input type="text" class="form-control">
                         <button type="submit" class="input-btn btn-primary bg-black">
@@ -52,14 +56,6 @@
                 </div>
             </div>
         </div>
-        {% comment %}
-            Uporabi to za tekste pri social in newsletter sekcijah
-
-            settings.home.MetaSettings.social_label
-            settings.home.MetaSettings.newsletter_label
-            settings.home.MetaSettings.newsletter_consent
-        {% endcomment %}
-
         <hr />
         <div class="logos d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">

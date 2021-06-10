@@ -33,15 +33,17 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-group">
-                            <label for="search-header">{{ page.search_label }}</label>
-                            <div class="search-input position-relative">
-                                <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" class="form-control">
-                                <button class="btn-primary input-btn">
-                                    <span></span>
-                                </button>
+                        <form action="" method="get">
+                            <div class="form-group">
+                                <label for="search-header">{{ page.search_label }}</label>
+                                <div class="search-input position-relative">
+                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" class="form-control">
+                                    <button class="btn-primary input-btn">
+                                        <span></span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -72,12 +74,14 @@
                     {% for promise in promises %}
                     <tr class="d-flex">
                         <td class="col-11">
-                            <h6>{{ promise.title }}</h6>
-                            <div>
-                                {% for category in promise.categories.all %}
-                                <span class="tag">{{ category }}</span>
-                                {% endfor %}
-                            </div>
+                            <a href="{{ promise.slug }}">
+                                <h6>{{ promise.title }}</h6>
+                                <div>
+                                    {% for category in promise.categories.all %}
+                                    <span class="tag">{{ category }}</span>
+                                    {% endfor %}
+                                </div>
+                            </a>
                         </td>
                         <td class="col-1">
                             <div class="d-flex flex-column align-items-center justify-content-center h-100">

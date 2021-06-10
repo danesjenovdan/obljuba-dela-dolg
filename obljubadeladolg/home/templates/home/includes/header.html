@@ -23,7 +23,7 @@
                 <ul class="navbar-nav">
                     {% for header_link in settings.home.MetaSettings.header_links %}
                         <li class="nav-item position-relative mx-2">
-                            <a class="nav-link text-light px-3 btn {% if request.path == header_link.value.page.url %}active{% endif %}"
+                            <a class="nav-link text-light px-3 {% if request.path == header_link.value.page.url %}active{% endif %}"
                                href="{% if header_link.value.url %}{{ header_link.value.url }}{% elif header_link.value.page %}{% pageurl header_link.value.page %}{% endif %}">
                                 {% if header_link.value.name %}
                                     {{ header_link.value.name }}
