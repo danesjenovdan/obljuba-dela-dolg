@@ -42,8 +42,9 @@
                     {% for category in promise_categories %}
                     <div class="col-lg-3 my-3">
                         <a href="/{{ category.slug }}">
-                            <div class="category-box h-100 p-3">
+                            <div class="category-box position-relative">
                                 <h4>{{ category.name }}</h4>
+                                <div class="position-absolute category-image">{% image category.image width-1444 %}</div>
                             </div>
                         </a>
                     </div>
@@ -64,9 +65,9 @@
                 <h2 class="my-4 text-center">{{ page.search_heading }}</h2>
                 <form action="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}" method="get">
                     <div class="row justify-content-center">
-                        <div class="col-lg-4 position-relative">
+                        <div class="col-lg-4 search-input position-relative">
                             <input type="text" placeholder="{{ page.search_placeholder }}" class="form-control">
-                            <button type="submit" class="input-btn btn-primary search-button">
+                            <button type="submit" class="input-btn btn-primary">
                                 <span></span>
                             </button>
                         </div>
@@ -80,15 +81,42 @@
 <div class="container home-page">
     <div class="row text-center mt-5">
         <div class="col">
-            <h2>{{ page.latest_heading }}</h2>
+            <h2 class="mb-5">{{ page.latest_heading }}</h2>
             <div>
-                {% for promise in promises %}
-                    {{ promise.title }}
-                    {{ promise.status }}
-                {% endfor %}
+                <table class="table table-hover mb-5">
+                    <tbody>
+                        {% for promise in promises %}
+                        <tr class="d-flex">
+                            <td class="col-11">
+                                <h6>{{ promise.title }}</h6>
+                                <div>
+                                    {% for category in promise.categories.all %}
+                                    <span class="tag">{{ category }}</span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td class="col-1">
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                                        {% image promise.status.icon width-1444 %}
+                                    </div>
+                                    <span>
+                                        {{ promise.status }}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div>
-                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">VSE -></a>
+            <div class="mb-5">
+                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">
+                    <div class="latest-button btn btn-primary d-inline-flex justify-content-center align-items-center">
+                        <span>Prikaži vse obljube</span>
+                        <span class="icon-arrow-right"></span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -125,11 +153,11 @@
                     <div class="col">
                         <div class="socials bg-primary text-light h-100">
                             <h5>{{ settings.home.MetaSettings.social_label }}</h5>
-                            <div class="d-flex justify-content-center">
-                                <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                            <div class="d-flex">
+                                <div class="social-circle d-flex justify-content-center align-items-center">
                                     <span class="fb-icon"></span>
                                 </div>
-                                <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                                <div class="social-circle d-flex justify-content-center align-items-center">
                                     <span class="twitter-icon"></span>
                                 </div>
                             </div>
