@@ -18,6 +18,14 @@ class PromiseCategory(models.Model):
         blank=True,
         verbose_name=_("Ključ (če je prazno se avtomatsko ustvari iz imena)"),
     )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -54,7 +62,14 @@ class PromiseStatus(models.Model):
             "Barva (veljavni vsi css formati, npr. rgb(255, 255, 255), #fff ali #ffffff)"
         ),
     )
-    # TODO: icon
+    icon = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Ikona'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+   )
 
     def save(self, *args, **kwargs):
         if not self.slug:

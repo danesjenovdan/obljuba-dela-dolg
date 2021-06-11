@@ -4,12 +4,14 @@
 <div class="header position-sticky top-0">
     <nav class="navbar navbar-expand-md bg-primary py-4">
         <div class="container">
+            {% if request.path != "/" %}
             <a href="/">
-                <div class="logo d-flex align-items-center">
-                    {% comment %}<img class="d-none d-lg-block" src="{% static 'images/huda-pobuda-logo.svg' %}">{% endcomment %}
-                    <span class="text-uppercase text-light" style="width: min-content;">{{ self.get_site.site_name }}Obljuba dela dolg</span>
+                <div class="logo">
+                    <img class="d-none d-lg-block" src="{% static 'images/ODD-logo.png' %}">
+                    {% comment %}<span class="text-uppercase text-light" style="width: min-content;">{{ self.get_site.site_name }}</span>{% endcomment %}
                 </div>
             </a>
+            {% endif %}
             <button class="navbar-toggler btn btn-primary btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -21,7 +23,7 @@
                 <ul class="navbar-nav">
                     {% for header_link in settings.home.MetaSettings.header_links %}
                         <li class="nav-item position-relative mx-2">
-                            <a class="nav-link text-light px-3 btn {% if request.path == header_link.value.page.url %}active{% endif %}"
+                            <a class="nav-link text-light px-3 {% if request.path == header_link.value.page.url %}active{% endif %}"
                                href="{% if header_link.value.url %}{{ header_link.value.url }}{% elif header_link.value.page %}{% pageurl header_link.value.page %}{% endif %}">
                                 {% if header_link.value.name %}
                                     {{ header_link.value.name }}

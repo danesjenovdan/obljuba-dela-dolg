@@ -80,10 +80,31 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    latest_button_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
     social_heading = models.CharField(
         max_length=255,
         null=True,
         blank=True,
+    )
+    newsletter_image = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika ob polju za prijavo na novice'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    social_media_image = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika ob polju za delitev na družbenih omrežjih'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
     )
 
     content_panels = Page.content_panels + [
@@ -97,7 +118,10 @@ class HomePage(Page):
         PageChooserPanel("search_link"),
         FieldPanel("latest_heading"),
         PageChooserPanel("latest_link"),
+        FieldPanel("latest_button_text"),
         FieldPanel("social_heading"),
+        ImageChooserPanel("newsletter_image"),
+        ImageChooserPanel("social_media_image"),
     ]
 
     parent_page_types = []

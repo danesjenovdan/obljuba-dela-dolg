@@ -96,6 +96,11 @@ class MetaSettings(BaseSetting):
         null=True,
         blank=True,
     )
+    share_label = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
     social_tab_panels = [
         FieldPanel("facebook"),

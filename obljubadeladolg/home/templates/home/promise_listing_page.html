@@ -1,40 +1,105 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}page page--listing{% endblock %}
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary">
+<div class="container-fluid bg-primary promise-listing-page">
     <div class="container">
-        <div class="row hero text-light">
-            <h1>
-                {{ page.title }}
-            </h1>
-            <p>
-                {{ page.description }}
-            </p>
+        <div class="row hero text-light py-5">
+            <div class="col-lg-7 offset-lg-1">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="mb-4">{{ page.search_title }}</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="select-category">{{ page.category_label }}</label>
+                            <div class="position-relative select-input">
+                                <select id="select-category" class="form-control">
+                                    <option value="" selected>Vse kategorije</option>
+                                    {% for category in promise_categories %}
+                                    <option value="{{ category.slug }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="input-btn d-flex align-items-center">
+                                    <span></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <form action="" method="get">
+                            <div class="form-group">
+                                <label for="search-header">{{ page.search_label }}</label>
+                                <div class="search-input position-relative">
+                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" class="form-control">
+                                    <button class="btn-primary input-btn">
+                                        <span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-
-
-{% for category in promise_categories %}
-    {{ category.name }}
-    {{ category.slug }}
-{% endfor %}
-
-{% for status in promise_statuses %}
-    {{ status.name }}
-    {{ status.slug }}
-{% endfor %}
-
----
-
-{% for promise in promises %}
-    {{ promise.title }}
-    {{ promise.status }}
-{% endfor %}
+<div class="container-fluid bg-beige py-5">
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-12 filters d-flex justify-content-center">
+                {% for status in promise_statuses %}
+                <a href="{{ status.slug }}">
+                    <div>
+                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
+                            {% image status.icon width-1444 %}
+                        </div>
+                        <span>{{ status.name }}</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover mb-5">
+                    <tbody>
+                    {% for promise in promises %}
+                    <tr class="d-flex">
+                        <td class="col-11">
+                            <a href="{{ promise.slug }}">
+                                <h6>{{ promise.title }}</h6>
+                                <div>
+                                    {% for category in promise.categories.all %}
+                                    <span class="tag">{{ category }}</span>
+                                    {% endfor %}
+                                </div>
+                            </a>
+                        </td>
+                        <td class="col-1">
+                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                                    {% image promise.status.icon width-1444 %}
+                                </div>
+                                <span>
+                                    {{ promise.status }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -140,3 +140,5 @@ cython_debug/
 # built css
 bundle.css
 bundle.css.map
+
+media/
