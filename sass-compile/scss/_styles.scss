@@ -541,7 +541,30 @@ footer {
       color: black;
       background-color: #eae4d8;
       border-radius: 1rem;
-      padding: 0.25rem 0.5rem;
+      padding: 0.125rem 0.75rem;
+      margin: 0 0.5rem 0.5rem 0;
+      display: inline-block;
+    }
+    .quote {
+      margin-left: 4rem;
+      margin-top: 3rem;
+      position: relative;
+      p {
+        font-size: 1.5rem;
+        line-height: 1.1;
+        font-weight: 400;
+      }
+      &:before {
+        content: ' ';
+        position: absolute;
+        left: -4rem;
+        top: -1rem;
+        width: 3rem;
+        height: 3rem;
+        background-image: url("../icons/quote.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
     }
     .promise-status {
       .white-blob {
