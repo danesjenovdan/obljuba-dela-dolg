@@ -177,7 +177,7 @@ class PromisePage(Page):
             heading="Vir",
         ),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
-        InlinePanel("updates", label="Posodobitve"),
+        InlinePanel("updates", label="Posodobitve", min_num=1),
     ]
 
     search_fields = Page.search_fields + [

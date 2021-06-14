@@ -109,5 +109,7 @@ class PromiseUpdate(Orderable):
         verbose_name=_("Stanje"),
     )
     content = RichTextField(
+        null=True,
+        blank=True,
         verbose_name=_("Vsebina"),
     )

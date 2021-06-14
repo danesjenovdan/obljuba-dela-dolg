@@ -97,9 +97,12 @@
                             <span></span>
                         </button>
                     </div>
-                    <div class="d-flex align-items-center my-3">
-                        <input type="checkbox" id="newsletter-box-consent" />
-                        <label for="newsletter-box-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                    <div class="checkbox d-flex align-items-center my-3">
+                        <label for="page-newsletter-consent">
+                            <input type="checkbox" id="page-newsletter-consent" />
+                            <span class="custom-checkbox"></span>
+                            {{ settings.home.MetaSettings.newsletter_consent }}
+                        </label>
                     </div>
                 </div>
             </div>

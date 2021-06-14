@@ -111,7 +111,8 @@ table,
 }
 
 input[type="text"] {
-  border-color: white;
+  border-color: $light;
+  background-color: $light;
   border-radius: 1.5rem;
   color: black;
   font-weight: 500;
@@ -136,6 +137,9 @@ input[type="text"] {
     display: block;
     background-size: contain;
     background-repeat: no-repeat;
+  }
+  &:hover {
+    background-color: #0c119f;
   }
 }
 
@@ -162,7 +166,7 @@ input[type="text"] {
 
 .search-input {
   .input-btn {
-    right: 1.25rem;
+    right: 1rem;
     top: 0.25rem;
     span {
       background-image: url("../icons/search.svg");
@@ -193,6 +197,44 @@ input[type="text"] {
   }
 }
 
+.checkbox {
+  position: relative;
+  input {
+    visibility: hidden;
+    position: absolute;
+  }
+  label {
+    padding-left: 1rem;
+    cursor: pointer;
+  }
+  .custom-checkbox {
+    position: absolute;
+    left: 0;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 4px;
+    border: 1px black solid;
+    background-color: $light;
+    &:after {
+      content: ' ';
+      position: absolute;
+      height: 0.75rem;
+      width: 0.75rem;
+      margin: 0.125rem;
+      background-image: url("../icons/check.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0;
+    }
+  }
+  input:checked + .custom-checkbox {
+    &:after {
+      opacity: 1;
+    }
+  }
+}
+
 .arrow-right {
   height: 1rem;
   width: 1rem;
@@ -211,15 +253,18 @@ input[type="text"] {
     }
   }
   .nav-item {
-    a {
+    a, &:not(:last-child):after {
       font-weight: 700;
+      font-size: 1.5rem;
       color: $light;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     &:not(:last-child):after {
       content: "/";
-      color: $light;
-      font-weight: 700;
       position: absolute;
       right: -0.5rem;
       top: 0.5rem;
@@ -245,6 +290,9 @@ input[type="text"] {
     padding-bottom: 5px;
     span {
       font-family: $font-family-open-sans;
+    }
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
@@ -319,6 +367,15 @@ footer {
       &.twitter-icon {
         background-image: url("../icons/twitter-white.svg");
       }
+    }
+    &:hover {
+      background-color: $primary;
+    }
+  }
+  .input-btn {
+    border-color: black;
+    &:hover {
+      border-color: $primary;
     }
   }
   .checkbox {
@@ -416,21 +473,21 @@ footer {
     height: 4rem;
     border-radius: 2rem;
     margin-right: 1rem;
-
     span {
       display: block;
       width: 75%;
       height: 75%;
       background-size: cover;
       background-repeat: no-repeat;
-
       &.fb-icon {
         background-image: url("../icons/facebook-white.svg");
       }
-
       &.twitter-icon {
         background-image: url("../icons/twitter-white.svg");
       }
+    }
+    &:hover {
+      background-color: rgba(10, 14, 135, 0.8);
     }
   }
   .newsletter-img {
@@ -475,7 +532,7 @@ footer {
       line-height: 0.9;
     }
     .social-circle {
-      border: 2px solid #0f15c7;
+      border: 2px solid $primary;
       width: 3rem;
       height: 3rem;
       border-radius: 1.5rem;
@@ -619,7 +676,7 @@ footer {
       white-space: nowrap;
       left: 2.75rem;
       .status-text {
-        padding: 0.5rem;
+        padding: 0.5rem 1rem 0.5rem 0.5rem;
         border-radius: 2rem;
         background-color: white;
         text-transform: uppercase;
@@ -694,9 +751,10 @@ footer {
           height: 67%;
           background-image: url("../icons/email-white.png");
         }
-        &:hover {
-          cursor: pointer;
-        }
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #0c119f;
       }
     }
     &.newsletter {
@@ -757,6 +815,9 @@ footer {
         padding-left: 0.5rem;
         font-weight: 500;
         font-size: 0.875rem;
+      }
+      &:hover {
+        border-color: #565656;
       }
     }
   }
