@@ -259,17 +259,17 @@ class PromiseListingPage(Page):
             .order_by("-latest_update")
         )
 
-        category = request.GET.get("category", None)
         search_query = request.GET.get("query", None)
-
-        #if category:
-        #    all_promises = all_promises.filter(categories__slug__in=category)
-
         if search_query:
             all_promises = all_promises.search(
                 search_query,
                 operator="and",
-            )
+            ).get_queryset()
+
+        category = request.GET.get("category", None)
+        if category:
+           all_promises = all_promises.filter(categories__slug=category)
+
 
         paginator = Paginator(all_promises, 100)
         page_number = request.GET.get("page", 1)
