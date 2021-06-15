@@ -750,11 +750,8 @@ footer {
       background-color: #490b12;
       width: 3px;
       flex-grow: 1;
-    }
-    &:last-child {
-      .line {
-        display: none !important;
-      }
+      margin-top: 1em;
+      margin-left: 1em;
     }
   }
 
@@ -912,5 +909,3 @@ footer {
     padding: 0.25rem 0.5rem;
   }
 }
-
-
