@@ -8,25 +8,34 @@
 <div class="container-fluid bg-primary promise-page pb-5">
     <div class="container">
         <div class="row hero text-light py-5">
-            <div class="col-lg-7 offset-lg-1">
+            <div class="col-lg-7 offset-lg-1 mb-5 mb-lg-0">
                 <h2 class="mb-4">
-                    {{ page.title }}
+                    {% if page.full_text %}{{ page.full_text }}{% else %}{{ page.title }}{% endif %}
                 </h2>
-                <p>
-                    {{ page.full_text }}
-                </p>
                 <div>
                     {% for category in page.categories.all %}
                     <span class="tag">{{ category }}</span>
                     {% endfor %}
                 </div>
+                {% if not page.quote %}
                 <div class="my-4 source">
                     Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
                 </div>
+                {% endif %}
+                {% if page.quote %}
+                <div class="quote">
+                    <p>
+                        {{ page.quote }}
+                    </p>
+                    <div class="my-4 source">
+                        Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
+                    </div>
+                </div>
+                {% endif %}
             </div>
-            <div class="col-4 position-relative promise-status">
+            <div class="col-12 col-lg-4 position-relative promise-status">
                 <div class="white-blob"></div>
-                <div class="position-relative w-50 ">
+                <div class="position-relative">
                     <div class="icon d-flex justify-content-center align-items-center" style="background-color:{{ page.status.color }};">
                         {% image page.status.icon width-1444 %}
                     </div>
@@ -42,10 +51,10 @@
 <div class="container-fluid bg-beige promise-page py-5">
     <div class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 {% for update in page.sorted_updates.all %}
                 <div class="row update">
-                    <div class="col-2 d-flex flex-column align-items-center position-relative">
+                    <div class="col-12 col-lg-2 d-flex flex-column align-items-lg-center position-relative">
                         <div class="status position-absolute d-flex align-items-center">
                             <div class="status-text d-flex align-items-center">
                                 <div class="icon-status d-flex align-items-center justify-content-center" style="background-color:{{ update.status.color }};">
@@ -55,7 +64,7 @@
                             </div>
                             <span class="date">{{ update.date }}</span>
                         </div>
-                        <div class="line" style="background-image: linear-gradient({{ update.status.color }}, {{ update.status.color }});"></div>
+                        <div class="d-none d-lg-block line" style="background-image: linear-gradient({{ update.status.color }}, {{ update.status.color }});"></div>
                     </div>
                     <div class="col pl-0 pt-5 my-5 rich-text">
                         {% if update.title %}<h2>{{ update.title }}</h2>{% endif %}
@@ -64,7 +73,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="col-4">
+            <div class="col-12 col-lg-4">
                 <div class="box socials">
                     <h2>{{ settings.home.MetaSettings.social_label }}</h2>
                     <div class="d-flex justify-content-center">
@@ -88,9 +97,12 @@
                             <span></span>
                         </button>
                     </div>
-                    <div class="d-flex align-items-center my-3">
-                        <input type="checkbox" id="newsletter-box-consent" />
-                        <label for="newsletter-box-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                    <div class="checkbox d-flex align-items-center my-3">
+                        <label for="page-newsletter-consent">
+                            <input type="checkbox" id="page-newsletter-consent" />
+                            <span class="custom-checkbox"></span>
+                            {{ settings.home.MetaSettings.newsletter_consent }}
+                        </label>
                     </div>
                 </div>
             </div>

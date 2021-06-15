@@ -144,6 +144,11 @@ class PromisePage(Page):
         blank=True,
         verbose_name=_("Polno besedilo obljube"),
     )
+    quote = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Citat"),
+    )
     source_name = models.CharField(
         max_length=255,
         null=True,
@@ -163,6 +168,7 @@ class PromisePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("full_text"),
+        FieldPanel("quote"),
         MultiFieldPanel(
             [
                 FieldPanel("source_name"),
@@ -171,7 +177,7 @@ class PromisePage(Page):
             heading="Vir",
         ),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
-        InlinePanel("updates", label="Posodobitve"),
+        InlinePanel("updates", label="Posodobitve", min_num=1),
     ]
 
     search_fields = Page.search_fields + [

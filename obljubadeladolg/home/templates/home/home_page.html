@@ -9,9 +9,9 @@
     <div class="container">
         <div class="row hero text-light">
             <div class="col-lg-8">
-                <div>{% image page.image width-1444 class="img-fluid w-100" %}</div>
+                <div class="my-5">{% image page.image width-1444 class="img-fluid w-100" %}</div>
             </div>
-            <div class="col-lg-4 d-flex flex-column justify-content-end">
+            <div class="col-lg-4 d-flex flex-column align-items-center align-items-lg-start justify-content-end">
                 {% comment %}
                 <h1 class="mb-4">
                     {{ page.title }}
@@ -40,7 +40,7 @@
                 <h2 class="my-4 text-center">{{ page.categories_heading }}</h2>
                 <div class="row">
                     {% for category in promise_categories %}
-                    <div class="col-lg-3 my-3">
+                    <div class="col-md-6 col-lg-3 my-3">
                         <a href="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}?category={{ category.slug }}">
                             <div class="category-box position-relative">
                                 <h4>{{ category.name }}</h4>
@@ -58,14 +58,14 @@
 <div class="container-fluid bg-beige py-5 home-page">
     <div class="container">
         <div class="row justify-content-center position-relative">
-            <div class="col-8 blob">
+            <div class="col-10 col-md-8 col-lg-6 col-xl-4 blob d-none d-sm-block">
                 <img src="{% static 'images/blob-beige.svg' %}" />
             </div>
             <div class="col-12 search-section">
                 <h2 class="my-4 text-center">{{ page.search_heading }}</h2>
                 <form action="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}" method="get">
                     <div class="row justify-content-center">
-                        <div class="col-lg-4 search-input position-relative">
+                        <div class="col-lg-6 col-xl-4 search-input position-relative">
                             <input type="text" placeholder="{{ page.search_placeholder }}" class="form-control">
                             <button type="submit" class="input-btn btn-primary">
                                 <span></span>
@@ -86,8 +86,8 @@
                 <table class="table mb-5">
                     <tbody>
                         {% for promise in promises %}
-                        <tr class="d-flex">
-                            <td class="col-11">
+                        <tr class="d-flex flex-column flex-md-row">
+                            <td class="col-12 col-md-11">
                                 <a href="{% if page.search_link %}{% pageurl page.search_link %}{{ promise.slug }}{% endif %}">
                                     <h6>{{ promise.title }}</h6>
                                     <div>
@@ -97,12 +97,12 @@
                                     </div>
                                 </a>
                             </td>
-                            <td class="col-1">
-                                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                            <td class="col-12 col-md-1">
+                                <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center h-100">
                                     <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
                                         {% image promise.status.icon width-1444 %}
                                     </div>
-                                    <span>
+                                    <span class="mx-2 mx-md-0">
                                         {{ promise.status }}
                                     </span>
                                 </div>
@@ -130,13 +130,13 @@
             <div class="col">
                 <h2 class="text-center mb-5">{{ page.social_heading }}</h2>
                 <div class="row mb-5">
-                    <div class="col">
+                    <div class="col-12 col-lg-6 mb-5">
                         <div class="newsletter bg-primary text-light h-100">
                             <div class="row">
-                                <div class="col-4 newsletter-img">
+                                <div class="d-none d-lg-block col-4 newsletter-img">
                                     {% image page.newsletter_image width-1444 %}
                                 </div>
-                                <div class="col-8">
+                                <div class="col-12 col-lg-8">
                                     <form onsubmit="">
                                         <h5><label for="newsletter">{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
                                         <div class="go-input position-relative">
@@ -145,16 +145,19 @@
                                                 <span></span>
                                             </button>
                                         </div>
-                                        <div class="mt-2">
-                                            <input type="checkbox" id="newsletter-consent" />
-                                            <label for="newsletter-consent">{{ settings.home.MetaSettings.newsletter_consent }}</label>
+                                        <div class="mt-2 checkbox d-flex align-items-center">
+                                            <label for="page-newsletter-consent">
+                                                <input type="checkbox" id="page-newsletter-consent" />
+                                                <span class="custom-checkbox"></span>
+                                                {{ settings.home.MetaSettings.newsletter_consent }}
+                                            </label>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-lg-6 mb-5">
                         <div class="socials bg-primary text-light h-100">
                             <div class="row">
                                 <div class="col-9">
@@ -172,7 +175,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-3 socials-img">
+                                <div class="d-none d-lg-block col-3 socials-img">
                                     {% image page.social_media_image width-1444 %}
                                 </div>
                             </div>
