@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <div class="form-group">
                             <label for="select-category">{{ page.category_label }}</label>
                             <div class="position-relative select-input">
@@ -29,10 +29,9 @@
                                     <span></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         <form action="" method="get">
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
@@ -51,10 +50,10 @@
     </div>
 </div>
 
-<div class="container-fluid bg-beige py-5">
+<div class="container-fluid bg-beige py-5 promise-listing-page">
     <div class="container">
-        <div class="row my-4">
-            <div class="col-12 filters d-flex justify-content-center">
+        <div class="row mb-4 my-lg-4">
+            <div class="d-none d-lg-flex col-12 filters justify-content-center">
                 {% for status in promise_statuses %}
                 <a href="{{ status.slug }}">
                     <div>
@@ -66,14 +65,48 @@
                 </a>
                 {% endfor %}
             </div>
+            <!-- for mobile -->
+            <div id="disable-background" class="disable-background d-none"></div>
+            <div class="d-lg-none col-12">
+                <div class="mb-2">Filtriraj po statusih obljub</div>
+                <button id="filters-mobile-button" class="btn d-flex align-items-center text-uppercase">
+                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
+                        {% image status.icon width-1444 %}
+                    </div>
+                    <div class="mx-2">Vse obljube ({{ promises|length }})</div>
+                </button>
+            </div>
+            <div id="filters-mobile" class="filters-mobile bg-beige closed">
+                <div class="d-flex flex-column">
+                    <a href="/">
+                        <div>
+                            <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
+                                {% image status.icon width-1444 %}
+                            </div>
+                            <span>Vse obljube ({{ promises|length }})</span>
+                        </div>
+                    </a>
+                    {% for status in promise_statuses %}
+                    <a href="{{ status.slug }}">
+                        <div>
+                            <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
+                                {% image status.icon width-1444 %}
+                            </div>
+                            <span>{{ status.name }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                    <button id="filter-mobile" class="btn btn-primary d-flex align-items-center justify-content-center my-4">Prikaži</button>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <table class="table table-hover mb-5">
+                <table class="table mb-5">
                     <tbody>
                     {% for promise in promises %}
-                    <tr class="d-flex">
-                        <td class="col-11">
+                    <tr class="d-flex flex-column flex-md-row">
+                        <td class="col-12 col-md-11">
                             <a href="{{ promise.slug }}">
                                 <h6>{{ promise.title }}</h6>
                                 <div>
@@ -83,12 +116,12 @@
                                 </div>
                             </a>
                         </td>
-                        <td class="col-1">
-                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                        <td class="col-12 col-md-1">
+                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center h-100">
                                 <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
                                     {% image promise.status.icon width-1444 %}
                                 </div>
-                                <span>
+                                <span class="mx-2 mx-md-0">
                                     {{ promise.status }}
                                 </span>
                             </div>

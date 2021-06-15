@@ -1,3 +1,4 @@
+/*
 (function () {
     var newsletterElems = document.querySelectorAll(".newsletter");
     newsletterElems.forEach(function (newsletterElem) {
@@ -79,5 +80,20 @@
             }
             form.classList.add('was-validated');
         }, false);
+    });
+})();
+*/
+
+(function () {
+    let popup = document.getElementById('filters-mobile');
+    let popupButton = document.getElementById('filters-mobile-button');
+    let disableBackground = document.getElementById('disable-background');
+    popupButton.addEventListener('click', function() {
+        disableBackground.classList.toggle('d-none');
+        popup.classList.toggle('closed');
+    });
+    disableBackground.addEventListener('click', function() {
+        disableBackground.classList.toggle('d-none');
+        popup.classList.toggle('closed');
     });
 })();
