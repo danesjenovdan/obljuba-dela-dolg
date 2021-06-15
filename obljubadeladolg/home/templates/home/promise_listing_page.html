@@ -14,37 +14,37 @@
                         <h1 class="mb-4">{{ page.search_title }}</h1>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="select-category">{{ page.category_label }}</label>
-                            <div class="position-relative select-input">
-                                <select id="select-category" class="form-control">
-                                    <option value="" selected>Vse kategorije</option>
-                                    {% for category in promise_categories %}
-                                    <option value="{{ category.slug }}">{{ category.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <div class="input-btn d-flex align-items-center">
-                                    <span></span>
+                <form action="" method="get">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="select-category">{{ page.category_label }}</label>
+                                <div class="position-relative select-input">
+                                    <select id="select-category" name="category" class="form-control">
+                                        <option value="" selected>Vse kategorije</option>
+                                        {% for category in promise_categories %}
+                                        <option value="{{ category.slug }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="input-btn d-flex align-items-center">
+                                        <span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <form action="" method="get">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
                                 <div class="search-input position-relative">
-                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" class="form-control">
-                                    <button class="btn-primary input-btn">
+                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" name="query" class="form-control">
+                                    <button class="btn-primary input-btn" type="submit">
                                         <span></span>
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -54,8 +54,16 @@
     <div class="container">
         <div class="row mb-4 my-lg-4">
             <div class="d-none d-lg-flex col-12 filters justify-content-center">
+                <a href="?category={{ status.slug }}">
+                    <div>
+                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black;">
+                            {% image status.icon width-1444 %}
+                        </div>
+                        <span>Vse obljube ({{ promises|length }})</span>
+                    </div>
+                </a>
                 {% for status in promise_statuses %}
-                <a href="{{ status.slug }}">
+                <a href="?category={{ status.slug }}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                             {% image status.icon width-1444 %}

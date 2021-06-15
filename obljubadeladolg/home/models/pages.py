@@ -259,7 +259,11 @@ class PromiseListingPage(Page):
             .order_by("-latest_update")
         )
 
+        category = request.GET.get("category", None)
         search_query = request.GET.get("query", None)
+
+        #if category:
+        #    all_promises = all_promises.filter(categories__slug__in=category)
 
         if search_query:
             all_promises = all_promises.search(
