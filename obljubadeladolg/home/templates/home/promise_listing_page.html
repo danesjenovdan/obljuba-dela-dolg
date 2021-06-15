@@ -23,7 +23,7 @@
                                     <select id="select-category" name="category" class="form-control">
                                         <option value="" selected>Vse kategorije</option>
                                         {% for category in promise_categories %}
-                                        <option value="{{ category.slug }}">{{ category.name }}</option>
+                                        <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="input-btn d-flex align-items-center">
@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
                                 <div class="search-input position-relative">
-                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" name="query" class="form-control">
+                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" name="query" class="form-control" value="{{ request.GET.query }}">
                                     <button class="btn-primary input-btn" type="submit">
                                         <span></span>
                                     </button>
