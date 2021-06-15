@@ -8,12 +8,12 @@
                 <div class="footer-col">
                     <h5>{{ settings.home.MetaSettings.social_label }}</h5>
                     <div class="d-flex justify-content-center justify-content-lg-start">
-                        <a href="{{ settings.home.MetaSettings.facebook }}">
+                        <a href="{{ settings.home.MetaSettings.facebook }}" target="_blank">
                             <div class="social-circle d-flex justify-content-center align-items-center">
                                 <span class="fb-icon"></span>
                             </div>
                         </a>
-                        <a href="{{ settings.home.MetaSettings.facebook }}">
+                        <a href="{{ settings.home.MetaSettings.facebook }}" target="_blank">
                             <div class="social-circle d-flex justify-content-center align-items-center">
                                 <span class="twitter-icon"></span>
                             </div>
@@ -23,21 +23,24 @@
             </div>
             <div class="col-12 col-lg-4 my-4">
                 <div class="footer-col newsletter">
-                    <h5>{{ settings.home.MetaSettings.newsletter_label }}</h5>
-                    <div>{{ settings.home.MetaSettings.newsletter_sublabel }}</div>
-                    <div class="position-relative go-input mt-3 mb-2">
-                        <input type="text" class="form-control">
-                        <button type="submit" class="input-btn btn-primary bg-black">
-                            <span></span>
-                        </button>
-                    </div>
-                    <div class="checkbox mt-2 d-flex align-items-center">
-                        <label for="newsletter-consent">
-                            <input type="checkbox" id="newsletter-consent" />
-                            <span class="custom-checkbox"></span>
-                            {{ settings.home.MetaSettings.newsletter_consent }}
-                        </label>
-                    </div>
+                    <form>
+                        <h5>{{ settings.home.MetaSettings.newsletter_label }}</h5>
+                        <div>{{ settings.home.MetaSettings.newsletter_sublabel }}</div>
+                        <div class="position-relative go-input mt-3 mb-2">
+                            <input type="email" name="email" required class="form-control" id="email">
+                            <button type="submit" class="input-btn btn-primary bg-black">
+                                <span></span>
+                            </button>
+                        </div>
+                        <div id="response" class="text-white"></div>
+                        <div class="checkbox mt-2 d-flex align-items-center">
+                            <label>
+                                <input type="checkbox" id="confirm-email" />
+                                <span class="custom-checkbox"></span>
+                                {{ settings.home.MetaSettings.newsletter_consent }}
+                            </label>
+                        </div>
+                    </form>
                 </div>
             </div>
             {% endif %}

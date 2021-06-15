@@ -138,16 +138,17 @@
                                 </div>
                                 <div class="col-12 col-lg-8">
                                     <form onsubmit="">
-                                        <h5><label for="newsletter">{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
+                                        <h5><label>{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
                                         <div class="go-input position-relative">
-                                            <input type="text" id="newsletter" class="form-control" />
+                                            <input id="email" type="email" name="email" required class="form-control" />
                                             <button type="submit" class="input-btn btn-primary">
                                                 <span></span>
                                             </button>
                                         </div>
+                                        <div id="response" class="text-light"></div>
                                         <div class="mt-2 checkbox d-flex align-items-center">
-                                            <label for="page-newsletter-consent">
-                                                <input type="checkbox" id="page-newsletter-consent" />
+                                            <label>
+                                                <input type="checkbox" id="confirm-email" />
                                                 <span class="custom-checkbox"></span>
                                                 {{ settings.home.MetaSettings.newsletter_consent }}
                                             </label>

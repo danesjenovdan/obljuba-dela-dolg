@@ -109,7 +109,7 @@ table,
   background-color: black;
 }
 
-input[type="text"] {
+input[type="text"], input[type="email"] {
   border-color: $light;
   background-color: $light;
   border-radius: 1.5rem;
@@ -143,7 +143,7 @@ input[type="text"] {
 }
 
 .go-input {
-  input[type="text"] {
+  input[type="text"], input[type="email"] {
     font-size: 1rem;
     padding: 0.25rem 3rem 0.25rem 1rem;
     &:focus {

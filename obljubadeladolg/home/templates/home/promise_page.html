@@ -75,35 +75,39 @@
             </div>
             <div class="col-12 col-lg-4">
                 <div class="box socials">
-                    <h2>{{ settings.home.MetaSettings.social_label }}</h2>
+                    <h2>{{ settings.home.MetaSettings.share_label }}</h2>
+                    <h5>{{ settings.home.MetaSettings.share_sublabel }}</h5>
                     <div class="d-flex justify-content-center">
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 isfbbox">
                             <span class="fb-icon"></span>
                         </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 istwbox">
                             <span class="twitter-icon"></span>
                         </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2">
+                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 isembox">
                             <span class="email-icon"></span>
                         </div>
                     </div>
                 </div>
-                <div class="box newsletter">
-                    <h2>{{ settings.home.MetaSettings.newsletter_label }}</h2>
-                    <h5>{{ settings.home.MetaSettings.newsletter_sublabel }}</h5>
-                    <div class="go-input position-relative mt-4">
-                        <input type="text" class="form-control">
-                        <button type="submit" class="input-btn btn-primary">
-                            <span></span>
-                        </button>
-                    </div>
-                    <div class="checkbox d-flex align-items-center my-3">
-                        <label for="page-newsletter-consent">
-                            <input type="checkbox" id="page-newsletter-consent" />
-                            <span class="custom-checkbox"></span>
-                            {{ settings.home.MetaSettings.newsletter_consent }}
-                        </label>
-                    </div>
+                <div class="box newsletter d-none d-lg-block">
+                    <form>
+                        <h2>{{ settings.home.MetaSettings.newsletter_label }}</h2>
+                        <h5>{{ settings.home.MetaSettings.newsletter_sublabel }}</h5>
+                        <div class="go-input position-relative mt-4">
+                            <input type="email" name="email" required class="form-control border-dark" id="email">
+                            <button type="submit" class="input-btn btn-primary">
+                                <span></span>
+                            </button>
+                        </div>
+                        <div class="text-dark" id="response"></div>
+                        <div class="checkbox d-flex align-items-center my-3">
+                            <label>
+                                <input type="checkbox" id="confirm-email" />
+                                <span class="custom-checkbox"></span>
+                                {{ settings.home.MetaSettings.newsletter_consent }}
+                            </label>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
