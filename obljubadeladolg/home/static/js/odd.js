@@ -1,4 +1,3 @@
-/*
 (function () {
     var newsletterElems = document.querySelectorAll(".newsletter");
     newsletterElems.forEach(function (newsletterElem) {
@@ -19,36 +18,36 @@
                 },
                 body: JSON.stringify({
                     email: emailElem.value,
-                    segment: 17,
+                    segment: 18,
                 }),
             })
-                .then((res) => {
-                    if (res.ok) {
-                        return res.text();
-                    }
-                    throw new Error("Response not ok");
-                })
-                .then((res) => {
-                    response.className = "form-text text-dark";
-                    response.textContent = "Hvala za prijavo!";
-                    console.log(res);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    response.className = "form-text text-danger";
-                    response.textContent = "Napaka pri prijavi :(";
-                })
-                .then(() => {
-                    submitButton.removeAttribute("disabled");
-                    emailElem.removeAttribute("disabled");
-                    checkbox.removeAttribute("disabled");
-                });
+            .then((res) => {
+                if (res.ok) {
+                    return res.text();
+                }
+                throw new Error("Response not ok");
+            })
+            .then((res) => {
+                response.className = "form-text";
+                response.textContent = "Hvala za prijavo!";
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+                response.className = "form-text";
+                response.textContent = "Napaka pri prijavi :(";
+            })
+            .then(() => {
+                submitButton.removeAttribute("disabled");
+                emailElem.removeAttribute("disabled");
+                checkbox.removeAttribute("disabled");
+            });
         });
     });
 })();
 
 (function () {
-    var shareLinks = document.querySelectorAll(".share .share-box");
+    var shareLinks = document.querySelectorAll(".socials .social-circle");
     shareLinks.forEach((shareLink) => {
         shareLink.addEventListener("click", function (event) {
             event.preventDefault();
@@ -69,31 +68,19 @@
 })();
 
 (function () {
-    var forms = document.querySelectorAll('.needs-validation')
-    forms.forEach(function (form) {
-        form.style.scrollMarginTop = '120px';
-        form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.scrollIntoView();
-            }
-            form.classList.add('was-validated');
-        }, false);
-    });
-})();
-*/
-
-(function () {
     let popup = document.getElementById('filters-mobile');
     let popupButton = document.getElementById('filters-mobile-button');
     let disableBackground = document.getElementById('disable-background');
-    popupButton.addEventListener('click', function() {
-        disableBackground.classList.toggle('d-none');
-        popup.classList.toggle('closed');
-    });
-    disableBackground.addEventListener('click', function() {
-        disableBackground.classList.toggle('d-none');
-        popup.classList.toggle('closed');
-    });
+    if (popupButton) {
+        popupButton.addEventListener('click', function() {
+            disableBackground.classList.toggle('d-none');
+            popup.classList.toggle('closed');
+        });
+    }
+    if (disableBackground) {
+        disableBackground.addEventListener('click', function() {
+            disableBackground.classList.toggle('d-none');
+            popup.classList.toggle('closed');
+        });
+    }
 })();

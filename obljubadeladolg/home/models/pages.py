@@ -260,12 +260,16 @@ class PromiseListingPage(Page):
         )
 
         search_query = request.GET.get("query", None)
-
         if search_query:
             all_promises = all_promises.search(
                 search_query,
                 operator="and",
-            )
+            ).get_queryset()
+
+        category = request.GET.get("category", None)
+        if category:
+           all_promises = all_promises.filter(categories__slug=category)
+
 
         paginator = Paginator(all_promises, 100)
         page_number = request.GET.get("page", 1)
