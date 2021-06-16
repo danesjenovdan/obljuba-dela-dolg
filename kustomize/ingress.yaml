@@ -5,15 +5,15 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    # nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   tls:
     - hosts:
-        - obljubadeladolg.lb.djnd.si
-        # - www.obljubadeladolg.si
+        - obljubadeladolg.si
+        - www.obljubadeladolg.si
       secretName: obljubadeladolg-tls
   rules:
-    - host: obljubadeladolg.lb.djnd.si
+    - host: obljubadeladolg.si
       http:
         paths:
           - path: /
@@ -38,10 +38,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - files.obljubadeladolg.lb.djnd.si
+        - files.obljubadeladolg.si
       secretName: obljubadeladolg-nginx-tls
   rules:
-    - host: files.obljubadeladolg.lb.djnd.si
+    - host: files.obljubadeladolg.si
       http:
         paths:
           - path: /
