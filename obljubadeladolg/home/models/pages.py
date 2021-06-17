@@ -250,7 +250,7 @@ class PromiseListingPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
-        context["promise_statuses"] = PromiseStatus.objects.all()
+        context["promise_statuses"] = PromiseStatus.objects.all().order_by('order_no')
 
         all_promises = (
             PromisePage.objects.all()
