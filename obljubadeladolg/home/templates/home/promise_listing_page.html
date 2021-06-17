@@ -11,7 +11,17 @@
             <div class="col-lg-7 offset-lg-1">
                 <div class="row">
                     <div class="col-12">
-                        <h1 class="mb-4">{{ page.search_title }}</h1>
+                        <h1 class="mb-4">
+                            {% if page.search_title and request.GET.query %}
+                            {{ page.search_title }} »{{ request.GET.query }}«
+                            {% comment %}
+                            {% elif request.GET.category %}
+                            {{ request.GET.category }}
+                            {% endcomment %}
+                            {% else %}
+                            Vse obljube
+                            {% endif %}
+                        </h1>
                     </div>
                 </div>
                 <form action="" method="get">
@@ -21,7 +31,7 @@
                                 <label for="select-category">{{ page.category_label }}</label>
                                 <div class="position-relative select-input">
                                     <select id="select-category" name="category" class="form-control">
-                                        <option value="" selected>Vse kategorije</option>
+                                        <option value="" selected>{% if page.category_placeholder %}{{ page.category_placeholder }}{% endif %}</option>
                                         {% for category in promise_categories %}
                                         <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
                                         {% endfor %}
@@ -35,8 +45,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
-                                <div class="search-input position-relative">
-                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" name="query" class="form-control" value="{{ request.GET.query }}">
+                                <div class="search-input position-relative d-flex align-items-center">
+                                    <input type="text" id="search-header" placeholder="{% if page.search_placeholder %}{{ page.search_placeholder }}{% endif %}" name="query" class="form-control" value="{{ request.GET.query }}">
                                     <button class="btn-primary input-btn" type="submit">
                                         <span></span>
                                     </button>
