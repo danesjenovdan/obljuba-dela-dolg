@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from wagtail.embeds.oembed_providers import all_providers
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -172,3 +173,19 @@ BASE_URL = 'http://example.com'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+
+# Wagtail embed settings
+datawrapper = {
+    "endpoint": "https://api.datawrapper.de/v3/oembed",
+    "urls": [
+        r'^https?://datawrapper.dwcdn.net/.+$',
+    ]
+}
+
+WAGTAILEMBEDS_FINDERS = [
+    {
+        'class': 'wagtail.embeds.finders.oembed',
+        'providers': [*all_providers, datawrapper],
+    }
+]
