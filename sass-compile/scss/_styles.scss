@@ -462,7 +462,8 @@ footer {
     }
   }
   hr {
-    border: 1px solid #939393;
+    border: none;
+    border-bottom: 1px solid #939393;
     opacity: 1;
   }
   .logos {
