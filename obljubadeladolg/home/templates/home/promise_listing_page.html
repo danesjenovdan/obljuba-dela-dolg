@@ -14,10 +14,8 @@
                         <h1 class="mb-4">
                             {% if page.search_title and request.GET.query %}
                             {{ page.search_title }} »{{ request.GET.query }}«
-                            {% comment %}
                             {% elif request.GET.category %}
-                            {{ request.GET.category }}
-                            {% endcomment %}
+                            {% image category_image fill-200x200 %}
                             {% else %}
                             Vse obljube
                             {% endif %}

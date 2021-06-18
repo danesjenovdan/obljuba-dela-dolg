@@ -251,6 +251,10 @@ class PromiseListingPage(Page):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
         context["promise_statuses"] = PromiseStatus.objects.all().order_by('order_no')
+        context['category_image'] = None
+        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
+        if chosen_category:
+            context['category_image'] = chosen_category.image
 
         all_promises = (
             PromisePage.objects.all()
