@@ -915,7 +915,12 @@ footer {
         border: 2px solid #efeff2;
         border-radius: 1.5rem;
         &:hover {
-          border-color: #565656;
+          box-shadow: -3px -3px 13px #ebecf6, 5px 5px 7px rgba(214, 215, 244, 0.8);
+        }
+      }
+      &.active {
+        &>div {
+          box-shadow: -3px -3px 13px #ebecf6, 5px 5px 7px rgba(214, 215, 244, 0.8);
         }
       }
     }

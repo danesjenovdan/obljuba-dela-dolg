@@ -1,5 +1,5 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags index %}
 
 {% block body_class %}page page--listing{% endblock %}
 
@@ -22,13 +22,13 @@
                         </h1>
                     </div>
                 </div>
-                <form action="" method="get">
+                <form action="" method="get" id="queryForm">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="select-category">{{ page.category_label }}</label>
                                 <div class="position-relative select-input">
-                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory(this.options[this.selectedIndex].value, '{{ request.GET.query }}')">
+                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory(this.options[this.selectedIndex].value, '{{ request.GET.query }}', '{{ request.GET.status }}')">
                                         <option value="" selected>{% if page.category_placeholder %}{{ page.category_placeholder }}{% endif %}</option>
                                         {% for category in promise_categories %}
                                         <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
@@ -69,21 +69,21 @@
     <div class="container">
         <div class="row mb-4 my-lg-4">
             <div class="d-none d-lg-flex col-12 filters justify-content-center">
-                <a href="?category={{ status.slug }}">
+                <a href="?category={{ request.GET.category }}&query={{ request.GET.query }}" class="{% if not request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black;">
                             {% image status.icon width-1444 %}
                         </div>
-                        <span>Vse obljube ({{ promises|length }})</span>
+                        <span>Vse obljube ({{ promises_no_all_statuses }})</span>
                     </div>
                 </a>
                 {% for status in promise_statuses %}
-                <a href="?status={{ status.slug }}">
+                <a href="?category={{ request.GET.category }}&status={{ status.slug }}&query={{ request.GET.query }}" class="{% if status.slug == request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                             {% image status.icon width-1444 %}
                         </div>
-                        <span>{{ status.name }}</span>
+                        <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
                     </div>
                 </a>
                 {% endfor %}

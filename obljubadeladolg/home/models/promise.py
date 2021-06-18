@@ -108,10 +108,8 @@ class PromiseUpdate(Orderable):
     )
     status = models.ForeignKey(
         "home.PromiseStatus",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name="+",
-        null=True,
-        blank=True,
         verbose_name=_("Stanje"),
     )
     content = RichTextField(

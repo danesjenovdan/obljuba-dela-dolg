@@ -91,6 +91,7 @@
     }
 })();
 
-function selectCategory(value, query) {
-    window.location.href = '?category=' + value + '&query=' + query;
+function selectCategory(value, query, status) {
+    // document.getElementById("queryForm").submit();
+    window.location.href = '?category=' + value + '&query=' + query + '&status=' + status;
 }
