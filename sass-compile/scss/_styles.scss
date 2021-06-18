@@ -514,9 +514,10 @@ footer {
       font-size: 2.25rem;
     }
   }
-  h3 {
+  h4 {
     margin-top: 2rem;
     font-size: 1.5rem;
+    line-height: 1.2rem;
     @media (min-width: 768px) {
       font-size: 1.75rem;
     }
@@ -524,6 +525,23 @@ footer {
   p {
     font-family: $font-family-open-sans;
     font-weight: 300;
+    margin-bottom: 2rem;
+  }
+  b {
+    font-weight: bold;
+  }
+  ul {
+    font-family: $font-family-open-sans;
+    margin-bottom: 1.5rem;
+    padding-left: 0;
+    li {
+      padding: 0.125rem 0 0.125rem 2rem;
+      list-style: none;
+      background-image: url('../icons/list-arrow.svg');
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 1rem;
+    }
   }
 }
 
