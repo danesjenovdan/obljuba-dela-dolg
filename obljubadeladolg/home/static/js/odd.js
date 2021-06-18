@@ -91,6 +91,19 @@
     }
 })();
 
+(function () {
+    var header = document.getElementsByClassName("header")[0];
+    document.addEventListener('scroll', function(e) {
+        console.log('scroll');
+        console.log(window.scrollY);
+        if (window.scrollY > 0) {
+            header.classList.add('scrolling');
+        } else {
+            header.classList.remove('scrolling');
+        }
+    });
+})();
+
 function selectCategory() {
     document.getElementById("search-header").value = '';
     document.getElementById("query-form").submit();

@@ -12,7 +12,7 @@ input[type="number"] {
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -288,7 +288,7 @@ form.error {
   z-index: 100;
   .logo {
     img {
-      width: 10rem;
+      width: 6rem;
     }
   }
   .navbar-toggler:focus {
@@ -313,6 +313,9 @@ form.error {
         top: 0.5rem;
       }
     }
+  }
+  &.scrolling {
+    border-bottom: 1px solid #787bc6;
   }
 }
 
@@ -785,6 +788,9 @@ footer {
         left: 1.5rem;
       }
       @media (min-width: 1200px) {
+        left: 2.125rem
+      }
+      @media (min-width: 1400px) {
         left: 2.75rem;
       }
       .status-text {
@@ -818,8 +824,8 @@ footer {
       background-color: #490b12;
       width: 3px;
       flex-grow: 1;
-      margin-top: 1em;
-      margin-left: 1em;
+      //margin-top: 1em;
+      //margin-left: 1em;
     }
   }
 
