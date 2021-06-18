@@ -62,11 +62,11 @@
                 window.open(url, '_blank');
             }
             if (event.currentTarget.className.indexOf('istwbox') != -1) {
-                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(window.SHARE_TWEET_TEXT + ' https://hudapobuda.si')}`;
+                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(window.SHARE_TWEET_TEXT + ' https://obljubadeladolg.si')}`;
                 window.open(url, '_blank');
             }
             if (event.currentTarget.className.indexOf('isembox') != -1) {
-                const url = `mailto:?subject=HUDA+POBUDA&body=${encodeURIComponent(window.SHARE_EMAIL_TEXT)}`;
+                const url = `mailto:?subject=OBLJUBA+DELA+DOLG&body=${encodeURIComponent(window.SHARE_EMAIL_TEXT)}`;
                 window.open(url, '_blank');
             }
         });
@@ -89,6 +89,19 @@
             popup.classList.toggle('closed');
         });
     }
+})();
+
+(function () {
+    var header = document.getElementsByClassName("header")[0];
+    document.addEventListener('scroll', function(e) {
+        console.log('scroll');
+        console.log(window.scrollY);
+        if (window.scrollY > 0) {
+            header.classList.add('scrolling');
+        } else {
+            header.classList.remove('scrolling');
+        }
+    });
 })();
 
 function selectCategory() {
