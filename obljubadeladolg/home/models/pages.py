@@ -244,6 +244,11 @@ class PromiseListingPage(Page):
         null=True,
         blank=True,
     )
+    no_results = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("search_title"),
@@ -253,6 +258,7 @@ class PromiseListingPage(Page):
         FieldPanel("search_placeholder"),
         FieldPanel("status_help_label"),
         FieldPanel("status_help_text"),
+        FieldPanel("no_results"),
     ]
 
     parent_page_types = ["home.HomePage"]

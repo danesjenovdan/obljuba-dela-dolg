@@ -55,6 +55,10 @@
         <script async defer data-domain="obljubadeladolg.si" src="https://plausible.lb.djnd.si/js/plausible.js"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/odd.js' %}"></script>
+        <script>
+            window.SHARE_EMAIL_TEXT = "{{ settings.home.MetaSettings.share_email_text|escapejs }}";
+            window.SHARE_TWEET_TEXT = "{{ settings.home.MetaSettings.share_twitter_text|escapejs }}";
+        </script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
