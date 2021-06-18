@@ -90,3 +90,7 @@
         });
     }
 })();
+
+function selectCategory(value, query) {
+    window.location.href = '?category=' + value + '&query=' + query;
+}

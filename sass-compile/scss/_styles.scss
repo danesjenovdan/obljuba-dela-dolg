@@ -217,6 +217,10 @@ input[type="text"], input[type="email"] {
   }
 }
 
+.extra-padding {
+  padding: 3rem 0 6rem 0;
+}
+
 .checkbox {
   position: relative;
   input {
@@ -326,21 +330,21 @@ form.error {
   a {
     text-decoration: none;
     color: $light;
-    //border-bottom: $light 1px dotted;
-
-
     span:first-child {
-      padding-bottom: 5px;
-      background-image: linear-gradient(to right, white 33%, rgba(255,255,255,0) 0%); // TO DO: ko jasmina doda slikico pikice
+      padding-bottom: 0.5rem;
+      background-image: url("../images/pika.png");
       background-position: bottom;
       background-size: 6px 2px;
       background-repeat: repeat-x;
     }
+    span:last-child {
+      height: 1.25rem;
+      width: 1.25rem;
+      margin-left: 1rem;
+      margin-bottom: 0.5rem;
+    }
     span {
       font-family: $font-family-open-sans;
-    }
-    &:hover {
-      //text-decoration: underline;
     }
   }
 }
@@ -372,6 +376,13 @@ form.error {
     &:hover {
       box-shadow: -2px -1px 8px #d1d2ee, 3px 3px 9px rgba(120, 123, 198, 0.8);
       background-color: $light;
+      .animated {
+        webkit-transform: rotate(6deg);
+        -moz-transform: rotate(6deg);
+        -ms-transform: rotate(6deg);
+        -o-transform: rotate(6deg);
+        transform: rotate(6deg);
+      }
     }
   }
 }
@@ -383,11 +394,10 @@ form.error {
 
 footer {
   h5 {
-    background-color: $primary;
     font-weight: 700;
     display: inline;
-    padding: 0.125rem 0.25rem;
-
+    box-shadow: inset 0 -1.75rem #0f15c7, -0.5rem 0 #0f15c7, 0.5rem 0 0rem #0f15c7;
+    line-height: 1.75;
     &+div {
       font-family: $font-family-open-sans;
       font-size: 0.875rem;
@@ -459,6 +469,7 @@ footer {
     span {
       white-space: nowrap;
       font-family: $font-family-open-sans;
+      font-size: 0.875rem;
     }
     div:first-child {
       a {
@@ -538,7 +549,7 @@ footer {
     margin-left: 0.5rem;
   }
   .newsletter, .socials {
-    padding: 1.5rem;
+    padding: 2.25rem;
     h5 {
       font-weight: 700;
       margin-bottom: 1rem;
@@ -666,8 +677,9 @@ footer {
 }
 .promise-page {
   .hero {
-    h2 {
+    h1 {
       font-weight: 700;
+      font-size: 3rem;
       line-height: 1;
     }
     .tag {

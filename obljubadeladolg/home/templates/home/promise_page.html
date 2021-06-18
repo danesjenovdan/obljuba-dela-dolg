@@ -9,9 +9,9 @@
     <div class="container">
         <div class="row hero text-light py-5">
             <div class="col-lg-7 offset-lg-1 mb-5 mb-lg-0">
-                <h2 class="mb-4">
+                <h1 class="mb-4">
                     {% if page.full_text %}{{ page.full_text }}{% else %}{{ page.title }}{% endif %}
-                </h2>
+                </h1>
                 <div>
                     {% for category in page.categories.all %}
                     <span class="tag">{{ category }}</span>
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="container-fluid bg-beige promise-page py-5">
+<div class="container-fluid bg-light promise-page extra-padding">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-8">

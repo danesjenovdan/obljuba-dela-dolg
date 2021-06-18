@@ -22,9 +22,9 @@
                 </p>
                 {% if page.more_link and page.more_link_text %}
                 <div class="my-5">
-                    <a href="{% pageurl page.more_link %}" class="position-relative hover-animation">
-                        <span>{{ page.more_link_text }}</span>
-                        <span class="arrow-right animated"></span>
+                    <a href="{% pageurl page.more_link %}" class="position-relative hover-animation d-flex align-items-center">
+                        <span class="d-block">{{ page.more_link_text }}</span>
+                        <span class="d-block arrow-right animated"></span>
                     </a>
                 </div>
                 {% endif %}
@@ -42,9 +42,9 @@
                     {% for category in promise_categories %}
                     <div class="col-md-6 col-lg-3 my-3">
                         <a href="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}?category={{ category.slug }}">
-                            <div class="category-box position-relative">
+                            <div class="category-box position-relative hover-animation">
                                 <h4>{{ category.name }}</h4>
-                                <div class="position-absolute category-image">{% image category.image width-1444 %}</div>
+                                <div class="position-absolute category-image animated">{% image category.image width-1444 %}</div>
                             </div>
                         </a>
                     </div>
@@ -124,7 +124,7 @@
     </div>
 </div>
 
-<div class="container-fluid bg-beige py-5 home-page">
+<div class="container-fluid bg-beige home-page extra-padding">
     <div class="container">
         <div class="row">
             <div class="col">
