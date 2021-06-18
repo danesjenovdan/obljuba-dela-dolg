@@ -5,7 +5,7 @@
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary promise-listing-page">
+<div class="container-fluid bg-primary promise-listing-page py-4">
     <div class="container">
         <div class="row hero text-light py-5">
             <div class="col-lg-7 offset-lg-1">
@@ -14,8 +14,8 @@
                         <h1 class="mb-4">
                             {% if page.search_title and request.GET.query %}
                             {{ page.search_title }} »{{ request.GET.query }}«
-                            {% elif request.GET.category %}
-                            {% image category_image fill-200x200 %}
+                            {% elif category_name %}
+                            {{ category_name }}
                             {% else %}
                             {{ page.title }}
                             {% endif %}
@@ -54,6 +54,13 @@
                     </div>
                 </form>
             </div>
+            {% if category_image %}
+            <div class="d-none d-lg-block col-lg-4 position-relative">
+                <div class="position-absolute category-image">
+                    {% image category_image fill-300x300 %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

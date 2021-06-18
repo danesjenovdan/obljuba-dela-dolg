@@ -255,6 +255,7 @@ class PromiseListingPage(Page):
         chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
         if chosen_category:
             context['category_image'] = chosen_category.image
+            context['category_name'] = chosen_category.name
 
         all_promises = (
             PromisePage.objects.all()
