@@ -6,7 +6,7 @@
             {% if request.path != "/" %}
             <div class="col-12 col-lg-4 my-4">
                 <div class="footer-col">
-                    <h5>{{ settings.home.MetaSettings.social_label }}</h5>
+                    <div class="px-2"><h5>{{ settings.home.MetaSettings.social_label }}</h5></div>
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="{{ settings.home.MetaSettings.facebook }}" target="_blank">
                             <div class="social-circle d-flex justify-content-center align-items-center">
@@ -24,7 +24,7 @@
             <div class="col-12 col-lg-4 my-4">
                 <div class="footer-col newsletter">
                     <form>
-                        <h5>{{ settings.home.MetaSettings.newsletter_label }}</h5>
+                        <div class="px-2"><h5>{{ settings.home.MetaSettings.newsletter_label }}</h5></div>
                         <div>{{ settings.home.MetaSettings.newsletter_sublabel }}</div>
                         <div class="position-relative go-input mt-3 mb-2">
                             <input type="email" name="email" required class="form-control" id="email">

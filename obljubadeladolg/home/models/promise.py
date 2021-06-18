@@ -19,9 +19,17 @@ class PromiseCategory(models.Model):
         blank=True,
         verbose_name=_("Ključ (če je prazno se avtomatsko ustvari iz imena)"),
     )
-    image = models.ForeignKey(
+    image_card = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name=_('Slika'),
+        verbose_name=_('Slika na kartici'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    image_listing_page = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika na seznamu obljub'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

@@ -462,7 +462,8 @@ footer {
     }
   }
   hr {
-    border: 1px solid #939393;
+    border: none;
+    border-bottom: 1px solid #939393;
     opacity: 1;
   }
   .logos {
@@ -767,6 +768,13 @@ footer {
       a {
         font-weight: 700;
       }
+    }
+  }
+  .header-image {
+    top: -8rem;
+    left: -8rem;
+    img {
+      transform: rotate(-5deg);
     }
   }
   .update {

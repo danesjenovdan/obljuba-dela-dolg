@@ -22,13 +22,13 @@
                         </h1>
                     </div>
                 </div>
-                <form action="" method="get" id="queryForm">
+                <form action="" method="get" id="query-form">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="select-category">{{ page.category_label }}</label>
                                 <div class="position-relative select-input">
-                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory(this.options[this.selectedIndex].value, '{{ request.GET.query }}', '{{ request.GET.status }}')">
+                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory()">
                                         <option value="" selected>{% if page.category_placeholder %}{{ page.category_placeholder }}{% endif %}</option>
                                         {% for category in promise_categories %}
                                         <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
