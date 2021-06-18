@@ -244,6 +244,18 @@ class PromiseListingPage(Page):
         null=True,
         blank=True,
     )
+    about_statuses_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    about_statuses_text = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
     no_results = models.CharField(
         max_length=255,
         null=True,
@@ -258,6 +270,8 @@ class PromiseListingPage(Page):
         FieldPanel("search_placeholder"),
         FieldPanel("status_help_label"),
         FieldPanel("status_help_text"),
+        FieldPanel("about_statuses_link"),
+        FieldPanel("about_statuses_text"),
         FieldPanel("no_results"),
     ]
 
