@@ -1,5 +1,5 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags index %}
+{% load static wagtailcore_tags wagtailimages_tags index %}
 
 {% block body_class %}page page--listing{% endblock %}
 
@@ -126,6 +126,12 @@
         <div class="row">
             {% if promises %}
             <div class="col-12">
+                <a href="{% if page.about_statuses_link %}{% pageurl page.about_statuses_link %}{% endif %}" class="icon-information">
+                    <div class="d-flex align-items-center justify-content-end mb-1">
+                        <img src="{% static 'icons/information.svg' %}" class="mx-2" />
+                        <span>{{ page.about_statuses_text }}</span>
+                    </div>
+                </a>
                 <table class="table mb-5">
                     <tbody>
                     {% for promise in promises %}
