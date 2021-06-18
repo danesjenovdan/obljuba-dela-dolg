@@ -352,3 +352,25 @@ class ContentPage(Page):
     class Meta:
         verbose_name = "Vsebina"
         verbose_name_plural = "Vsebine"
+
+class NewsletterPage(Page):
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Opis"),
+    )
+    body = StreamField(
+        [("rich_text", RichTextBlock())],
+        null=True,
+        blank=True,
+        verbose_name=_("Vsebina"),
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("description"),
+        StreamFieldPanel("body"),
+    ]
+
+    class Meta:
+        verbose_name = "Urejanje naročnine"
+        verbose_name_plural = "Urejanja naročnin"
