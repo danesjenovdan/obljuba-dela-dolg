@@ -58,7 +58,7 @@
         shareLink.addEventListener("click", function (event) {
             event.preventDefault();
             if (event.currentTarget.className.indexOf('isfbbox') != -1) {
-                const url = `https://www.facebook.com/dialog/feed?app_id=301375193309601&redirect_uri=https%3A%2F%2Fhudapobuda.si&link=https%3A%2F%2Fhudapobuda.si&ref=responsive`;
+                const url = `https://www.facebook.com/dialog/feed?app_id=220548529891725&redirect_uri=https%3A%2F%2Fobljubadeladolg.si&link=https%3A%2F%2Fobljubadeladolg.si&ref=responsive`;
                 window.open(url, '_blank');
             }
             if (event.currentTarget.className.indexOf('istwbox') != -1) {
