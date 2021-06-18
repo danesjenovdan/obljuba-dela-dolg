@@ -165,6 +165,14 @@ class PromisePage(Page):
         blank=True,
         verbose_name=_("Kategorije"),
     )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        verbose_name=_('Slika'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("full_text"),
@@ -176,6 +184,7 @@ class PromisePage(Page):
             ],
             heading="Vir",
         ),
+        FieldPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         InlinePanel("updates", label="Posodobitve", min_num=1),
     ]
@@ -256,7 +265,7 @@ class PromiseListingPage(Page):
         context['category_image'] = None
         chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
         if chosen_category:
-            context['category_image'] = chosen_category.image
+            context['category_image'] = chosen_category.image_listing_page
             context['category_name'] = chosen_category.name
 
         # get set of all promises and order them by latest update

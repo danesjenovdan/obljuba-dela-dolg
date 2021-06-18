@@ -770,6 +770,13 @@ footer {
       }
     }
   }
+  .header-image {
+    top: -8rem;
+    left: -8rem;
+    img {
+      transform: rotate(-5deg);
+    }
+  }
   .update {
     .status {
       white-space: nowrap;
