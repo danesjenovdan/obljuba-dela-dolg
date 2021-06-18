@@ -5,7 +5,7 @@
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary">
+<div class="container-fluid bg-primary home-page">
     <div class="container">
         <div class="row hero text-light">
             <div class="col-lg-8">
@@ -22,9 +22,9 @@
                 </p>
                 {% if page.more_link and page.more_link_text %}
                 <div class="my-5">
-                    <a href="{% pageurl page.more_link %}" class="position-relative">
-                        <span>{{ page.more_link_text }}</span>
-                        <span class="arrow-right"></span>
+                    <a href="{% pageurl page.more_link %}" class="position-relative hover-animation d-flex align-items-center">
+                        <span class="d-block">{{ page.more_link_text }}</span>
+                        <span class="d-block arrow-right animated"></span>
                     </a>
                 </div>
                 {% endif %}
@@ -42,9 +42,9 @@
                     {% for category in promise_categories %}
                     <div class="col-md-6 col-lg-3 my-3">
                         <a href="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}?category={{ category.slug }}">
-                            <div class="category-box position-relative">
+                            <div class="category-box position-relative hover-animation">
                                 <h4>{{ category.name }}</h4>
-                                <div class="position-absolute category-image">{% image category.image width-1444 %}</div>
+                                <div class="position-absolute category-image animated">{% image category.image width-1444 %}</div>
                             </div>
                         </a>
                     </div>
@@ -113,10 +113,10 @@
                 </table>
             </div>
             <div class="mb-5">
-                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}">
+                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}" class="hover-animation">
                     <div class="latest-button btn btn-primary d-inline-flex justify-content-center align-items-center">
                         <span>{{ page.latest_button_text }}</span>
-                        <span class="icon-arrow-right"></span>
+                        <span class="icon-arrow-right animated"></span>
                     </div>
                 </a>
             </div>
@@ -124,7 +124,7 @@
     </div>
 </div>
 
-<div class="container-fluid bg-beige py-5 home-page">
+<div class="container-fluid bg-beige home-page extra-padding">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -141,13 +141,13 @@
                                         <h5><label>{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
                                         <div class="go-input position-relative">
                                             <input id="email" type="email" name="email" required class="form-control" />
-                                            <button type="submit" class="input-btn btn-primary">
-                                                <span></span>
+                                            <button type="submit" class="input-btn btn-primary hover-animation">
+                                                <span class="animated"></span>
                                             </button>
                                         </div>
-                                        <div id="response" class="text-light"></div>
-                                        <div class="mt-2 checkbox d-flex align-items-center">
-                                            <label>
+                                        <div id="response"></div>
+                                        <div class="mt-3 checkbox d-flex align-items-center">
+                                            <label class="d-flex align-items-center">
                                                 <input type="checkbox" id="confirm-email" />
                                                 <span class="custom-checkbox"></span>
                                                 {{ settings.home.MetaSettings.newsletter_consent }}

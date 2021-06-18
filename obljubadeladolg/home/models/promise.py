@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator
 from modelcluster.fields import ParentalKey
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
@@ -69,7 +70,12 @@ class PromiseStatus(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-   )
+    )
+    order_no = models.IntegerField(
+        validators=[MinValueValidator(1)],
+        verbose_name=_("Vrstni red"),
+        default=1
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -102,10 +108,8 @@ class PromiseUpdate(Orderable):
     )
     status = models.ForeignKey(
         "home.PromiseStatus",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name="+",
-        null=True,
-        blank=True,
         verbose_name=_("Stanje"),
     )
     content = RichTextField(

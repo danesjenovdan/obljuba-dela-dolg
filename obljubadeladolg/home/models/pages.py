@@ -17,7 +17,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
-from .promise import PromiseCategory, PromiseStatus
+from .promise import PromiseCategory, PromiseStatus, PromiseUpdate
 
 
 class HomePage(Page):
@@ -189,6 +189,7 @@ class PromisePage(Page):
     def sorted_updates(self):
         return self.updates.order_by("-date")
 
+    @property
     def status(self):
         latest_update = self.updates.order_by("-date").last()
         return latest_update.status if latest_update else None
@@ -250,8 +251,15 @@ class PromiseListingPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all()
-        context["promise_statuses"] = PromiseStatus.objects.all()
+        all_statuses = PromiseStatus.objects.all().order_by('order_no')
+        context["promise_statuses"] = all_statuses
+        context['category_image'] = None
+        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
+        if chosen_category:
+            context['category_image'] = chosen_category.image
+            context['category_name'] = chosen_category.name
 
+        # get set of all promises and order them by latest update
         all_promises = (
             PromisePage.objects.all()
             .child_of(self)
@@ -259,19 +267,43 @@ class PromiseListingPage(Page):
             .order_by("-latest_update")
         )
 
+        # filter promises by search query, if there is one in url params
         search_query = request.GET.get("query", None)
         if search_query:
-            all_promises = all_promises.search(
+            filtered_promises = all_promises.search(
                 search_query,
                 operator="and",
             ).get_queryset()
+        else:
+            filtered_promises = all_promises
 
+        # filter promises by category, if there is one in url params
         category = request.GET.get("category", None)
         if category:
-           all_promises = all_promises.filter(categories__slug=category)
+           filtered_promises = filtered_promises.filter(categories__slug=category)
+
+        # save number of all promises before filtering by status
+        context["promises_no_all_statuses"] = len(filtered_promises)
+
+        # get number of filtered promises for each status
+        promises_by_statuses = {}
+        for promise in filtered_promises:
+            if (promises_by_statuses.get(promise.status.slug)):
+                promises_by_statuses[promise.status.slug].append(promise)
+            else:
+                promises_by_statuses[promise.status.slug] = [promise]
+        context["promises_by_statuses"] = promises_by_statuses
+
+        # filter promises by status, if there is one in url params
+        status_slug = request.GET.get("status", None)
+        if status_slug:
+            if (promises_by_statuses.get(status_slug)):
+                filtered_promises = promises_by_statuses[status_slug]
+            else:
+                filtered_promises = []
 
 
-        paginator = Paginator(all_promises, 100)
+        paginator = Paginator(filtered_promises, 100)
         page_number = request.GET.get("page", 1)
         promises = paginator.get_page(page_number)
         context["promises"] = promises

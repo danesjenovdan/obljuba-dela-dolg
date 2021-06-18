@@ -1,27 +1,35 @@
 {% extends "home/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags index %}
 
 {% block body_class %}page page--listing{% endblock %}
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary promise-listing-page">
+<div class="container-fluid bg-primary promise-listing-page py-4">
     <div class="container">
         <div class="row hero text-light py-5">
             <div class="col-lg-7 offset-lg-1">
                 <div class="row">
                     <div class="col-12">
-                        <h1 class="mb-4">{{ page.search_title }}</h1>
+                        <h1 class="mb-4">
+                            {% if page.search_title and request.GET.query %}
+                            {{ page.search_title }} »{{ request.GET.query }}«
+                            {% elif category_name %}
+                            {{ category_name }}
+                            {% else %}
+                            {{ page.title }}
+                            {% endif %}
+                        </h1>
                     </div>
                 </div>
-                <form action="" method="get">
+                <form action="" method="get" id="queryForm">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="select-category">{{ page.category_label }}</label>
                                 <div class="position-relative select-input">
-                                    <select id="select-category" name="category" class="form-control">
-                                        <option value="" selected>Vse kategorije</option>
+                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory(this.options[this.selectedIndex].value, '{{ request.GET.query }}', '{{ request.GET.status }}')">
+                                        <option value="" selected>{% if page.category_placeholder %}{{ page.category_placeholder }}{% endif %}</option>
                                         {% for category in promise_categories %}
                                         <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
                                         {% endfor %}
@@ -35,8 +43,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
-                                <div class="search-input position-relative">
-                                    <input type="text" id="search-header" placeholder="{{ page.search_placeholder }}" name="query" class="form-control" value="{{ request.GET.query }}">
+                                <div class="search-input position-relative d-flex align-items-center">
+                                    <input type="text" id="search-header" placeholder="{% if page.search_placeholder %}{{ page.search_placeholder }}{% endif %}" name="query" class="form-control" value="{{ request.GET.query }}">
                                     <button class="btn-primary input-btn" type="submit">
                                         <span></span>
                                     </button>
@@ -46,29 +54,36 @@
                     </div>
                 </form>
             </div>
+            {% if category_image %}
+            <div class="d-none d-lg-block col-lg-4 position-relative">
+                <div class="position-absolute category-image">
+                    {% image category_image fill-300x300 %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
-<div class="container-fluid bg-beige py-5 promise-listing-page">
+<div class="container-fluid bg-beige promise-listing-page extra-padding h-100">
     <div class="container">
         <div class="row mb-4 my-lg-4">
             <div class="d-none d-lg-flex col-12 filters justify-content-center">
-                <a href="?category={{ status.slug }}">
+                <a href="?category={{ request.GET.category }}&query={{ request.GET.query }}" class="{% if not request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black;">
                             {% image status.icon width-1444 %}
                         </div>
-                        <span>Vse obljube ({{ promises|length }})</span>
+                        <span>Vse obljube ({{ promises_no_all_statuses }})</span>
                     </div>
                 </a>
                 {% for status in promise_statuses %}
-                <a href="?category={{ status.slug }}">
+                <a href="?category={{ request.GET.category }}&status={{ status.slug }}&query={{ request.GET.query }}" class="{% if status.slug == request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                             {% image status.icon width-1444 %}
                         </div>
-                        <span>{{ status.name }}</span>
+                        <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
                     </div>
                 </a>
                 {% endfor %}
