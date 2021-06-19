@@ -3,12 +3,11 @@
 
 <div class="header position-sticky top-0">
     <nav class="navbar navbar-expand-md bg-primary py-2">
-        <div class="container justify-content-end">
+        <div class="container {% if request.path != '/' %}justify-content-between{% else %} justify-content-end py-1{% endif %}">
             {% if request.path != "/" %}
             <a href="/">
                 <div class="logo">
-                    <img class="d-none d-lg-block" src="{% static 'images/ODD-logo.png' %}">
-                    {% comment %}<span class="text-uppercase text-light" style="width: min-content;">{{ self.get_site.site_name }}</span>{% endcomment %}
+                    <img src="{% static 'images/ODD-logo.png' %}">
                 </div>
             </a>
             {% endif %}

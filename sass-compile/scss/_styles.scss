@@ -218,7 +218,12 @@ input[type="text"], input[type="email"] {
 }
 
 .extra-padding {
-  padding: 3rem 0 6rem 0;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  @media (min-width: 768px) {
+    padding-top: 3rem;
+    padding-bottom: 6rem;
+  }
 }
 
 .checkbox {
@@ -517,7 +522,7 @@ footer {
   h4 {
     margin-top: 2rem;
     font-size: 1.5rem;
-    line-height: 1.2rem;
+    line-height: 1.8rem;
     @media (min-width: 768px) {
       font-size: 1.75rem;
     }
@@ -777,7 +782,7 @@ footer {
           margin: 0.75rem 0;
         }
         p {
-          font-size: 1rem;
+          font-size: 0.6rem;
           font-family: $font-family-open-sans;
           color: #565656;
         }
@@ -969,17 +974,35 @@ footer {
   }
   .filters-mobile {
     position: fixed;
-    width: 200px;
+    width: 250px;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 200;
     transition: all 0.5s ease-out;
-    a {
+    .option {
       &>div {
         display: flex;
         padding: 0.5rem 0.25rem;
         border-bottom: 2px solid #efeff2;
+      }
+      &.active>div {
+        position: relative;
+        span {
+          font-weight: 700;
+          color: #000000;
+        }
+        &:after {
+          content: " ";
+          position: absolute;
+          background-image: url("../icons/check.png");
+          width: 0.875rem;
+          height: 0.875rem;
+          background-size: contain;
+          background-repeat: no-repeat;
+          right: 0;
+          top: 1.25rem;
+        }
       }
     }
     &.closed {
@@ -988,7 +1011,7 @@ footer {
     }
   }
   .filters, .filters-mobile {
-    a {
+    a, .option {
       text-decoration: none;
       color: #565656;
       &>div {
@@ -1015,6 +1038,8 @@ footer {
   .icon-information {
     color: black;
     font-style: italic;
+    font-family: $font-family-open-sans;
+    font-size: 0.7rem;
     img {
       width: 1rem;
       height: 1rem;
