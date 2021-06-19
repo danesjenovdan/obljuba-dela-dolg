@@ -326,6 +326,9 @@ class PromiseListingPage(Page):
         # filter promises by status, if there is one in url params
         status_slug = request.GET.get("status", None)
         if status_slug:
+            chosen_status = PromiseStatus.objects.filter(slug=status_slug).first()
+            if chosen_status:
+                context['chosen_status'] = chosen_status
             if (promises_by_statuses.get(status_slug)):
                 filtered_promises = promises_by_statuses[status_slug]
             else:

@@ -24,7 +24,7 @@
                 </div>
                 <form action="" method="get" id="query-form">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mb-4">
                             <div class="form-group">
                                 <label for="select-category">{{ page.category_label }}</label>
                                 <div class="position-relative select-input">
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mb-4">
                             <div class="form-group">
                                 <label for="search-header">{{ page.search_label }}</label>
                                 <div class="search-input position-relative d-flex align-items-center">
@@ -55,8 +55,8 @@
                 </form>
             </div>
             {% if category_image %}
-            <div class="d-none d-lg-block col-lg-4 position-relative">
-                <div class="position-absolute category-image">
+            <div class="col-lg-4 position-relative">
+                <div class="position-lg-absolute category-image">
                     {% image category_image fill-300x300 %}
                 </div>
             </div>
@@ -93,33 +93,40 @@
             <div class="d-lg-none col-12">
                 <div class="mb-2">Filtriraj po statusih obljub</div>
                 <button id="filters-mobile-button" class="btn d-flex align-items-center text-uppercase">
+                    {% if not chosen_status %}
                     <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
                         {% image status.icon width-1444 %}
                     </div>
-                    <div class="mx-2">Vse obljube ({{ promises|length }})</div>
+                    <div class="mx-2">Vse obljube ({{ promises_no_all_statuses }})</div>
+                    {% else %}
+                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ chosen_status.color }};">
+                        {% image chosen_status.icon width-1444 %}
+                    </div>
+                    <div class="mx-2">{{ chosen_status.name }} ({{ promises_by_statuses|get_item:chosen_status.slug|length }})</div>
+                    {% endif %}
                 </button>
             </div>
             <div id="filters-mobile" class="filters-mobile bg-beige closed">
                 <div class="d-flex flex-column">
-                    <a href="/">
+                    <div data-status="" class="option {% if not request.GET.status %}active{% endif %}" onclick="makeActive(this)">
                         <div>
                             <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
                                 {% image status.icon width-1444 %}
                             </div>
-                            <span>Vse obljube ({{ promises|length }})</span>
+                            <span>Vse obljube ({{ promises_no_all_statuses }})</span>
                         </div>
-                    </a>
+                    </div>
                     {% for status in promise_statuses %}
-                    <a href="{{ status.slug }}">
+                    <div data-status="{{ status.slug }}" class="option {% if status.slug == request.GET.status %}active{% endif %}" onclick="makeActive(this)">
                         <div>
                             <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                                 {% image status.icon width-1444 %}
                             </div>
-                            <span>{{ status.name }}</span>
+                            <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
                         </div>
-                    </a>
+                    </div>
                     {% endfor %}
-                    <button id="filter-mobile" class="btn btn-primary d-flex align-items-center justify-content-center my-4">Prikaži</button>
+                    <button id="filter-mobile" class="btn btn-primary d-flex align-items-center justify-content-center my-4" onclick="selectStatus()">Prikaži</button>
                 </div>
             </div>
         </div>

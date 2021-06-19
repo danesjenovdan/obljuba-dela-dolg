@@ -108,3 +108,20 @@ function selectCategory() {
     document.getElementById("search-header").value = '';
     document.getElementById("query-form").submit();
 }
+
+function selectStatus() {
+    let category = document.getElementById("select-category").value;
+    let query = document.getElementById("search-header").value;
+    let popup = document.getElementById('filters-mobile');
+    let status = popup.getElementsByClassName("active")[0].dataset.status;
+    window.location.href = '?category=' + category + '&query=' + query + '&status=' + status;
+}
+
+function makeActive(el) {
+    let popup = document.getElementById('filters-mobile');
+    let options = popup.getElementsByClassName("option");
+    for (const option of options){
+        option.classList.remove("active");
+    }
+    el.classList.add("active");
+}
