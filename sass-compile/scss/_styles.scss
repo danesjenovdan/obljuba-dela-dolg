@@ -535,7 +535,7 @@ footer {
       font-size: 1.75rem;
     }
   }
-  p {
+  p, ul, ol {
     font-family: $font-family-open-sans;
     font-weight: 300;
     margin-bottom: 2rem;
@@ -544,8 +544,6 @@ footer {
     font-weight: bold;
   }
   ul {
-    font-family: $font-family-open-sans;
-    margin-bottom: 1.5rem;
     padding-left: 0;
     li {
       padding: 0.125rem 0 0.125rem 2rem;
