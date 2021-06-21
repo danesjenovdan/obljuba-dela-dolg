@@ -58,7 +58,9 @@ table,
         border-radius: 1rem;
         padding: 0.125rem 0.5rem 0.25rem;
         margin-bottom: 0.5rem;
-        display: inline-block;
+        display: inline;
+        box-decoration-break: clone;
+        line-height: 2;
       }
     }
     td:last-child {
@@ -721,9 +723,11 @@ footer {
       color: black;
       background-color: #eae4d8;
       border-radius: 1rem;
-      padding: 0.125rem 0.75rem;
+      padding: 0.325rem 0.75rem;
       margin: 0 0.5rem 0.5rem 0;
-      display: inline-block;
+      display: inline;
+      box-decoration-break: clone;
+      line-height: 2;
     }
     .quote {
       margin-left: 4rem;
