@@ -184,7 +184,7 @@ class PromisePage(Page):
             ],
             heading="Vir",
         ),
-        FieldPanel("image"),
+        ImageChooserPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         InlinePanel("updates", label="Posodobitve", min_num=1),
     ]
