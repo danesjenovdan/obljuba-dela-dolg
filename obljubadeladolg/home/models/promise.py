@@ -110,7 +110,9 @@ class PromiseUpdate(Orderable):
         blank=True,
         verbose_name=_("Naslov"),
     )
-    date = models.DateField(
+    # TODO this field should be renamed
+    # to timestamp or something
+    date = models.DateTimeField(
         default=timezone.now,
         verbose_name=_("Datum"),
     )
