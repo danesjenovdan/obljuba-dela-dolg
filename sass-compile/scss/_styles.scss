@@ -22,6 +22,12 @@ body {
   }
 }
 
+.position-lg-absolute {
+  @media (min-width: 992px) {
+    position: absolute;
+  }
+}
+
 table,
 .table {
   table-layout: fixed; // use fixed table layout
