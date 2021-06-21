@@ -1,11 +1,13 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MinValueValidator
 from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 
 class PromiseCategory(models.Model):
@@ -20,20 +22,20 @@ class PromiseCategory(models.Model):
         verbose_name=_("Ključ (če je prazno se avtomatsko ustvari iz imena)"),
     )
     image_card = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika na kartici'),
+        "wagtailimages.Image",
+        verbose_name=_("Slika na kartici"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
     image_listing_page = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika na seznamu obljub'),
+        "wagtailimages.Image",
+        verbose_name=_("Slika na seznamu obljub"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
 
     def save(self, *args, **kwargs):
@@ -43,6 +45,13 @@ class PromiseCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("slug"),
+        ImageChooserPanel("image_card"),
+        ImageChooserPanel("image_listing_page"),
+    ]
 
     class Meta:
         verbose_name = "Kategorija obljub"
@@ -72,17 +81,17 @@ class PromiseStatus(models.Model):
         ),
     )
     icon = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Ikona'),
+        "wagtailimages.Image",
+        verbose_name=_("Ikona"),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
     order_no = models.IntegerField(
         validators=[MinValueValidator(1)],
         verbose_name=_("Vrstni red"),
-        default=1
+        default=1,
     )
 
     def save(self, *args, **kwargs):
@@ -92,6 +101,15 @@ class PromiseStatus(models.Model):
 
     def __str__(self):
         return self.name
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("description"),
+        FieldPanel("slug"),
+        FieldPanel("color"),
+        ImageChooserPanel("icon"),
+        FieldPanel("order_no"),
+    ]
 
     class Meta:
         verbose_name = "Stanje obljub"

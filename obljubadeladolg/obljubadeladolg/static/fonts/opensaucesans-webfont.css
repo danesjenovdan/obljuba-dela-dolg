@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("opensaucesans-light-webfont.woff2") format("woff2"),
+    url("opensaucesans-light-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("opensaucesans-lightitalic-webfont.woff2") format("woff2"),
+    url("opensaucesans-lightitalic-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("opensaucesans-regular-webfont.woff2") format("woff2"),
+    url("opensaucesans-regular-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("opensaucesans-italic-webfont.woff2") format("woff2"),
+    url("opensaucesans-italic-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("opensaucesans-bold-webfont.woff2") format("woff2"),
+    url("opensaucesans-bold-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sauce Sans WebFont";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("opensaucesans-bolditalic-webfont.woff2") format("woff2"),
+    url("opensaucesans-bolditalic-webfont.woff") format("woff");
+}

@@ -31,7 +31,7 @@
                     throw new Error("Response not ok");
                 })
                 .then((res) => {
-                    response.className = "form-text text-start text-success";
+                    response.className = "form-text text-start";
                     response.textContent = "Hvala za prijavo!";
                     console.log(res);
                 })
@@ -94,8 +94,8 @@
 (function () {
     var header = document.getElementsByClassName("header")[0];
     document.addEventListener('scroll', function(e) {
-        console.log('scroll');
-        console.log(window.scrollY);
+        // console.log('scroll');
+        // console.log(window.scrollY);
         if (window.scrollY > 0) {
             header.classList.add('scrolling');
         } else {

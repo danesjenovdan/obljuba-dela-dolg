@@ -36,7 +36,16 @@
 
         {# Font stylesheets #}
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@700;900&amp;display=swap" rel="preload" as="style">
+        <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@700;900&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="{% static 'fonts/opensaucesans-webfont.css' %}" rel="preload" as="style">
+        <link href="{% static 'fonts/opensaucesans-light-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-lightitalic-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-regular-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-italic-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-bold-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-bolditalic-webfont.woff2' %}" rel="preload" as="font" type="font/woff2" crossorigin>
+        <link href="{% static 'fonts/opensaucesans-webfont.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
 
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/bundle.css' %}">

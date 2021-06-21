@@ -22,6 +22,12 @@ body {
   }
 }
 
+.position-lg-absolute {
+  @media (min-width: 992px) {
+    position: absolute;
+  }
+}
+
 table,
 .table {
   table-layout: fixed; // use fixed table layout
@@ -52,7 +58,9 @@ table,
         border-radius: 1rem;
         padding: 0.125rem 0.5rem 0.25rem;
         margin-bottom: 0.5rem;
-        display: inline-block;
+        display: inline;
+        box-decoration-break: clone;
+        line-height: 2;
       }
     }
     td:last-child {
@@ -339,9 +347,9 @@ form.error {
     text-decoration: none;
     color: $light;
     span:first-child {
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.15rem;
       background-image: url("../images/pika.png");
-      background-position: bottom;
+      background-position: 1px bottom;
       background-size: 6px 2px;
       background-repeat: repeat-x;
     }
@@ -527,7 +535,7 @@ footer {
       font-size: 1.75rem;
     }
   }
-  p {
+  p, ul, ol {
     font-family: $font-family-open-sans;
     font-weight: 300;
     margin-bottom: 2rem;
@@ -536,8 +544,6 @@ footer {
     font-weight: bold;
   }
   ul {
-    font-family: $font-family-open-sans;
-    margin-bottom: 1.5rem;
     padding-left: 0;
     li {
       padding: 0.125rem 0 0.125rem 2rem;
@@ -715,9 +721,11 @@ footer {
       color: black;
       background-color: #eae4d8;
       border-radius: 1rem;
-      padding: 0.125rem 0.75rem;
+      padding: 0.325rem 0.75rem;
       margin: 0 0.5rem 0.5rem 0;
-      display: inline-block;
+      display: inline;
+      box-decoration-break: clone;
+      line-height: 2;
     }
     .quote {
       margin-left: 4rem;
@@ -794,6 +802,11 @@ footer {
       font-family: $font-family-open-sans;
       a {
         font-weight: 700;
+        padding-bottom: 0.15em;
+        background-image: url("../images/pika.png");
+        background-position: 1px bottom;
+        background-size: 6px 2px;
+        background-repeat: repeat-x;
       }
     }
   }
@@ -1056,5 +1069,15 @@ footer {
     font-size: 0.75rem;
     width: 100%;
     padding: 0.25rem 0.5rem;
+  }
+}
+.newsletter {
+  #response {
+    color: #fff;
+  }
+  &.box {
+    #response {
+      color: #000;
+    }
   }
 }
