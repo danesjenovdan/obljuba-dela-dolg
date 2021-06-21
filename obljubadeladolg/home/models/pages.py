@@ -200,7 +200,7 @@ class PromisePage(Page):
 
     @property
     def status(self):
-        latest_update = self.updates.order_by("-date").last()
+        latest_update = self.updates.order_by("-date").first()
         return latest_update.status if latest_update else None
 
     class Meta:
