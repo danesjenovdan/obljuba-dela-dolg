@@ -128,7 +128,7 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["promise_categories"] = PromiseCategory.objects.all()
+        context["promise_categories"] = PromiseCategory.objects.all().order_by('id') # TODO this is a hack
         context["promises"] = (
             PromisePage.objects.all()
             .live()
