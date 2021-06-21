@@ -58,11 +58,11 @@
         shareLink.addEventListener("click", function (event) {
             event.preventDefault();
             if (event.currentTarget.className.indexOf('isfbbox') != -1) {
-                const url = `https://www.facebook.com/dialog/feed?app_id=220548529891725&redirect_uri=https%3A%2F%2Fobljubadeladolg.si&link=https%3A%2F%2Fobljubadeladolg.si&ref=responsive`;
+                const url = `https://www.facebook.com/dialog/feed?app_id=220548529891725&redirect_uri=${encodeURIComponent(document.location.href)}&link=${encodeURIComponent(document.location.href)}&ref=responsive`;
                 window.open(url, '_blank');
             }
             if (event.currentTarget.className.indexOf('istwbox') != -1) {
-                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(window.SHARE_TWEET_TEXT + ' https://obljubadeladolg.si')}`;
+                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${window.SHARE_TWEET_TEXT} ${document.location.href}`)}`;
                 window.open(url, '_blank');
             }
             if (event.currentTarget.className.indexOf('isembox') != -1) {
