@@ -347,9 +347,9 @@ form.error {
     text-decoration: none;
     color: $light;
     span:first-child {
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.15rem;
       background-image: url("../images/pika.png");
-      background-position: bottom;
+      background-position: 1px bottom;
       background-size: 6px 2px;
       background-repeat: repeat-x;
     }
@@ -804,6 +804,11 @@ footer {
       font-family: $font-family-open-sans;
       a {
         font-weight: 700;
+        padding-bottom: 0.15em;
+        background-image: url("../images/pika.png");
+        background-position: 1px bottom;
+        background-size: 6px 2px;
+        background-repeat: repeat-x;
       }
     }
   }
