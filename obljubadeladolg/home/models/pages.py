@@ -173,6 +173,13 @@ class PromisePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    meta_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("full_text"),
@@ -187,6 +194,10 @@ class PromisePage(Page):
         ImageChooserPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         InlinePanel("updates", label="Posodobitve", min_num=1),
+    ]
+
+    promote_panels = Page.promote_panels + [
+        ImageChooserPanel("meta_image"),
     ]
 
     search_fields = Page.search_fields + [

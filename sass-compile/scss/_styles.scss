@@ -955,7 +955,9 @@ footer {
       }
     }
     .category-image {
-      left: 3rem
+      left: 3rem;
+      bottom: 0;
+      transform: translateY(35%);
     }
   }
   .filters {
