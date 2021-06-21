@@ -1064,3 +1064,13 @@ footer {
     padding: 0.25rem 0.5rem;
   }
 }
+.newsletter {
+  #response {
+    color: #fff;
+  }
+  &.box {
+    #response {
+      color: #000;
+    }
+  }
+}
