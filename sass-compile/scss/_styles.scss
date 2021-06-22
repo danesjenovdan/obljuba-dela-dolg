@@ -313,11 +313,38 @@ form.error {
       font-size: 1.5rem;
       color: $light;
     }
+    @media (min-width: 992px) {
+      .nav-link {
+        .link__graphic {
+          position: absolute;
+          top: 80%;
+          left: 0;
+          pointer-events: none;
+          fill: none;
+          stroke: #fbfaf7;
+          stroke-width: 1px;
 
-    a:hover {
-      text-decoration: underline;
+        }
+
+        .link__graphic--stroke path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+        }
+
+        &:hover .link__graphic--stroke path {
+          stroke-dashoffset: 0;
+        }
+
+        .link__graphic--scribble path {
+          transition: stroke-dashoffset 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        &:hover .link__graphic--scribble path {
+          transition-timing-function: cubic-bezier(0.8, 1, 0.7, 1);
+          transition-duration: 0.3s;
+        }
+      }
     }
-
     @media (min-width: 768px) {
       &:not(:last-child):after {
         content: "/";

@@ -35,9 +35,9 @@
                     </div>
                     <div class="col manage">
                         <div class="footer-col">
-                            <h5>Nisi prijavljen_a na novičnik. Če želiš, se nanj lahko prijaviš spodaj.</h5>
+                            <h5>Nisi prijavljen_a na e-novičnik. Če želiš, se nanj lahko prijaviš spodaj.</h5>
                             <div class="position-relative go-input mt-3 mb-2">
-                                <input type="email" name="email" required class="form-control" id="managed-email">
+                                <input type="email" name="email" required class="form-control border-primary" id="managed-email">
                                 <button id="submit-managed-email" class="input-btn btn-primary bg-black hover-animation">
                                     <span class="animated"></span>
                                 </button>
@@ -50,13 +50,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-12 d-flex flex-column flex-lg-row align-items-center acf-logo">
-                        <span>Projekt je nastal s podporo</span>
-                        <img src="{% static 'images/active-citizens-fund_logo.png' %}" alt="ACF logo" class="mt-4">
                     </div>
                 </div>
             </div>
@@ -156,7 +149,7 @@
                 return response.json();
             }).then((json) => {
                 if (json.segments.filter((segment) => segment.id === 18).length > 0) {
-                    $('.subscription').text('Odjavi se od prejemanja novic');
+                    $('.subscription').text('Odjavi se od prejemanja e-novičnika');
                     $('.subscription').removeAttr('disabled');
                 } else {
                     $('.unsubscribe').hide();
