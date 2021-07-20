@@ -21,6 +21,20 @@ spec:
           persistentVolumeClaim:
             claimName: obljubadeladolg-pvc
       initContainers:
+        # - name: fixmanifest
+        #   image: obljubadeladolg
+        #   volumeMounts:
+        #     - name: obljubadeladolg-persistent-storage
+        #       mountPath: /pvc
+        #   command:
+        #     - rm
+        #     - /pvc/static/staticfiles.json
+        #   env:
+        #     - name: DJANGO_SETTINGS_MODULE
+        #       value: obljubadeladolg.settings.production
+        #   envFrom:
+        #     - secretRef:
+        #         name: obljubadeladolg-credentials
         - name: collectstatic
           image: obljubadeladolg
           volumeMounts:
@@ -37,6 +51,13 @@ spec:
           envFrom:
             - secretRef:
                 name: obljubadeladolg-credentials
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+            limits:
+              memory: 1Gi
+              cpu: 500m
         - name: migrate
           image: obljubadeladolg
           command:
@@ -49,6 +70,13 @@ spec:
           envFrom:
             - secretRef:
                 name: obljubadeladolg-credentials
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+            limits:
+              memory: 1Gi
+              cpu: 500m
       containers:
         - name: obljubadeladolg
           image: obljubadeladolg
@@ -72,6 +100,13 @@ spec:
               value: obljubadeladolg.settings.production
             # - name: DJANGO_DEBUG
             #   value: 'True'
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 1000m
+            limits:
+              memory: 1Gi
+              cpu: 1000m
         - name: obljubadeladolg-nginx
           ports:
             - name: http
@@ -81,3 +116,10 @@ spec:
           volumeMounts:
             - name: obljubadeladolg-persistent-storage
               mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 300m
+            limits:
+              memory: 500Mi
+              cpu: 300m
