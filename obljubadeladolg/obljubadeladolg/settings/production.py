@@ -20,10 +20,12 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'thisshouldbesecret')
 #ALLOWED_HOSTS = ['pravna-mreza.si', 'www.pravna-mreza.si']
 ALLOWED_HOSTS = ['*']
 
+# TODO-S3: remove these variables
 STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT', '/static/')
 STATIC_URL = os.getenv('DJANGO_STATIC_URL_BASE', '/static/')
 MEDIA_ROOT = os.getenv('DJANGO_MEDIA_ROOT', '/media/')
 MEDIA_URL = os.getenv('DJANGO_MEDIA_URL_BASE', '/media/')
+# --------------------
 
 LOGGING = {
     'version': 1,
