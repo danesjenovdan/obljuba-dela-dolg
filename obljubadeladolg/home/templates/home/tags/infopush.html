@@ -1,0 +1,28 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% if infopushes %}
+<div class="container-fluid extra-padding">
+    <div class="container py-5">
+        {% for infopush in infopushes %}
+            <div class="row infopush">
+                {% if infopush.image %}
+                    <div class="col-lg-6 p-0">
+                        {% image infopush.image width-1444 class="img-fluid w-100" %}
+                    </div>
+                {% endif %}
+                {% if infopush.page %}
+                <div class="{% if infopush.image %}col-lg-6{% endif %} py-xl-4 py-lg-2 py-4 px-4 bg-beige">
+                    <div class="infopush-tag">{{ infopush.tag }}</div>
+                    <h2>{{ infopush.title }}</h2>
+                    <p>{{ infopush.text }}</p>
+                    <a href="{% pageurl infopush.page %}" class="btn btn-primary latest-button hover-animation d-inline-flex justify-content-center align-items-center">
+                        <span>{{ infopush.page_text }}</span>
+                        <span class="icon-arrow-right animated"></span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

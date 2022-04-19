@@ -54,6 +54,7 @@ table,
       }
       .tag {
         font-size: 0.875rem;
+        font-weight: 700;
         background-color: #eae4d8;
         border-radius: 1rem;
         padding: 0.125rem 0.5rem 0.25rem;
@@ -295,6 +296,24 @@ form.error {
   background-size: contain;
   background-repeat: no-repeat;
   margin-left: 0.5rem;
+}
+
+.infopush {
+  .infopush-tag {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 48px;
+    color: #0e15c7;
+    line-height: 40px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 16px;
+    line-height: 18px;
+  }
 }
 
 .header {
