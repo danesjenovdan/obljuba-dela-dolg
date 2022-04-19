@@ -1,5 +1,5 @@
 {% extends "home/base_page.html" %}
-{% load static wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags infopush %}
 
 {% block body_class %}page page--home{% endblock %}
 
@@ -32,6 +32,8 @@
         </div>
     </div>
 </div>
+
+{% infopush %}
 
 <div class="container-fluid bg-beige py-5 home-page">
     <div class="container">

@@ -5,12 +5,41 @@ from wagtail.admin.edit_handlers import (
     ObjectList,
     StreamFieldPanel,
     TabbedInterface,
+    PageChooserPanel
 )
 from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.snippets.models import register_snippet
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+
+@register_snippet
+class Infopush(models.Model):
+    tag = models.TextField(null=True, blank=True, verbose_name='Oznaka')
+    title = models.TextField(verbose_name='Naslov (obvezno)')
+    text = models.TextField(verbose_name='Opis')
+    page = models.ForeignKey('wagtailcore.Page', related_name='+', on_delete=models.CASCADE, verbose_name='Povezava do strani (obvezno)')
+    page_text = models.TextField(verbose_name='Besedilo na gumbu (obvezno)')
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [
+        FieldPanel('tag'),
+        FieldPanel('title'),
+        FieldPanel('text', classname="full"),
+        FieldPanel('page_text'),
+        PageChooserPanel('page'),
+        ImageChooserPanel('image')
+    ]
+
+    def __str__(self):
+        return self.title
 
 class ExternalLinkBlock(blocks.StructBlock):
     name = blocks.CharBlock(label=_("Ime"))
