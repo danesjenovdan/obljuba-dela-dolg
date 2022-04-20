@@ -308,11 +308,28 @@ form.error {
     color: #0e15c7;
     line-height: 40px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   p {
     font-size: 24px;
-    line-height: 18px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+  @media (min-width: 992px) {
+    h2 {
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+  }
+  @media (min-width: 1200px) {
+    h2 {
+      margin-bottom: 15px;
+    }
+    p {
+      margin-bottom: 20px;
+    }
   }
 }
 
