@@ -203,3 +203,5 @@ WAGTAILEMBEDS_FINDERS = [
         'providers': [*all_providers, datawrapper],
     }
 ]
+
+WAGTAIL_ALLOW_UNICODE_SLUGS = False

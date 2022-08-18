@@ -17,10 +17,15 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
-from .promise import PromiseCategory, PromiseStatus, PromiseUpdate
+from .promise import PromiseCategory, PromiseStatus, PromiseUpdate, Party
 
 
 class HomePage(Page):
+    subtitle = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Podnaslov"),
+    )
     description = models.TextField(
         null=True,
         blank=True,
@@ -32,64 +37,71 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name=_("Povezava pod opisom (URL)"),
     )
     more_link_text = models.CharField(
         max_length=255,
         null=True,
         blank=True,
+        verbose_name=_("Povezava pod opisom (tekst)"),
     )
     image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name=_('Slika'),
+        verbose_name=_('Naslovna slika'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    categories_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_link = models.ForeignKey(
+    # TO GRE MOGOČE VEN?
+    # categories_heading = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # TO GRE VEN
+    # search_heading = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # TO BO ZDEJ HARDCODANO
+    # search_placeholder = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    current_mandate = models.ForeignKey(
         "wagtailcore.Page",
+        verbose_name=_('Trenutno aktualna stran z obljubami'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    latest_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    latest_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-    latest_button_text = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    social_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
+    # latest_heading = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # latest_link = models.ForeignKey(
+    #     "wagtailcore.Page",
+        
+    #     null=True,
+    #     blank=True,
+    #     on_delete=models.SET_NULL,
+    #     related_name="+",
+    # )
+    # latest_button_text = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # social_heading = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
     newsletter_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_('Slika ob polju za prijavo na novice'),
@@ -108,18 +120,19 @@ class HomePage(Page):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("subtitle"),
         FieldPanel("description"),
         PageChooserPanel("more_link"),
         FieldPanel("more_link_text"),
         ImageChooserPanel("image"),
-        FieldPanel("categories_heading"),
-        FieldPanel("search_heading"),
-        FieldPanel("search_placeholder"),
-        PageChooserPanel("search_link"),
-        FieldPanel("latest_heading"),
-        PageChooserPanel("latest_link"),
-        FieldPanel("latest_button_text"),
-        FieldPanel("social_heading"),
+        # FieldPanel("categories_heading"),
+        # FieldPanel("search_heading"),
+        # FieldPanel("search_placeholder"),
+        PageChooserPanel("current_mandate"),
+        # FieldPanel("latest_heading"),
+        # PageChooserPanel("latest_link"),
+        # FieldPanel("latest_button_text"),
+        # FieldPanel("social_heading"),
         ImageChooserPanel("newsletter_image"),
         ImageChooserPanel("social_media_image"),
     ]
@@ -130,8 +143,8 @@ class HomePage(Page):
         context = super().get_context(request)
         context["promise_categories"] = PromiseCategory.objects.all().order_by('id') # TODO this is a hack
         context["promises"] = (
-            PromisePage.objects.all()
-            .live()
+            PromisePage.objects.live()
+            .child_of(self.current_mandate) # promises that belong to this mandate
             .annotate(latest_update=Max("updates__date"))
             .order_by("-latest_update")[:10]
         )
@@ -139,11 +152,12 @@ class HomePage(Page):
 
 
 class PromisePage(Page):
-    full_text = models.TextField(
-        null=True,
-        blank=True,
-        verbose_name=_("Polno besedilo obljube"),
-    )
+    # ta full_text pusti zakomentiran, ampak zaenkrat zgleda, da se ga ne bo rabilo
+    # full_text = models.TextField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=_("Polno besedilo obljube"),
+    # )
     quote = models.TextField(
         null=True,
         blank=True,
@@ -180,9 +194,20 @@ class PromisePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    party = models.ForeignKey(
+        'Party', 
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Stranka, ki je dala obljubo'),
+    )
+    party_promised = models.TextField(
+        blank=True, 
+        verbose_name=_('Stranka je obljubila')
+    )
 
     content_panels = Page.content_panels + [
-        FieldPanel("full_text"),
+        # FieldPanel("full_text"),
         FieldPanel("quote"),
         MultiFieldPanel(
             [
@@ -193,6 +218,8 @@ class PromisePage(Page):
         ),
         ImageChooserPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
+        FieldPanel("party"),
+        FieldPanel("party_promised"),
         InlinePanel("updates", label="Posodobitve", min_num=1),
     ]
 
@@ -200,14 +227,12 @@ class PromisePage(Page):
         ImageChooserPanel("meta_image"),
     ]
 
-    search_fields = Page.search_fields + [
-        index.SearchField("full_text"),
-    ]
+    search_fields = Page.search_fields # + [ index.SearchField("full_text"), ]
 
     parent_page_types = ["home.PromiseListingPage"]
 
     def sorted_updates(self):
-        return self.updates.order_by("-date")
+        return self.updates.order_by("date")[1:] # vemo, da bo vedno vsaj ena, sicer obljube ne moreš ustvariti
 
     @property
     def status(self):
@@ -220,41 +245,41 @@ class PromisePage(Page):
 
 
 class PromiseListingPage(Page):
-    search_title = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-        verbose_name=_("Naslov te strani, ko prikazuje rezultate iskanja"),
-    )
-    category_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    category_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    status_help_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    status_help_text = models.TextField(
-        null=True,
-        blank=True,
-    )
+    # search_title = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=_("Naslov te strani, ko prikazuje rezultate iskanja"),
+    # )
+    # category_label = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # category_placeholder = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # search_label = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # search_placeholder = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # status_help_label = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # status_help_text = models.TextField(
+    #     null=True,
+    #     blank=True,
+    # )
     about_statuses_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
@@ -262,28 +287,28 @@ class PromiseListingPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    about_statuses_text = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    no_results = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
+    # about_statuses_text = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
+    # no_results = models.CharField(
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    # )
 
     content_panels = Page.content_panels + [
-        FieldPanel("search_title"),
-        FieldPanel("category_label"),
-        FieldPanel("category_placeholder"),
-        FieldPanel("search_label"),
-        FieldPanel("search_placeholder"),
-        FieldPanel("status_help_label"),
-        FieldPanel("status_help_text"),
+        # FieldPanel("search_title"),
+        # FieldPanel("category_label"),
+        # FieldPanel("category_placeholder"),
+        # FieldPanel("search_label"),
+        # FieldPanel("search_placeholder"),
+        # FieldPanel("status_help_label"),
+        # FieldPanel("status_help_text"),
         FieldPanel("about_statuses_link"),
-        FieldPanel("about_statuses_text"),
-        FieldPanel("no_results"),
+        # FieldPanel("about_statuses_text"),
+        # FieldPanel("no_results"),
     ]
 
     parent_page_types = ["home.HomePage"]
@@ -294,7 +319,7 @@ class PromiseListingPage(Page):
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
         context['category_image'] = None
-        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
+        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('kategorija', None)).first()
         if chosen_category:
             context['category_image'] = chosen_category.image_listing_page
             context['category_name'] = chosen_category.name
@@ -302,13 +327,13 @@ class PromiseListingPage(Page):
         # get set of all promises and order them by latest update
         all_promises = (
             PromisePage.objects.all()
-            .child_of(self)
+            .child_of(self) # promises that belong to this mandate
             .annotate(latest_update=Max("updates__date"))
-            .order_by("-latest_update")
+            .order_by("latest_update")
         )
 
         # filter promises by search query, if there is one in url params
-        search_query = request.GET.get("query", None)
+        search_query = request.GET.get("isci", None)
         if search_query:
             filtered_promises = all_promises.search(
                 search_query,
@@ -318,7 +343,7 @@ class PromiseListingPage(Page):
             filtered_promises = all_promises
 
         # filter promises by category, if there is one in url params
-        category = request.GET.get("category", None)
+        category = request.GET.get("kategorija", None)
         if category:
            filtered_promises = filtered_promises.filter(categories__slug=category)
 

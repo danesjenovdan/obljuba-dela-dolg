@@ -145,3 +145,31 @@ class PromiseUpdate(Orderable):
         blank=True,
         verbose_name=_("Vsebina"),
     )
+    conclusion = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Sklep"),
+    )
+
+class Party(models.Model):
+    name = models.TextField(verbose_name=_("Ime stranke"))
+    icon = models.ForeignKey(
+        "wagtailimages.Image",
+        verbose_name=_("Logotip"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    def __str__(self):
+        return self.name
+
+    panels = [
+        FieldPanel("name"),
+        ImageChooserPanel("icon"),
+    ]
+
+    class Meta:
+        verbose_name = "Stranka"
+        verbose_name_plural = "Stranke"

@@ -12,11 +12,9 @@
                 <div class="my-5">{% image page.image width-1444 class="img-fluid w-100" %}</div>
             </div>
             <div class="col-lg-4 d-flex flex-column align-items-center align-items-lg-start justify-content-end">
-                {% comment %}
                 <h1 class="mb-4">
-                    {{ page.title }}
+                    {{ page.subtitle }}
                 </h1>
-                {% endcomment %}
                 <p class="mb-4">
                     {{ page.description }}
                 </p>
@@ -29,52 +27,27 @@
                 </div>
                 {% endif %}
             </div>
+            <form action="{% if page.current_mandate %}{% pageurl page.current_mandate %}{% endif %}" method="get">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-xl-4 search-input position-relative">
+                        <input type="text" placeholder="Vpiši iskalni pojem" name="isci" class="form-control">
+                        <button type="submit" class="input-btn btn-primary">
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 {% infopush %}
 
-<div class="container-fluid bg-beige py-5 home-page">
+<div class="container-fluid bg-beige home-page extra-padding">
     <div class="container">
-        <div class="row categories">
+        <div class="row">
             <div class="col">
-                <h2 class="my-4 text-center">{{ page.categories_heading }}</h2>
-                <div class="row">
-                    {% for category in promise_categories %}
-                    <div class="col-md-6 col-lg-3 my-3">
-                        <a href="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}?category={{ category.slug }}">
-                            <div class="category-box position-relative hover-animation">
-                                <h4>{{ category.name }}</h4>
-                                <div class="position-absolute category-image animated">{% image category.image_card width-1444 %}</div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid bg-beige extra-padding home-page">
-    <div class="container">
-        <div class="row justify-content-center position-relative">
-            <div class="col-10 col-md-8 col-lg-6 col-xl-4 blob d-none d-sm-block">
-                <img src="{% static 'images/blob-beige.svg' %}" />
-            </div>
-            <div class="col-12 search-section">
-                <h2 class="my-4 text-center">{{ page.search_heading }}</h2>
-                <form action="{% if page.search_link %}{% pageurl page.search_link %}{% endif %}" method="get">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6 col-xl-4 search-input position-relative">
-                            <input type="text" placeholder="{{ page.search_placeholder }}" name="query" class="form-control">
-                            <button type="submit" class="input-btn btn-primary">
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <h2 class="my-4 text-center">Stanje izbranih koalicijskih obljub </h2>
             </div>
         </div>
     </div>
@@ -83,14 +56,15 @@
 <div class="container home-page extra-padding">
     <div class="row text-center mt-3">
         <div class="col">
-            <h2 class="mb-5">{{ page.latest_heading }}</h2>
+            <h2 class="mb-5">Zadnje spremembe</h2>
+            <h6>5 zadnjih obljub, ki smo jih analizirali in njihove posodobitve</h6>
             <div>
                 <table class="table mb-5">
                     <tbody>
                         {% for promise in promises %}
                         <tr class="d-flex flex-column flex-md-row">
                             <td class="col-12 col-md-11">
-                                <a href="{% if page.search_link %}{% pageurl page.search_link %}{{ promise.slug }}{% endif %}">
+                                <a href="{% if page.current_mandate %}{% pageurl page.current_mandate %}{{ promise.slug }}{% endif %}">
                                     <h6>{{ promise.title }}</h6>
                                     <div>
                                         {% for category in promise.categories.all %}
@@ -115,9 +89,9 @@
                 </table>
             </div>
             <div class="mb-5">
-                <a href="{% if page.latest_link %}{% pageurl page.latest_link %}{% endif %}" class="hover-animation">
+                <a href="{% pageurl page.current_mandate %}" class="hover-animation">
                     <div class="latest-button btn btn-primary d-inline-flex justify-content-center align-items-center">
-                        <span>{{ page.latest_button_text }}</span>
+                        <span>Vse obljube</span>
                         <span class="icon-arrow-right animated"></span>
                     </div>
                 </a>
@@ -130,7 +104,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="text-center mb-5">{{ page.social_heading }}</h2>
+                <h2 class="text-center mb-5">Spremljaj potek izpolnjevanja obljub</h2>
                 <div class="row mb-5">
                     <div class="col-12 col-lg-6 mb-5">
                         <div class="newsletter bg-primary text-light h-100">
@@ -140,7 +114,7 @@
                                 </div>
                                 <div class="col-12 col-lg-8">
                                     <form onsubmit="">
-                                        <h5><label>{{ settings.home.MetaSettings.newsletter_label }}</label></h5>
+                                        <h5><label>Prijavi se na mesečni e-novičnik</label></h5>
                                         <div class="go-input position-relative">
                                             <input id="email" type="email" name="email" required class="form-control" />
                                             <button type="submit" class="input-btn btn-primary hover-animation">
@@ -164,7 +138,7 @@
                         <div class="socials bg-primary text-light h-100">
                             <div class="row">
                                 <div class="col-9">
-                                    <h5>{{ settings.home.MetaSettings.social_label }}</h5>
+                                    <h5>Spremljaj platformo Obljuba dela dolg na družbenih omrežjih</h5>
                                     <div class="d-flex">
                                         <a href="{{ settings.home.MetaSettings.facebook }}">
                                             <div class="social-circle d-flex justify-content-center align-items-center">
@@ -189,4 +163,28 @@
         </div>
     </div>
 </div>
+
+<div class="container-fluid py-5 home-page">
+    <div class="container">
+        <div class="row categories">
+            <div class="col">
+                <h2 class="my-4 text-center">Kategorije političnih obljub</h2>
+                <div class="row">
+                    {% for category in promise_categories %}
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <a href="{% if page.current_mandate %}{% pageurl page.current_mandate %}{% endif %}?kategorija={{ category.slug }}">
+                            <div class="category-box position-relative hover-animation">
+                                <h4>{{ category.name }}</h4>
+                                <div class="position-absolute category-image animated">{% image category.image_card width-1444 %}</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

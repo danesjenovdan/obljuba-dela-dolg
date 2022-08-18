@@ -12,8 +12,8 @@
                 <div class="row">
                     <div class="col-12">
                         <h1 class="mb-4">
-                            {% if page.search_title and request.GET.query %}
-                            {{ page.search_title }} »{{ request.GET.query }}«
+                            {% if request.GET.isci %}
+                            Rezultati za »{{ request.GET.isci }}«
                             {% elif category_name %}
                             {{ category_name }}
                             {% else %}
@@ -26,12 +26,12 @@
                     <div class="row">
                         <div class="col-lg-6 mb-4">
                             <div class="form-group">
-                                <label for="select-category">{{ page.category_label }}</label>
+                                <!-- <label for="select-category">{{ page.category_label }}</label> -->
                                 <div class="position-relative select-input">
-                                    <select id="select-category" name="category" class="form-control" onchange="selectCategory()">
-                                        <option value="" selected>{% if page.category_placeholder %}{{ page.category_placeholder }}{% endif %}</option>
+                                    <select id="select-category" name="kategorija" class="form-control" onchange="selectCategory()">
+                                        <option value="" selected>Izberi vsebinsko polje</option>
                                         {% for category in promise_categories %}
-                                        <option value="{{ category.slug }}" {% if category.slug == request.GET.category %}selected="selected"{% endif %}>{{ category.name }}</option>
+                                        <option value="{{ category.slug }}" {% if category.slug == request.GET.kategorija %}selected="selected"{% endif %}>{{ category.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="input-btn d-flex align-items-center">
@@ -42,9 +42,9 @@
                         </div>
                         <div class="col-lg-6 mb-4">
                             <div class="form-group">
-                                <label for="search-header">{{ page.search_label }}</label>
+                                <!-- <label for="search-header">{{ page.search_label }}</label> -->
                                 <div class="search-input position-relative d-flex align-items-center">
-                                    <input type="text" id="search-header" placeholder="{% if page.search_placeholder %}{{ page.search_placeholder }}{% endif %}" name="query" class="form-control" value="{{ request.GET.query }}">
+                                    <input type="text" id="search-header" placeholder="Vpiši ključno besedo" name="isci" class="form-control" value="{{ request.GET.isci }}">
                                     <button class="btn-primary input-btn" type="submit">
                                         <span></span>
                                     </button>
@@ -69,7 +69,7 @@
     <div class="container">
         <div class="row mb-4 my-lg-4">
             <div class="d-none d-lg-flex col-12 filters justify-content-center">
-                <a href="?category={{ request.GET.category }}&query={{ request.GET.query }}" class="{% if not request.GET.status %}active{% endif %}">
+                <a href="?kategorija={{ request.GET.kategorija }}&isci={{ request.GET.isci }}" class="{% if not request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black;">
                             {% image status.icon width-1444 %}
@@ -78,7 +78,7 @@
                     </div>
                 </a>
                 {% for status in promise_statuses %}
-                <a href="?category={{ request.GET.category }}&status={{ status.slug }}&query={{ request.GET.query }}" class="{% if status.slug == request.GET.status %}active{% endif %}">
+                <a href="?kategorija={{ request.GET.kategorija }}&status={{ status.slug }}&isci={{ request.GET.isci }}" class="{% if status.slug == request.GET.status %}active{% endif %}">
                     <div>
                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                             {% image status.icon width-1444 %}
@@ -133,12 +133,14 @@
         <div class="row">
             {% if promises %}
             <div class="col-12">
-                <a href="{% if page.about_statuses_link %}{% pageurl page.about_statuses_link %}{% endif %}" class="icon-information">
+                {% if page.about_statuses_link %}
+                <a href="{% pageurl page.about_statuses_link %}" class="icon-information">
                     <div class="d-flex align-items-center justify-content-end mb-1">
                         <img src="{% static 'icons/information.svg' %}" class="mx-2" />
-                        <span>{{ page.about_statuses_text }}</span>
+                        <span>Kaj pomenijo posamezni statusi?</span>
                     </div>
                 </a>
+                {% endif %}
                 <table class="table mb-5">
                     <tbody>
                     {% for promise in promises %}
@@ -171,7 +173,7 @@
             {% endif %}
             {% if not promises %}
             <div class="col-12 no-results">
-                {{ page.no_results }}
+                Nobena obljuba ne ustreza danim filtrom.
             </div>
             {% endif %}
         </div>
