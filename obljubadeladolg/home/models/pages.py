@@ -53,24 +53,6 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    # TO GRE MOGOČE VEN?
-    # categories_heading = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # TO GRE VEN
-    # search_heading = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # TO BO ZDEJ HARDCODANO
-    # search_placeholder = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
     current_mandate = models.ForeignKey(
         "wagtailcore.Page",
         verbose_name=_('Trenutno aktualna stran z obljubami'),
@@ -79,29 +61,6 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    # latest_heading = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # latest_link = models.ForeignKey(
-    #     "wagtailcore.Page",
-        
-    #     null=True,
-    #     blank=True,
-    #     on_delete=models.SET_NULL,
-    #     related_name="+",
-    # )
-    # latest_button_text = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # social_heading = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
     newsletter_image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_('Slika ob polju za prijavo na novice'),
@@ -125,14 +84,7 @@ class HomePage(Page):
         PageChooserPanel("more_link"),
         FieldPanel("more_link_text"),
         ImageChooserPanel("image"),
-        # FieldPanel("categories_heading"),
-        # FieldPanel("search_heading"),
-        # FieldPanel("search_placeholder"),
         PageChooserPanel("current_mandate"),
-        # FieldPanel("latest_heading"),
-        # PageChooserPanel("latest_link"),
-        # FieldPanel("latest_button_text"),
-        # FieldPanel("social_heading"),
         ImageChooserPanel("newsletter_image"),
         ImageChooserPanel("social_media_image"),
     ]
@@ -141,23 +93,32 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
+
         context["promise_categories"] = PromiseCategory.objects.all().order_by('id') # TODO this is a hack
-        context["promises"] = (
+
+        promises = (
             PromisePage.objects.live()
             .child_of(self.current_mandate) # promises that belong to this mandate
-            .annotate(latest_update=Max("updates__date"))
-            .order_by("-latest_update")[:10]
         )
+        context["promises"] = promises.annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:10]
+        
+        all_statuses = PromiseStatus.objects.all().order_by('order_no')
+        context["promise_statuses"] = all_statuses
+        # get number of filtered promises for each status
+        promises_by_statuses = {}
+        for promise in promises:
+            if (promises_by_statuses.get(promise.status.slug)):
+                promises_by_statuses[promise.status.slug].append(promise)
+            else:
+                promises_by_statuses[promise.status.slug] = [promise]
+        context["promises_by_statuses"] = promises_by_statuses
+
+        context["current_mandate"] = self.current_mandate
+
         return context
 
 
 class PromisePage(Page):
-    # ta full_text pusti zakomentiran, ampak zaenkrat zgleda, da se ga ne bo rabilo
-    # full_text = models.TextField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=_("Polno besedilo obljube"),
-    # )
     quote = models.TextField(
         null=True,
         blank=True,
@@ -235,9 +196,28 @@ class PromisePage(Page):
         return self.updates.order_by("date")[1:] # vemo, da bo vedno vsaj ena, sicer obljube ne moreš ustvariti
 
     @property
+    def latest_updates(self):
+        sorted_updates = self.updates.order_by("-date")
+        latest_update = sorted_updates.first() if sorted_updates else None
+        second_to_latest_update = sorted_updates[1] if len(sorted_updates) > 1 else None
+        return (latest_update, second_to_latest_update)
+
+    @property
     def status(self):
         latest_update = self.updates.order_by("-date").first()
         return latest_update.status if latest_update else None
+
+    @property
+    def first_category(self):
+        cat = self.categories.first()
+        return cat.image_card if cat else None
+
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["current_mandate"] = self.get_parent()
+
+        return context
 
     class Meta:
         verbose_name = "Obljuba"
@@ -245,41 +225,6 @@ class PromisePage(Page):
 
 
 class PromiseListingPage(Page):
-    # search_title = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=_("Naslov te strani, ko prikazuje rezultate iskanja"),
-    # )
-    # category_label = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # category_placeholder = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # search_label = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # search_placeholder = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # status_help_label = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # status_help_text = models.TextField(
-    #     null=True,
-    #     blank=True,
-    # )
     about_statuses_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
@@ -287,28 +232,9 @@ class PromiseListingPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    # about_statuses_text = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
-    # no_results = models.CharField(
-    #     max_length=255,
-    #     null=True,
-    #     blank=True,
-    # )
 
     content_panels = Page.content_panels + [
-        # FieldPanel("search_title"),
-        # FieldPanel("category_label"),
-        # FieldPanel("category_placeholder"),
-        # FieldPanel("search_label"),
-        # FieldPanel("search_placeholder"),
-        # FieldPanel("status_help_label"),
-        # FieldPanel("status_help_text"),
         FieldPanel("about_statuses_link"),
-        # FieldPanel("about_statuses_text"),
-        # FieldPanel("no_results"),
     ]
 
     parent_page_types = ["home.HomePage"]
@@ -376,6 +302,8 @@ class PromiseListingPage(Page):
         promises = paginator.get_page(page_number)
         context["promises"] = promises
         context["paginator"] = paginator
+
+        context["current_mandate"] = self
 
         return context
 
