@@ -117,9 +117,6 @@ spec:
             - name: obljubadeladolg-staging-persistent-storage
               mountPath: /usr/share/nginx/html
           resources:
-            requests:
-              memory: 500Mi
-              cpu: 300m
             limits:
               memory: 500Mi
               cpu: 300m
