@@ -51,13 +51,13 @@ spec:
           envFrom:
             - secretRef:
                 name: obljubadeladolg-credentials
-          resources:
+          # resources:
             # requests:
             #   memory: 1Gi
             #   cpu: 500m
-            limits:
-              memory: 1Gi
-              cpu: 500m
+            # limits:
+            #   memory: 1Gi
+            #   cpu: 500m
         - name: migrate
           image: obljubadeladolg-staging
           command:
@@ -70,13 +70,13 @@ spec:
           envFrom:
             - secretRef:
                 name: obljubadeladolg-credentials
-          resources:
+          # resources:
             # requests:
             #   memory: 1Gi
             #   cpu: 500m
-            limits:
-              memory: 1Gi
-              cpu: 500m
+            # limits:
+            #   memory: 1Gi
+            #   cpu: 500m
       containers:
         - name: obljubadeladolg-staging
           image: obljubadeladolg-staging
@@ -100,13 +100,13 @@ spec:
               value: obljubadeladolg.settings.production
             # - name: DJANGO_DEBUG
             #   value: 'True'
-          resources:
+          # resources:
             # requests:
             #   memory: 1Gi
             #   cpu: 1000m
-            limits:
-              memory: 1Gi
-              cpu: 1000m
+            # limits:
+            #   memory: 1Gi
+            #   cpu: 1000m
         - name: obljubadeladolg-staging-nginx
           ports:
             - name: http
@@ -116,10 +116,10 @@ spec:
           volumeMounts:
             - name: obljubadeladolg-staging-persistent-storage
               mountPath: /usr/share/nginx/html
-          resources:
+          # resources:
             # requests:
             #   memory: 500Mi
             #   cpu: 300m
-            limits:
-              memory: 500Mi
-              cpu: 300m
+            # limits:
+            #   memory: 500Mi
+            #   cpu: 300m
