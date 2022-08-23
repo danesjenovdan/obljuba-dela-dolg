@@ -52,9 +52,9 @@ spec:
             - secretRef:
                 name: obljubadeladolg-credentials
           resources:
-            requests:
-              memory: 1Gi
-              cpu: 500m
+            # requests:
+            #   memory: 1Gi
+            #   cpu: 500m
             limits:
               memory: 1Gi
               cpu: 500m
@@ -71,9 +71,9 @@ spec:
             - secretRef:
                 name: obljubadeladolg-credentials
           resources:
-            requests:
-              memory: 1Gi
-              cpu: 500m
+            # requests:
+            #   memory: 1Gi
+            #   cpu: 500m
             limits:
               memory: 1Gi
               cpu: 500m
@@ -101,9 +101,9 @@ spec:
             # - name: DJANGO_DEBUG
             #   value: 'True'
           resources:
-            requests:
-              memory: 1Gi
-              cpu: 1000m
+            # requests:
+            #   memory: 1Gi
+            #   cpu: 1000m
             limits:
               memory: 1Gi
               cpu: 1000m
@@ -117,6 +117,9 @@ spec:
             - name: obljubadeladolg-staging-persistent-storage
               mountPath: /usr/share/nginx/html
           resources:
+            # requests:
+            #   memory: 500Mi
+            #   cpu: 300m
             limits:
               memory: 500Mi
               cpu: 300m
