@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: obljubadeladolg
+  name: obljubadeladolg-staging
 spec:
   selector:
-    app: obljubadeladolg
+    app: obljubadeladolg-staging
   ports:
     - protocol: TCP
       port: 8000
@@ -16,7 +16,7 @@ metadata:
   name: obljubadeladolg-nginx
 spec:
   selector:
-    app: obljubadeladolg
+    app: obljubadeladolg-staging
   ports:
     - protocol: TCP
       port: 80

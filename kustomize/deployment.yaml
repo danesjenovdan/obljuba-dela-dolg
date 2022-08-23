@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: obljubadeladolg-deployment
+  name: obljubadeladolg-staging
   labels:
-    app: obljubadeladolg
+    app: obljubadeladolg-staging
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: obljubadeladolg
+      app: obljubadeladolg-staging
   template:
     metadata:
       labels:
-        app: obljubadeladolg
+        app: obljubadeladolg-staging
     spec:
       securityContext:
         fsGroup: 1000
       volumes:
-        - name: obljubadeladolg-persistent-storage
+        - name: obljubadeladolg-staging-persistent-storage
           persistentVolumeClaim:
-            claimName: obljubadeladolg-pvc
+            claimName: obljubadeladolg-staging-pvc
       initContainers:
         # - name: fixmanifest
         #   image: obljubadeladolg
@@ -36,9 +36,9 @@ spec:
         #     - secretRef:
         #         name: obljubadeladolg-credentials
         - name: collectstatic
-          image: obljubadeladolg
+          image: obljubadeladolg-staging
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
+            - name: obljubadeladolg-staging-persistent-storage
               mountPath: /pvc
           command:
             - python
@@ -59,7 +59,7 @@ spec:
               memory: 1Gi
               cpu: 500m
         - name: migrate
-          image: obljubadeladolg
+          image: obljubadeladolg-staging
           command:
             - python
             - manage.py
@@ -78,10 +78,10 @@ spec:
               memory: 1Gi
               cpu: 500m
       containers:
-        - name: obljubadeladolg
-          image: obljubadeladolg
+        - name: obljubadeladolg-staging
+          image: obljubadeladolg-staging
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
+            - name: obljubadeladolg-staging-persistent-storage
               mountPath: /pvc
           command:
             - gunicorn
@@ -107,14 +107,14 @@ spec:
             limits:
               memory: 1Gi
               cpu: 1000m
-        - name: obljubadeladolg-nginx
+        - name: obljubadeladolg-staging-nginx
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           image: nginx:alpine
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
+            - name: obljubadeladolg-staging-persistent-storage
               mountPath: /usr/share/nginx/html
           resources:
             requests:

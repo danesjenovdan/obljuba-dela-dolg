@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: obljubadeladolg
+  name: obljubadeladolg-staging
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
@@ -10,25 +10,24 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - obljubadeladolg.lb.djnd.si
-        # - www.obljubadeladolg.si
+        - staging.obljubadeladolg.lb.djnd.si
       secretName: obljubadeladolg-tls
   rules:
-    - host: obljubadeladolg.lb.djnd.si
+    - host: staging.obljubadeladolg.lb.djnd.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: obljubadeladolg
+                name: obljubadeladolg-staging
                 port:
                   number: 8000
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: obljubadeladolg-nginx
+  name: obljubadeladolg-staging-nginx
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
     nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -40,16 +39,16 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - files.obljubadeladolg.lb.djnd.si
+        - files.staging.obljubadeladolg.lb.djnd.si
       secretName: obljubadeladolg-nginx-tls
   rules:
-    - host: files.obljubadeladolg.lb.djnd.si
+    - host: files.staging.obljubadeladolg.lb.djnd.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: obljubadeladolg-nginx
+                name: obljubadeladolg-staging-nginx
                 port:
                   number: 80
