@@ -110,18 +110,11 @@ function selectCategory() {
 }
 
 function selectStatus() {
-    let category = document.getElementById("select-category").value;
-    let query = document.getElementById("search-header").value;
+    // let category = document.getElementById("select-category").value;
+    // let query = document.getElementById("search-header").value;
+    // TODO: porihti za mobile
     let popup = document.getElementById('filters-mobile');
-    let status = popup.getElementsByClassName("active")[0].dataset.status;
-    window.location.href = '?kategorija=' + category + '&isci=' + query + '&status=' + status;
-}
-
-function makeActive(el) {
-    let popup = document.getElementById('filters-mobile');
-    let options = popup.getElementsByClassName("option");
-    for (const option of options){
-        option.classList.remove("active");
-    }
-    el.classList.add("active");
+    // let status = popup.getElementsByClassName("active")[0].dataset.status;
+    // window.location.href = '?kategorija=' + category + '&isci=' + query + '&status=' + status;
+    document.getElementById("query-form").submit();
 }
