@@ -4,3 +4,5 @@
 
 # kustomize secrets
 /kustomize/secrets.yaml
+
+.DS_Store
