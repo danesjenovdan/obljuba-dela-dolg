@@ -125,16 +125,6 @@ class MetaSettings(BaseSetting):
         null=True,
         blank=True,
     )
-    share_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    share_sublabel = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
 
     social_tab_panels = [
         FieldPanel("facebook"),
@@ -146,8 +136,6 @@ class MetaSettings(BaseSetting):
         FieldPanel("newsletter_label"),
         FieldPanel("newsletter_sublabel"),
         FieldPanel("newsletter_consent"),
-        FieldPanel("share_label"),
-        FieldPanel("share_sublabel"),
     ]
 
     meta_title = models.CharField(

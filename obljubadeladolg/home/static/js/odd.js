@@ -53,27 +53,6 @@
 })();
 
 (function () {
-    var shareLinks = document.querySelectorAll(".socials .social-circle");
-    shareLinks.forEach((shareLink) => {
-        shareLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            if (event.currentTarget.className.indexOf('isfbbox') != -1) {
-                const url = `https://www.facebook.com/dialog/feed?app_id=220548529891725&redirect_uri=${encodeURIComponent(document.location.href)}&link=${encodeURIComponent(document.location.href)}&ref=responsive`;
-                window.open(url, '_blank');
-            }
-            if (event.currentTarget.className.indexOf('istwbox') != -1) {
-                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${window.SHARE_TWEET_TEXT} ${document.location.href}`)}`;
-                window.open(url, '_blank');
-            }
-            if (event.currentTarget.className.indexOf('isembox') != -1) {
-                const url = `mailto:?subject=OBLJUBA+DELA+DOLG&body=${encodeURIComponent(window.SHARE_EMAIL_TEXT)}`;
-                window.open(url, '_blank');
-            }
-        });
-    });
-})();
-
-(function () {
     let popup = document.getElementById('filters-mobile');
     let popupButton = document.getElementById('filters-mobile-button');
     let disableBackground = document.getElementById('disable-background');
@@ -117,4 +96,28 @@ function selectStatus() {
     // let status = popup.getElementsByClassName("active")[0].dataset.status;
     // window.location.href = '?kategorija=' + category + '&isci=' + query + '&status=' + status;
     document.getElementById("query-form").submit();
+}
+
+function readMore(event, id) {
+    if (id) {
+        let updateContent = document.getElementById(id);
+        updateContent.classList.toggle('d-none');
+
+        let button = event.target;
+
+        if (!button.classList.contains('read-more')) {
+            button = button.parentElement;
+        }
+        
+        button.classList.toggle('close');
+        console.log("clicked", button)
+
+        if (button.classList.contains('close')) {
+            button.firstElementChild.textContent = 'Zapri';
+            console.log(button.firstChild)
+        } else {
+            button.firstElementChild.textContent = 'Preberi celotno analizo';
+        }
+        
+    }
 }

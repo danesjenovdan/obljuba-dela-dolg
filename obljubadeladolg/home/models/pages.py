@@ -164,7 +164,15 @@ class PromisePage(Page):
     )
     party_promised = models.TextField(
         blank=True, 
-        verbose_name=_('Stranka je obljubila')
+        verbose_name='Stranka je obljubila'
+    )
+    newsletter_box_title = models.TextField(
+        blank=True,
+        verbose_name='Novičnik naslov v škatli'
+    )
+    newsletter_box_text = models.TextField(
+        blank=True,
+        verbose_name='Novičnik tekst v škatli'
     )
 
     content_panels = Page.content_panels + [
@@ -182,6 +190,8 @@ class PromisePage(Page):
         FieldPanel("party"),
         FieldPanel("party_promised"),
         InlinePanel("updates", label="Posodobitve", min_num=1),
+        FieldPanel("newsletter_box_title"),
+        FieldPanel("newsletter_box_text"),
     ]
 
     promote_panels = Page.promote_panels + [
@@ -244,11 +254,14 @@ class PromiseListingPage(Page):
         context["promise_categories"] = PromiseCategory.objects.all()
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
+
+        # kje je to že needed? 
         context['category_image'] = None
         chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('kategorija', None)).first()
         if chosen_category:
             context['category_image'] = chosen_category.image_listing_page
             context['category_name'] = chosen_category.name
+        # ***********************
 
         # get set of all promises and order them by latest update
         all_promises = (

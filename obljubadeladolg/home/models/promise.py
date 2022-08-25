@@ -134,6 +134,10 @@ class PromiseUpdate(Orderable):
         default=timezone.now,
         verbose_name=_("Datum"),
     )
+    update_author = models.TextField(
+        blank=True,
+        verbose_name=_("Avtor/ica posodobitve")
+    )
     status = models.ForeignKey(
         "home.PromiseStatus",
         on_delete=models.CASCADE,

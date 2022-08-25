@@ -286,12 +286,16 @@ input[type="text"], input[type="email"] {
     width: 240px;
     margin-right: 10px;
   }
+
   .input-btn {
     right: 14px;
     top: 6px;
     bottom: 0;
     background-color: transparent;
     box-shadow: none;
+    cursor: pointer;
+    pointer-events: none;
+
     span {
       background-image: url("../icons/arrow-down.svg");
     }
@@ -845,6 +849,19 @@ footer {
   }
 }
 
+.rich-text .update-author {
+  font-family: $font-family-open-sans;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.rich-text .update-date {
+  font-family: $font-family-open-sans;
+  font-size: 14px;
+  color: #4e536a;
+}
+
 .content-page {
   .hero {
     h2 {
@@ -921,6 +938,7 @@ footer {
     }
   }
 }
+
 .promise-page {
   .hero {
     h1 {
@@ -928,6 +946,7 @@ footer {
       font-size: 3rem;
       line-height: 1;
     }
+
     .tag {
       font-family: $font-family-open-sans;
       font-weight: 300;
@@ -940,21 +959,24 @@ footer {
       box-decoration-break: clone;
       line-height: 2;
     }
+
     .quote {
-      margin-left: 4rem;
-      margin-top: 3rem;
+      // margin-left: 4rem;
+      margin-top: 3.5rem;
       position: relative;
       z-index: 1;
+
       p {
         font-size: 1.5rem;
         line-height: 1.1;
         font-weight: 400;
       }
+
       &:before {
         content: ' ';
         position: absolute;
-        left: -4rem;
-        top: -1rem;
+        // left: -4rem;
+        top: -3.5rem;
         width: 3rem;
         height: 3rem;
         background-image: url("../icons/quote.png");
@@ -962,51 +984,54 @@ footer {
         background-repeat: no-repeat;
       }
     }
+
     .promise-status {
-      .white-blob {
-        position: absolute;
-        top: 0;
-        width: 90%;
-        height: 20rem;
-        background-image: url("../images/blob-white.svg");
-        background-repeat: no-repeat;
-        background-size: contain;
-        transform: scaleX(-1);
-        @media (min-width: 768px) {
-          width: 20rem;
-          height: 20rem;
-        }
-      }
-      div:last-child {
-        color: black;
-        margin-left: 3rem;
-        margin-top: 2rem;
-        width: 75%;
-        @media (min-width: 768px) {
-          width: 50%;
-        }
+
+      .white-box {
+        background-color: white;
+        padding: 32px;
+        margin: 0 0 3rem 4rem;
+
         .icon {
           width: 3rem;
           height: 3rem;
           border-radius: 1.5rem;
-          margin-bottom: 0.5rem;
+
           img {
             width: 2rem;
             height: 2rem;
           }
         }
-        span {
-          font-size: 1.5rem;
-          text-transform: uppercase;
-          font-weight: 700;
-        }
+
+        .description {
+          margin-left: 10px;
+
+          span {
+            display: block;
+
+            &:first-child {
+              font-size: 12px;
+              line-height: 12px;
+              font-family: $font-family-open-sans;
+            }
+
+            &:last-child {
+              font-size: 30px;
+              line-height: 26px;
+              text-transform: uppercase;
+              font-weight: 700;
+            }
+          }
+        }        
+
         hr {
           margin: 0.75rem 0;
         }
+
         p {
-          font-size: 0.6rem;
+          font-size: 18px;
           font-family: $font-family-open-sans;
-          color: #565656;
+          margin-bottom: 0;
         }
       }
     }
@@ -1023,30 +1048,73 @@ footer {
       }
     }
   }
-  .header-image {
-    top: -8rem;
-    left: -8rem;
-    img {
-      transform: rotate(-5deg);
-    }
-  }
+
   .update {
+    .update-conclusion {
+      background-color: #eeeffb;
+      padding: 32px;
+      margin: 32px 0;
+    
+      h4 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        margin-top: 0;
+      }
+    
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+    }
+    
+    .read-more {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #0f15c7;
+      font-family: $font-family-open-sans;
+      cursor: pointer;
+
+      span:first {
+        margin-bottom: 4px;
+      }
+
+      .arrow-down {
+        background-image: url("../icons/arrow-down.svg");
+        width: 12px;
+        height: 16px;
+        display: block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-left: 6px;
+      }
+
+      &.close {
+        .arrow-down {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    
     .status {
       white-space: nowrap;
 
       @media (min-width: 992px) {
-        left: 1.5rem;
+        left: 33px;
       }
       @media (min-width: 1200px) {
-        left: 2.125rem
+        left: 44px;
       }
       @media (min-width: 1400px) {
-        left: 2.75rem;
+        left: 53px;
       }
+
       .status-text {
-        padding: 0.5rem 1rem 0.5rem 0.5rem;
+        padding: 4px 1rem 4px 4px;
         border-radius: 2rem;
-        background-color: white;
+        background-color: #eeeffb;
         text-transform: uppercase;
         white-space: nowrap;
         span {
@@ -1056,8 +1124,8 @@ footer {
         }
         .icon-status {
           background-color: #f4dde0;
-          width: 2.5rem;
-          height: 2.5rem;
+          width: 32px;
+          height: 32px;
           border-radius: 1.25rem;
           img {
             width: 70%;
@@ -1065,10 +1133,7 @@ footer {
           }
         }
       }
-      .date {
-        padding-left: 1.5rem;
-        font-weight: 700;
-      }
+
     }
     .line {
       background-color: #490b12;
@@ -1083,19 +1148,50 @@ footer {
     border: 4px solid #efeff2;
     margin-bottom: 1rem;
     padding: 2rem;
-    text-align: center;
+
     @media (min-width: 992px) {
       margin: 0 0 3rem 4rem;
     }
+
     h2 {
       color: $primary;
       font-weight: 700;
       line-height: 0.9;
     }
+    
     h5 {
       font-weight: 700;
       line-height: 0.9;
     }
+
+    &.party {
+      border: 0;
+
+      .party-image img {
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        margin-right: 10px;
+      }
+
+      h2 {
+        color: #000000;
+        font-size: 40px;
+      }
+
+      h5 {
+        font-size: 24px;
+      }
+
+      p {
+        font-family: $font-family-open-sans;
+        font-size: 16px;
+        font-weight: 300;
+        font-style: italic;
+        line-height: 24px;
+      }
+    }
+
     .social-circle {
       background-color: $primary;
       width: 3rem;
@@ -1145,6 +1241,11 @@ footer {
         margin-left: 1rem;
       }
     }
+  }
+
+  hr {
+    background-color: #bababa;
+    margin: 50px 0;
   }
 }
 
