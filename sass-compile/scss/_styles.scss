@@ -491,13 +491,9 @@ form.error {
   }
 }
 
-.hero {
-  border-top: 1px solid #787bc6;
-}
-
 .home-page {
   .hero {
-    // border-top: 1px solid #787bc6;
+    border-top: 1px solid #787bc6;
 
     h1 {
       font-size: 40px;
@@ -1251,6 +1247,8 @@ footer {
 
 .promise-listing-page {
   .hero {
+    border-top: 1px solid #787bc6;
+    
     h1 {
       line-height: 1;
       font-size: 60px;
