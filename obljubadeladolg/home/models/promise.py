@@ -165,15 +165,53 @@ class Party(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Mandat vlade"),
+    )
 
     def __str__(self):
-        return self.name
+        return self.name + ", " + self.mandate.title if self.name and self.mandate else self.name
 
     panels = [
         FieldPanel("name"),
         ImageChooserPanel("icon"),
+        FieldPanel("mandate"),
     ]
 
     class Meta:
         verbose_name = "Stranka"
         verbose_name_plural = "Stranke"
+
+class PartyMember(models.Model):
+    name = models.TextField(verbose_name=_("Ime"))
+    role = models.TextField(verbose_name=_("Vloga"))
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        verbose_name=_("Slika"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    party = models.ForeignKey(
+        Party,
+        on_delete=models.CASCADE,
+        related_name="+",
+        verbose_name=_("Stranka"),
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("role"),
+        ImageChooserPanel("image"),
+        FieldPanel("party"),
+    ]
+
+    class Meta:
+        verbose_name = "Član vlade"
+        verbose_name_plural = "Člani vlade"

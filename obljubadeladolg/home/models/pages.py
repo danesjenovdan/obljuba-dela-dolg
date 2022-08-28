@@ -17,7 +17,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
-from .promise import PromiseCategory, PromiseStatus, PromiseUpdate, Party
+from .promise import PromiseCategory, PromiseStatus, PromiseUpdate, Party, PartyMember
 
 
 class HomePage(Page):
@@ -379,3 +379,41 @@ class NewsletterPage(Page):
     class Meta:
         verbose_name = "Urejanje naročnine"
         verbose_name_plural = "Urejanja naročnin"
+
+class GovernmentPage(Page):
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Vladna stran za:"),
+    )
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Slika v glavi"),
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("mandate"),
+        ImageChooserPanel("header_image"),
+    ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["current_mandate"] = self.mandate
+
+        mandate_parties = Party.objects.filter(mandate=self.mandate)
+        context["mandate_parties"] = mandate_parties
+
+        context["government_members"] = PartyMember.objects.filter(party__in=mandate_parties)
+
+        return context
+
+    class Meta:
+        verbose_name = "Vladna stran"
+        verbose_name_plural = "Vladne strani"

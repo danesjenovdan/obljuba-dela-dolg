@@ -1,0 +1,70 @@
+{% extends "home/base_page.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}page page--content{% endblock %}
+
+{% block page_body %}
+
+<div class="container-fluid bg-beige government-page">
+    <div class="container">
+        <div class="row hero py-5">
+            <div class="col-12 col-lg-7">
+                <h1>
+                    {{ page.title }}
+                </h1>
+                <div class="party">
+                    {% for party in mandate_parties %}
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="party-image">
+                            {% image party.icon fill-200x200 %}
+                        </div>
+                        <h2>{{ party.name }}</h2>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                {% if page.header_image %}
+                {% image page.header_image width-1444 class="img-fluid w-100" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid government-page extra-padding h-100">
+    <div class="container">
+        <div class="row">
+            {% for member in government_members %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="member">
+                        <div class="member-description">
+                            <h6>{{ member.role }}</h6>
+                            <h4>{{ member.name }}</h4>
+                            <div class="member-image">
+                                {% image member.image width-1444 class="img-fluid" %}
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="d-flex align-items-center justify-content-center py-3">
+                            <div class="party-image">
+                                {% image member.party.icon fill-200x200 %}
+                            </div>
+                            <h5>{{ member.party.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="{% pageurl page.mandate %}" class="d-flex align-items-center justify-content-center my-5">
+                    <span>Pojdi na seznam njihovih obljub</span><span class="arrow-right-blue animated"></span>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
