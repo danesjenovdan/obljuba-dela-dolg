@@ -16,7 +16,7 @@ metadata:
   name: obljubadeladolg-staging-nginx
 spec:
   selector:
-    app: obljubadeladolg-staging-nginx
+    app: obljubadeladolg-staging
   ports:
     - protocol: TCP
       port: 80
