@@ -13,12 +13,12 @@
                     {{ page.subtitle }}
                 </h1>
                 <p class="mb-4">
-                    {{ page.description }}
+                    Sledimo izbranim koalicijskim obljubam <a href="{% pageurl page.current_mandate_government_page %}" class="dotted-link-white">15. Vlade Republike Slovenije</a>.
                 </p>
-                {% if page.more_link and page.more_link_text %}
+                {% if page.more_link %}
                 <div class="my-5">
                     <a href="{% pageurl page.more_link %}" class="position-relative hover-animation d-flex align-items-center">
-                        <span class="d-block">{{ page.more_link_text }}</span>
+                        <span class="d-block dotted-link-white">Obljube prejšnje vlade</span>
                         <span class="d-block arrow-right animated"></span>
                     </a>
                 </div>
@@ -41,9 +41,9 @@
                 <div class="promises-overview">
                     <div class="statuses">
                         {% for status in promise_statuses %}
-                            <div class="option">
+                            <a class="option" href="{% pageurl page.current_mandate %}?status={{ status.slug }}">
                                 <span class="{% if status.slug == request.GET.status %}active{% endif %}">{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
-                            </div>
+                            </a>
                         {% endfor %}
                     </div>
                     <div class="promises">
@@ -70,63 +70,63 @@
         <div class="col">
             <h2>Zadnje spremembe</h2>
             <h6>5 zadnjih obljub, ki smo jih analizirali in njihove posodobitve</h6>
-            <div class="promises-list container mb-5">
+            <div class="promises-list mb-5">
                 {% for promise in promises %}
-                <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="row">
-                    <!-- <tr class="d-flex flex-column flex-md-row"> -->
-                        <div class="col-12 col-md-3">
-                            {% if promise.first_category %}
-                            {% image promise.first_category width-1444 class="img-fluid w-100" %}
+                <hr />
+                <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex">
+                    <div class="col-12 col-md-2">
+                        {% if promise.first_category %}
+                        {% image promise.first_category width-1444 class="img-fluid w-100" %}
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-7 px-5">
+                        <div>
+                            {% for category in promise.categories.all %}
+                            <span class="tag">{{ category }}</span>
+                            {% endfor %}
+                        </div>
+                        <h4>{{ promise.title }}</h4>
+                        {% if promise.latest_updates.0 and promise.latest_updates.0.conclusion %}
+                        <p>
+                            {{ promise.latest_updates.0.conclusion }}
+                        </p>
+                        {% endif %}
+                        <div class="read-more">
+                            <span class="read-more-tag">
+                                Celotna analiza
+                            </span>
+                            <span class="arrow-right-blue animated"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 updates-column">
+                        <div class="text-center date">
+                            {{ promise.latest_updates.0.date|date:'j. F Y' }}
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            {% if promise.latest_updates.1 %}
+                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
+                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
+                                    {% image promise.latest_updates.1.status.icon width-1444 %}
+                                </div>
+                                <span class="status-text mx-2 mx-md-0">
+                                    {{ promise.latest_updates.1.status }}
+                                </span>
+                            </div>
+                            <div class="arrow-right-blue-long"></div>
                             {% endif %}
-                        </div>
-                        <div class="col-12 col-md-6">
-                                <div>
-                                    {% for category in promise.categories.all %}
-                                    <span class="tag">{{ category }}</span>
-                                    {% endfor %}
+                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
+                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                                    {% image promise.status.icon width-1444 %}
                                 </div>
-                                <h4>{{ promise.title }}</h4>
-                                {% if promise.latest_updates.0 %}
-                                <p>
-                                    {{ promise.latest_updates.0.conclusion }}
-                                </p>
-                                {% endif %}
-                                <div class="read-more">
-                                    <span class="read-more-tag">
-                                        Celotna analiza
-                                    </span>
-                                    <span class="arrow-right-blue animated"></span>
-                                </div>
-                        </div>
-                        <div class="col-12 col-md-3 updates-column">
-                            <div class="text-center date">
-                                {{ promise.latest_updates.0.date|date:'j. F Y' }}
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                {% if promise.latest_updates.1 %}
-                                <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
-                                        {% image promise.latest_updates.1.status.icon width-1444 %}
-                                    </div>
-                                    <span class="status-text mx-2 mx-md-0">
-                                        {{ promise.latest_updates.1.status }}
-                                    </span>
-                                </div>
-                                <div class="arrow-right-blue-long"></div>
-                                {% endif %}
-                                <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
-                                        {% image promise.status.icon width-1444 %}
-                                    </div>
-                                    <span class="status-text mx-2 mx-md-0">
-                                        {{ promise.status }}
-                                    </span>
-                                </div>
+                                <span class="status-text mx-2 mx-md-0">
+                                    {{ promise.status }}
+                                </span>
                             </div>
                         </div>
-                    <!-- </tr> -->
+                    </div>
                 </a>
                 {% endfor %}
+                <hr />
             </div>
             <div class="mb-5 d-flex justify-content-center">
                 <a href="{% pageurl page.current_mandate %}" class="hover-animation">
@@ -140,71 +140,9 @@
     </div>
 </div>
 
-<div class="container-fluid bg-beige home-page extra-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2 class="text-center mb-5">Spremljaj potek izpolnjevanja obljub</h2>
-                <div class="row mb-5">
-                    <div class="col-12 col-lg-6 mb-5">
-                        <div class="newsletter bg-primary text-light h-100">
-                            <div class="row">
-                                <div class="d-none d-lg-block col-4 newsletter-img">
-                                    {% image page.newsletter_image width-1444 %}
-                                </div>
-                                <div class="col-12 col-lg-8">
-                                    <form onsubmit="">
-                                        <h5><label>Prijavi se na mesečni e-novičnik</label></h5>
-                                        <div class="go-input position-relative">
-                                            <input id="email" type="email" name="email" required class="form-control" />
-                                            <button type="submit" class="input-btn btn-primary hover-animation">
-                                                <span class="animated"></span>
-                                            </button>
-                                        </div>
-                                        <div id="response"></div>
-                                        <div class="mt-3 checkbox d-flex align-items-center">
-                                            <label class="d-flex align-items-center">
-                                                <input type="checkbox" id="confirm-email" />
-                                                <span class="custom-checkbox"></span>
-                                                {{ settings.home.MetaSettings.newsletter_consent }}
-                                            </label>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 mb-5">
-                        <div class="socials bg-primary text-light h-100">
-                            <div class="row">
-                                <div class="col-9">
-                                    <h5>Spremljaj platformo Obljuba dela dolg na družbenih omrežjih</h5>
-                                    <div class="d-flex">
-                                        <a href="{{ settings.home.MetaSettings.facebook }}">
-                                            <div class="social-circle d-flex justify-content-center align-items-center">
-                                                <span class="fb-icon"></span>
-                                            </div>
-                                        </a>
-                                        <a href="{{ settings.home.MetaSettings.twitter }}">
-                                            <div class="social-circle d-flex justify-content-center align-items-center">
-                                                <span class="twitter-icon"></span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="d-none d-lg-block col-3 socials-img">
-                                    {% image page.social_media_image width-1444 %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% include "home/includes/sm_newsletter_section.html" %}
 
-<div class="container-fluid py-5 home-page">
+<div class="container-fluid py-5 home-page mb-5">
     <div class="container">
         <div class="row categories">
             <div class="col">

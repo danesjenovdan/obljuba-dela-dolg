@@ -5,174 +5,147 @@
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary promise-listing-page pb-4">
+<div class="container-fluid bg-primary promise-listing-page">
     <div class="container">
         <div class="row hero text-light py-5">
-            <div class="col-lg-7 offset-lg-1">
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="mb-4">
-                            {% if request.GET.isci %}
-                            Rezultati za »{{ request.GET.isci }}«
-                            {% elif category_name %}
-                            {{ category_name }}
-                            {% else %}
-                            {{ page.title }}
-                            {% endif %}
-                        </h1>
-                    </div>
-                </div>
-                <form action="" method="get" id="query-form">
-                    <div class="row">
-                        <div class="col-lg-6 mb-4">
-                            <div class="form-group">
-                                <!-- <label for="select-category">{{ page.category_label }}</label> -->
-                                <div class="position-relative select-input">
-                                    <select id="select-category" name="kategorija" class="form-control" onchange="selectCategory()">
-                                        <option value="" selected>Izberi vsebinsko polje</option>
-                                        {% for category in promise_categories %}
-                                        <option value="{{ category.slug }}" {% if category.slug == request.GET.kategorija %}selected="selected"{% endif %}>{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="input-btn d-flex align-items-center">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="form-group">
-                                <!-- <label for="search-header">{{ page.search_label }}</label> -->
-                                <div class="search-input position-relative d-flex align-items-center">
-                                    <input type="text" id="search-header" placeholder="Vpiši ključno besedo" name="isci" class="form-control" value="{{ request.GET.isci }}">
-                                    <button class="btn-primary input-btn" type="submit">
-                                        <span></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="col-12">
+                <h1 class="mb-4 text-center">
+                    {% if request.GET.isci %}
+                    Rezultati za »{{ request.GET.isci }}«
+                    {% elif category_name %}
+                    {{ category_name }}
+                    {% else %}
+                    {{ page.title }}
+                    {% endif %}
+                </h1>
             </div>
-            {% if category_image %}
-            <div class="col-lg-4 position-relative">
-                <div class="position-lg-absolute category-image">
-                    {% image category_image fill-300x300 %}
-                </div>
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
 
-<div class="container-fluid bg-beige promise-listing-page extra-padding flex-grow-1">
+<div class="container-fluid bg-beige promise-listing-page flex-grow-1">
     <div class="container">
-        <div class="row mb-4 my-lg-4">
-            <div class="d-none d-lg-flex col-12 filters justify-content-center">
-                <a href="?kategorija={{ request.GET.kategorija }}&isci={{ request.GET.isci }}" class="{% if not request.GET.status %}active{% endif %}">
-                    <div>
-                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black;">
-                            {% image status.icon width-1444 %}
-                        </div>
-                        <span>Vse obljube ({{ promises_no_all_statuses }})</span>
-                    </div>
-                </a>
-                {% for status in promise_statuses %}
-                <a href="?kategorija={{ request.GET.kategorija }}&status={{ status.slug }}&isci={{ request.GET.isci }}" class="{% if status.slug == request.GET.status %}active{% endif %}">
-                    <div>
-                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
-                            {% image status.icon width-1444 %}
-                        </div>
-                        <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-            <!-- for mobile -->
-            <div id="disable-background" class="disable-background d-none"></div>
-            <div class="d-lg-none col-12">
-                <div class="mb-2">Filtriraj po statusih obljub</div>
-                <button id="filters-mobile-button" class="btn d-flex align-items-center text-uppercase">
-                    {% if not chosen_status %}
-                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
-                        {% image status.icon width-1444 %}
-                    </div>
-                    <div class="mx-2">Vse obljube ({{ promises_no_all_statuses }})</div>
-                    {% else %}
-                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ chosen_status.color }};">
-                        {% image chosen_status.icon width-1444 %}
-                    </div>
-                    <div class="mx-2">{{ chosen_status.name }} ({{ promises_by_statuses|get_item:chosen_status.slug|length }})</div>
-                    {% endif %}
-                </button>
-            </div>
-            <div id="filters-mobile" class="filters-mobile bg-beige closed">
-                <div class="d-flex flex-column">
-                    <div data-status="" class="option {% if not request.GET.status %}active{% endif %}" onclick="makeActive(this)">
-                        <div>
-                            <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:black">
-                                {% image status.icon width-1444 %}
+        <form action="" method="get" id="query-form" class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <div class="d-flex">
+                    <div class="form-group">
+                        <!-- <label for="select-category">{{ page.category_label }}</label> -->
+                        <div class="position-relative select-input">
+                            <select id="select-category" name="kategorija" class="form-control" onchange="selectCategory()">
+                                <option value="" selected>Izberi vsebinsko polje</option>
+                                {% for category in promise_categories %}
+                                <option value="{{ category.slug }}" {% if category.slug == request.GET.kategorija %}selected="selected"{% endif %}>{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-btn d-flex align-items-center">
+                                <span></span>
                             </div>
-                            <span>Vse obljube ({{ promises_no_all_statuses }})</span>
                         </div>
                     </div>
-                    {% for status in promise_statuses %}
-                    <div data-status="{{ status.slug }}" class="option {% if status.slug == request.GET.status %}active{% endif %}" onclick="makeActive(this)">
-                        <div>
-                            <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
-                                {% image status.icon width-1444 %}
+                    <div class="form-group">
+                        <!-- <label for="select-category">{{ page.category_label }}</label> -->
+                        <div class="position-relative select-input">
+                            <select id="select-status" name="status" class="form-control" onchange="selectStatus()">
+                                <option value="" selected>Izberi status</option>
+                                {% for status in promise_statuses %}
+                                <option value="{{ status.slug }}" {% if status.slug == request.GET.status %}selected="selected"{% endif %}>{{ status.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-btn d-flex align-items-center">
+                                <span></span>
                             </div>
-                            <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
                         </div>
                     </div>
-                    {% endfor %}
-                    <button id="filter-mobile" class="btn btn-primary d-flex align-items-center justify-content-center my-4" onclick="selectStatus()">Prikaži</button>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <!-- <label for="search-header">{{ page.search_label }}</label> -->
+                        <div class="search-input position-relative d-flex align-items-center">
+                            <input type="text" id="search-header" placeholder="Vpiši ključno besedo" name="isci" class="form-control" value="{{ request.GET.isci }}">
+                            <button class="btn-primary input-btn" type="submit">
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+
         <div class="row">
             {% if promises %}
             <div class="col-12">
                 {% if page.about_statuses_link %}
                 <a href="{% pageurl page.about_statuses_link %}" class="icon-information">
-                    <div class="d-flex align-items-center justify-content-end mb-1">
+                    <div class="d-flex align-items-center justify-content-end mb-1 px-5">
                         <img src="{% static 'icons/information.svg' %}" class="mx-2" />
                         <span>Kaj pomenijo posamezni statusi?</span>
                     </div>
                 </a>
                 {% endif %}
-                <table class="table mb-5">
-                    <tbody>
+
+                <div class="promises-list mb-5">
                     {% for promise in promises %}
-                    <tr class="d-flex flex-column flex-md-row">
-                        <td class="col-12 col-md-11">
-                            <a href="{{ promise.slug }}">
-                                <h6>{{ promise.title }}</h6>
+                    <hr />
+                    <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex">
+                            <div class="col-12 col-md-2">
+                                {% if promise.first_category %}
+                                {% image promise.first_category width-1444 class="img-fluid w-100" %}
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-md-7 px-5">
                                 <div>
                                     {% for category in promise.categories.all %}
                                     <span class="tag">{{ category }}</span>
                                     {% endfor %}
                                 </div>
-                            </a>
-                        </td>
-                        <td class="col-12 col-md-1">
-                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center h-100">
-                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
-                                    {% image promise.status.icon width-1444 %}
+                                <h4>{{ promise.title }}</h4>
+                                {% if promise.latest_updates.0 and promise.latest_updates.0.conclusion %}
+                                <p>
+                                    {{ promise.latest_updates.0.conclusion }}
+                                </p>
+                                <div class="read-more">
+                                    <span class="read-more-tag dotted-link-blue">
+                                        Celotna analiza
+                                    </span>
+                                    <span class="arrow-right-blue animated"></span>
                                 </div>
-                                <span class="mx-2 mx-md-0">
-                                    {{ promise.status }}
-                                </span>
+                                {% endif %}
                             </div>
-                        </td>
-                    </tr>
+                            <div class="col-12 col-md-3 updates-column">
+                                <div class="text-center date">
+                                    {{ promise.latest_updates.0.date|date:'j. F Y' }}
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    {% if promise.latest_updates.1 %}
+                                    <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
+                                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
+                                            {% image promise.latest_updates.1.status.icon width-1444 %}
+                                        </div>
+                                        <span class="status-text mx-2 mx-md-0">
+                                            {{ promise.latest_updates.1.status }}
+                                        </span>
+                                    </div>
+                                    <div class="arrow-right-blue-long"></div>
+                                    {% endif %}
+                                    <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
+                                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                                            {% image promise.status.icon width-1444 %}
+                                        </div>
+                                        <span class="status-text mx-2 mx-md-0">
+                                            {{ promise.status }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </tr> -->
+                    </a>
                     {% endfor %}
-                    </tbody>
-                </table>
+                    <hr />
+                </div>
             </div>
             {% endif %}
             {% if not promises %}
-            <div class="col-12 no-results">
+            <div class="col-12 no-results mb-5 text-center">
                 Nobena obljuba ne ustreza danim filtrom.
             </div>
             {% endif %}
