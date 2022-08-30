@@ -110,7 +110,6 @@ function readMore(event, id) {
         }
         
         button.classList.toggle('close');
-        console.log("clicked", button)
 
         if (button.classList.contains('close')) {
             button.firstElementChild.textContent = 'Zapri';

@@ -41,6 +41,10 @@ class Infopush(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Obvestilo na domači strani"
+        verbose_name_plural = "Obvestila na domači strani"
+
 class ExternalLinkBlock(blocks.StructBlock):
     name = blocks.CharBlock(label=_("Ime"))
     url = blocks.URLBlock(label=_("Povezava"))

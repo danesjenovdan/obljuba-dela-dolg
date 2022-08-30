@@ -26,6 +26,7 @@ class HomePage(Page):
         blank=True,
         verbose_name=_("Podnaslov"),
     )
+    # če ne bo popravkov, izbriši ta field
     description = models.TextField(
         null=True,
         blank=True,
@@ -37,8 +38,9 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-        verbose_name=_("Povezava pod opisom (URL)"),
+        verbose_name=_("Povezava do prejšnjega mandata"),
     )
+    # če ne bo popravkov, izbriši ta field
     more_link_text = models.CharField(
         max_length=255,
         null=True,
@@ -56,6 +58,14 @@ class HomePage(Page):
     current_mandate = models.ForeignKey(
         "wagtailcore.Page",
         verbose_name=_('Trenutno aktualna stran z obljubami'),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    current_mandate_government_page = models.ForeignKey(
+        "wagtailcore.Page",
+        verbose_name=_('Trenutno aktualna vladna stran'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -80,11 +90,12 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
-        FieldPanel("description"),
+        # FieldPanel("description"),
         PageChooserPanel("more_link"),
-        FieldPanel("more_link_text"),
+        # FieldPanel("more_link_text"),
         ImageChooserPanel("image"),
         PageChooserPanel("current_mandate"),
+        PageChooserPanel("current_mandate_government_page"),
         ImageChooserPanel("newsletter_image"),
         ImageChooserPanel("social_media_image"),
     ]

@@ -32,7 +32,7 @@
                         </div>
                         {% endif %}
                         <div class="my-4 source">
-                            Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
+                            <a href="{{ page.source_url }}" class="dotted-link-blue">Vir: {{ page.source_name }}</a>
                         </div>
                     </div>
                 </div>
@@ -55,13 +55,6 @@
                 </div>
             </div>
         </div>
-        <!-- if page.image
-        <div class="d-none d-xl-block row position-relative">
-            <div class="position-absolute header-image">
-                image page.image fill-200x200
-            </div>
-        </div>
-        endif -->
     </div>
 </div>
 
@@ -106,7 +99,7 @@
                                     {{ update.content|richtext }}
                                 </div>
                                 <div class="read-more" onclick="readMore(event, 'update-content-{{ forloop.counter0 }}')">
-                                    <span>Preberi celotno analizo</span>
+                                    <span class="dotted-link-blue">Preberi celotno analizo</span>
                                     <span class="arrow-down"></span>
                                 </div>
                                 <hr />
@@ -115,6 +108,10 @@
                         {% endwith %}
                     {% endwith %}
                 {% endfor %}
+                <a href="{% pageurl current_mandate %}" class="d-flex justify-content-center align-items-center all-promises">
+                    <span class="dotted-link-blue">Pojdi na seznam vseh obljub</span>
+                    <span class="arrow-right-blue animated"></span>
+                </a>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="box party bg-beige">

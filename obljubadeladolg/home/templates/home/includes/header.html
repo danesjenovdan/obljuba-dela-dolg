@@ -12,7 +12,7 @@
                         </div>
                     </a>
                     <div class="collapse navbar-collapse mt-4 mt-md-0" id="navbarNav">
-                        <ul class="navbar-nav">
+                        <ul class="navbar-nav mx-4">
                             {% for header_link in settings.home.MetaSettings.header_links %}
                                 <li class="nav-item position-relative mx-2">
                                     <a class="nav-link position-relative text-light px-3 {% if request.path == header_link.value.page.url %}active{% endif %}"

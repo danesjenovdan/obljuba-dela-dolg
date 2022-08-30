@@ -81,7 +81,7 @@ body {
         color: #0f15c7;
         font-size: 12px;
         font-family: $font-family-open-sans;
-        line-height: 15px;
+        padding-bottom: 3px;
       }
     }
 
@@ -243,8 +243,6 @@ input[type="text"], input[type="email"] {
 
 .search-input {
   input[type="text"] {
-    // padding-top: 0;
-    // padding-bottom: 0;
     height: 36px;
     width: 320px;
     border: 2px solid #0f15c7;
@@ -305,9 +303,10 @@ input[type="text"], input[type="email"] {
 .extra-padding {
   padding-top: 3rem;
   padding-bottom: 3rem;
+
   @media (min-width: 768px) {
-    padding-top: 3rem;
-    padding-bottom: 6rem;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
   }
 }
 
@@ -487,43 +486,56 @@ form.error {
     }
   }
   &.scrolling {
-    border-bottom: 1px solid #787bc6;
+    border-bottom: 2px solid $semi-light;
   }
+}
+
+.dotted-link-white {
+  background-image: url("../images/pika.png");
+  background-position: 1px bottom;
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+}
+
+.dotted-link-blue {
+  background-image: url("../images/pika-blue.png");
+  background-position: 1px bottom;
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
 }
 
 .home-page {
   .hero {
-    border-top: 1px solid #787bc6;
+    border-top: 2px solid $semi-light;
 
     h1 {
       font-size: 40px;
       font-weight: 700;
-      color: #f8f7f2;
+      color: $beige;
       line-height: 46px;
     }
 
     p {
-      font-size: 1.75rem;
+      font-size: 40px;
       font-weight: 500;
-      line-height: 1.25;
+      line-height: 46px;
     }
 
     a {
       text-decoration: none;
       color: $light;
+
       span:first-child {
         padding-bottom: 0.15rem;
-        background-image: url("../images/pika.png");
-        background-position: 1px bottom;
-        background-size: 6px 2px;
-        background-repeat: repeat-x;
       }
+
       span:last-child {
         height: 1.25rem;
         width: 1.25rem;
         margin-left: 1rem;
         margin-bottom: 0.5rem;
       }
+
       span {
         font-family: $font-family-open-sans;
       }
@@ -547,16 +559,13 @@ form.error {
       display: flex;
       align-items: center;
       height: 40px;
+      text-decoration: none;
   
       span {
         text-transform: uppercase;
         color: #565656;
         font-size: 16px;
         font-weight: 700;
-      }
-
-      span.active {
-        color: #0f15c7;
       }
 
       .status-circle {
@@ -567,6 +576,12 @@ form.error {
         img {
           width: 1.5rem;
           height: 1.5rem;
+        }
+      }
+
+      &:hover {
+        span {
+          color: $primary;
         }
       }
     }
@@ -597,6 +612,8 @@ form.error {
 
   .newsletter, .socials {
     padding: 2.25rem;
+    position: relative;
+
     h5 {
       font-weight: 700;
       margin-bottom: 1rem;
@@ -628,12 +645,11 @@ form.error {
   }
 
   .newsletter-img {
-    position: relative;
     img {
       position: absolute;
-      right: 2rem;
-      bottom: 0;
-      width: 12rem;
+      left: -40px;
+      bottom: -20px;
+      width: 220px;
       height: auto;
     }
   }
@@ -1035,12 +1051,7 @@ footer {
     .source {
       font-family: $font-family-open-sans;
       a {
-        font-weight: 700;
-        padding-bottom: 0.15em;
-        background-image: url("../images/pika.png");
-        background-position: 1px bottom;
-        background-size: 6px 2px;
-        background-repeat: repeat-x;
+        text-decoration: none;
       }
     }
   }
@@ -1078,18 +1089,19 @@ footer {
       }
 
       .arrow-down {
-        background-image: url("../icons/arrow-down.svg");
+        background-image: url("../icons/arrow-right-blue.svg");
         width: 12px;
         height: 16px;
         display: block;
         background-size: contain;
         background-repeat: no-repeat;
         margin-left: 6px;
+        transform: rotate(90deg);
       }
 
       &.close {
         .arrow-down {
-          transform: rotate(180deg);
+          transform: rotate(270deg);
         }
       }
     }
@@ -1215,6 +1227,13 @@ footer {
     background-color: #bababa;
     margin: 50px 0;
   }
+
+  .all-promises {
+    font-size: 16px;
+    font-family: $font-family-open-sans;
+    text-decoration: none;
+    margin: 20px 0;
+  }
 }
 
 .party,
@@ -1276,6 +1295,13 @@ footer {
           box-shadow: -3px -3px 13px #ebecf6, 5px 5px 7px rgba(214, 215, 244, 0.8);
         }
       }
+    }
+  }
+  
+  .search-input {
+    input[type="text"],
+    input[type="text"]:focus {
+      background-color: $light;
     }
   }
   .disable-background {
@@ -1372,6 +1398,7 @@ footer {
   }
   .no-results {
     font-weight: 600;
+    font-size: 24px;
   }
   #filters-mobile-button {
     font-size: 0.75rem;
@@ -1464,6 +1491,17 @@ footer {
       border-radius: 30px;
       margin-right: 10px;
     }
+  }
+
+  .all-promises {
+    font-size: 16px;
+    font-family: $font-family-open-sans;
+    text-decoration: none;
+
+    span:first-child {
+      padding-bottom: 2px;
+    }
+
   }
 }
 
