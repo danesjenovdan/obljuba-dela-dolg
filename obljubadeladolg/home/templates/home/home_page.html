@@ -12,9 +12,11 @@
                 <h1 class="mb-4">
                     {{ page.subtitle }}
                 </h1>
+                {% if page.current_mandate_government_page %}
                 <p class="mb-4">
                     Sledimo izbranim koalicijskim obljubam <a href="{% pageurl page.current_mandate_government_page %}" class="dotted-link-white">15. Vlade Republike Slovenije</a>.
                 </p>
+                {% endif %}
                 {% if page.more_link %}
                 <div class="my-5">
                     <a href="{% pageurl page.more_link %}" class="position-relative hover-animation d-flex align-items-center">
@@ -33,28 +35,38 @@
 
 {% infopush %}
 
+{% if page.current_mandate %}
 <div class="container-fluid bg-beige home-page extra-padding">
     <div class="container">
         <div class="row">
             <div class="col">
                 <h2 class="my-4 text-center">Stanje izbranih koalicijskih obljub</h2>
                 <div class="promises-overview">
-                    <div class="statuses">
+                    <div>
                         {% for status in promise_statuses %}
-                            <a class="option" href="{% pageurl page.current_mandate %}?status={{ status.slug }}">
-                                <span class="{% if status.slug == request.GET.status %}active{% endif %}">{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
-                            </a>
-                        {% endfor %}
-                    </div>
-                    <div class="promises">
-                        {% for status in promise_statuses %}
-                            <div class="option">
-                                <div class="d-flex">
-                                    {% for s in promises_by_statuses|get_item:status.slug %}
-                                    <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
-                                        {% image status.icon width-1444 %}
+                            <div class="d-flex">
+                                <div class="">
+                                    <a class="status-name" href="{% pageurl page.current_mandate %}?status={{ status.slug }}">
+                                        <span class="{% if status.slug == request.GET.status %}active{% endif %}">{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
+                                    </a>
+                                </div>
+                                <div class="option">
+                                    <div>
+                                        <div class="d-flex">
+        
+                                        {% for s in promises_by_statuses|get_item:status.slug %}
+                                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
+                                            {% image status.icon width-1444 %}
+                                        </div>
+        
+                                        {% if forloop.counter|divisibleby:10 %}
+                                        </div>
+                                        <div class="d-flex">
+                                        {% endif %}
+        
+                                        {% endfor %}
+                                        </div>
                                     </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                         {% endfor %}
@@ -64,7 +76,9 @@
         </div>
     </div>
 </div>
+{% endif %}
 
+{% if current_mandate %}
 <div class="container home-page extra-padding promise-list">
     <div class="row mt-3">
         <div class="col">
@@ -74,7 +88,7 @@
                 {% for promise in promises %}
                 <hr />
                 <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex">
-                    <div class="col-12 col-md-2">
+                    <div class="col-12 col-md-2 px-4">
                         {% if promise.first_category %}
                         {% image promise.first_category width-1444 class="img-fluid w-100" %}
                         {% endif %}
@@ -86,13 +100,15 @@
                             {% endfor %}
                         </div>
                         <h4>{{ promise.title }}</h4>
-                        {% if promise.latest_updates.0 and promise.latest_updates.0.conclusion %}
                         <p>
+                            {% if promise.latest_updates.0.conclusion %}
                             {{ promise.latest_updates.0.conclusion }}
+                            {% else %}
+                            {{ promise.search_description }}
+                            {% endif %}
                         </p>
-                        {% endif %}
                         <div class="read-more">
-                            <span class="read-more-tag">
+                            <span class="read-more-tag dotted-link-blue">
                                 Celotna analiza
                             </span>
                             <span class="arrow-right-blue animated"></span>
@@ -129,7 +145,7 @@
                 <hr />
             </div>
             <div class="mb-5 d-flex justify-content-center">
-                <a href="{% pageurl page.current_mandate %}" class="hover-animation">
+                <a href="{% pageurl current_mandate %}" class="hover-animation">
                     <div class="latest-button btn btn-primary d-inline-flex justify-content-center align-items-center">
                         <span>Prikaži vse obljube</span>
                         <span class="icon-arrow-right animated"></span>
@@ -139,6 +155,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 {% include "home/includes/sm_newsletter_section.html" %}
 
@@ -151,7 +168,7 @@
                 <div class="row">
                     {% for category in promise_categories %}
                     <div class="col-md-6 col-lg-3 my-3">
-                        <a href="{% if page.current_mandate %}{% pageurl page.current_mandate %}{% endif %}?kategorija={{ category.slug }}">
+                        <a href="{% if page.current_mandate %}{% pageurl page.current_mandate %}?kategorija={{ category.slug }}{% endif %}">
                             <div class="category-box position-relative hover-animation">
                                 <h4>{{ category.name }}</h4>
                                 <div class="position-absolute category-image animated">{% image category.image_card width-1444 %}</div>
