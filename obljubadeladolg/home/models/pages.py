@@ -71,22 +71,6 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    newsletter_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika ob polju za prijavo na novice'),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    social_media_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika ob polju za delitev na družbenih omrežjih'),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
@@ -96,8 +80,6 @@ class HomePage(Page):
         ImageChooserPanel("image"),
         PageChooserPanel("current_mandate"),
         PageChooserPanel("current_mandate_government_page"),
-        ImageChooserPanel("newsletter_image"),
-        ImageChooserPanel("social_media_image"),
     ]
 
     parent_page_types = []
@@ -111,7 +93,7 @@ class HomePage(Page):
             PromisePage.objects.live()
             .child_of(self.current_mandate) # promises that belong to this mandate
         )
-        context["promises"] = promises.annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:10]
+        context["promises"] = promises.annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5]
         
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
@@ -151,6 +133,7 @@ class PromisePage(Page):
         blank=True,
         verbose_name=_("Kategorije"),
     )
+    # to polje ostane, ker imajo stare obljube tu dodane slike, ampak se skrije v adminu
     image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_('Slika'),
@@ -165,13 +148,14 @@ class PromisePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name='OG slika',
     )
     party = models.ForeignKey(
         'Party', 
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Stranka, ki je dala obljubo'),
+        verbose_name='Stranka, ki je dala obljubo',
     )
     party_promised = models.TextField(
         blank=True, 
@@ -187,7 +171,6 @@ class PromisePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        # FieldPanel("full_text"),
         FieldPanel("quote"),
         MultiFieldPanel(
             [
@@ -196,7 +179,7 @@ class PromisePage(Page):
             ],
             heading="Vir",
         ),
-        ImageChooserPanel("image"),
+        # ImageChooserPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         FieldPanel("party"),
         FieldPanel("party_promised"),
@@ -244,7 +227,7 @@ class PromisePage(Page):
         verbose_name = "Obljuba"
         verbose_name_plural = "Obljube"
 
-
+# ta model predstavlja eno vlado
 class PromiseListingPage(Page):
     about_statuses_link = models.ForeignKey(
         "wagtailcore.Page",
@@ -252,6 +235,7 @@ class PromiseListingPage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name="Povezava do strani z razlago 'Kaj pomenijo posamezni statusi?'"
     )
 
     content_panels = Page.content_panels + [
@@ -332,8 +316,8 @@ class PromiseListingPage(Page):
         return context
 
     class Meta:
-        verbose_name = "Seznam obljub"
-        verbose_name_plural = "Seznami obljub"
+        verbose_name = "Vlada"
+        verbose_name_plural = "Vlade"
 
 
 class ContentPage(Page):
@@ -366,8 +350,8 @@ class ContentPage(Page):
     ]
 
     class Meta:
-        verbose_name = "Vsebina"
-        verbose_name_plural = "Vsebine"
+        verbose_name = "Navadna stran z vsebino"
+        verbose_name_plural = "Navadne strani z vsebino"
 
 class NewsletterPage(Page):
     description = models.TextField(
@@ -388,8 +372,8 @@ class NewsletterPage(Page):
     ]
 
     class Meta:
-        verbose_name = "Urejanje naročnine"
-        verbose_name_plural = "Urejanja naročnin"
+        verbose_name = "Stran za urejanje naročnine"
+        verbose_name_plural = "Strani za urejanje naročnine"
 
 class GovernmentPage(Page):
     mandate = models.ForeignKey(
@@ -426,5 +410,5 @@ class GovernmentPage(Page):
         return context
 
     class Meta:
-        verbose_name = "Vladna stran"
-        verbose_name_plural = "Vladne strani"
+        verbose_name = "Opis vlade"
+        verbose_name_plural = "Opisi vlade"

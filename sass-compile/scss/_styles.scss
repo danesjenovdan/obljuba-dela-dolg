@@ -81,7 +81,7 @@ body {
         color: #0f15c7;
         font-size: 12px;
         font-family: $font-family-open-sans;
-        padding-bottom: 3px;
+        padding-bottom: 2px;
       }
     }
 
@@ -555,52 +555,46 @@ form.error {
     display: flex;
     justify-content: center;
 
-    .option {
+    & > div {
+      min-width: 500px;
+    }
+
+
+    .status-name {
       display: flex;
-      align-items: center;
       height: 40px;
+      min-width: 150px;
+      align-items: center;
+      justify-content: end;
       text-decoration: none;
-  
-      span {
-        text-transform: uppercase;
-        color: #565656;
-        font-size: 16px;
-        font-weight: 700;
+      text-transform: uppercase;
+      color: #565656;
+      font-size: 16px;
+      font-weight: 700;
+
+      &:hover {
+        color: $primary;
       }
+    }
+
+    .option {
+      // display: flex;
+      // align-items: center;
+      // height: 40px;
+      margin-left: 10px;
 
       .status-circle {
-        width: 2rem;
-        height: 2rem;
+        min-width: 2rem;
+        min-height: 2rem;
         border-radius: 1rem;
-        margin: 0 5px;
+        margin: 5px;
         img {
           width: 1.5rem;
           height: 1.5rem;
         }
       }
-
-      &:hover {
-        span {
-          color: $primary;
-        }
-      }
-    }
-
-    .statuses {
-      margin-right: 10px;
-
-      .option {
-        justify-content: end;
-      }
     }
   }
-
-  // .blob {
-  //   position: absolute;
-  //   img {
-  //     transform: rotate(190deg);
-  //   }
-  // }
   
   .newsletter .checkbox label {
     line-height: 1;

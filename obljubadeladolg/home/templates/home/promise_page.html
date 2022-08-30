@@ -51,7 +51,13 @@
                             <span>{{ page.status }}</span>
                         </div>
                     </div>
-                    <p>{{ page.status.description }}</p>
+                    <p>
+                        {% if page.latest_updates.0.conclusion %}
+                        {{ page.latest_updates.0.conclusion }}
+                        {% else %}
+                        {{ page.search_description }}
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         </div>
@@ -98,7 +104,7 @@
                                 <div id="update-content-{{ forloop.counter0 }}" class="d-none">
                                     {{ update.content|richtext }}
                                 </div>
-                                <div class="read-more" onclick="readMore(event, 'update-content-{{ forloop.counter0 }}')">
+                                <div class="read-more my-4" onclick="readMore(event, 'update-content-{{ forloop.counter0 }}')">
                                     <span class="dotted-link-blue">Preberi celotno analizo</span>
                                     <span class="arrow-down"></span>
                                 </div>
@@ -108,12 +114,13 @@
                         {% endwith %}
                     {% endwith %}
                 {% endfor %}
-                <a href="{% pageurl current_mandate %}" class="d-flex justify-content-center align-items-center all-promises">
+                <a href="{% if current_mandate %}{% pageurl current_mandate %}{% endif %}" class="d-flex justify-content-center align-items-center all-promises">
                     <span class="dotted-link-blue">Pojdi na seznam vseh obljub</span>
                     <span class="arrow-right-blue animated"></span>
                 </a>
             </div>
             <div class="col-12 col-lg-4">
+                {% if page.party %}
                 <div class="box party bg-beige">
                     <h5 class="mb-3">Za resor je odgovorna:</h5>
                     <div class="d-flex align-items-center">
@@ -126,10 +133,23 @@
                     <h5>Kaj so obljubili v predvolilnem programu:</h5>
                     <p>{{ page.party_promised }}</p>
                 </div>
+                {% endif %}
                 <div class="box newsletter d-none d-lg-block text-center">
                     <form>
-                        <h2>{{ page.newsletter_box_title }}</h2>
-                        <h5>{{ page.newsletter_box_text }}</h5>
+                        <h2>
+                            {% if page.newsletter_box_title %}
+                            {{ page.newsletter_box_title }}
+                            {% else %}
+                            Prijavi se na mesečni e-novičnik
+                            {% endif %}
+                        </h2>
+                        <h5>
+                            {% if page.newsletter_box_text %}
+                            {{ page.newsletter_box_text }}
+                            {% else %}
+                            Te zanima, kaj se dogaja s to in podobnimi obljubami?
+                            {% endif %}
+                        </h5>
                         <div class="go-input position-relative mt-4">
                             <input type="email" name="email" required class="form-control border-dark" id="email">
                             <button type="submit" class="input-btn btn-primary hover-animation">

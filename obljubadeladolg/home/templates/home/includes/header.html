@@ -32,6 +32,7 @@
                     </div>
                 </div>
             </div>
+            {% if current_mandate %}
             <div class="d-flex align-items-center justify-content-end">
                 <form action="{% pageurl current_mandate %}" method="get">
                     <div class="search-input position-relative">
@@ -42,6 +43,7 @@
                     </div>
                 </form>
             </div>
+            {% endif %}
             <!-- mobile -->
             <button class="navbar-toggler btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">

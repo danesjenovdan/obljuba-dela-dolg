@@ -155,6 +155,9 @@ class PromiseUpdate(Orderable):
         verbose_name=_("Sklep"),
     )
 
+    class Meta:
+        ordering = ['date']
+
 class Party(models.Model):
     name = models.TextField(verbose_name=_("Ime stranke"))
     icon = models.ForeignKey(

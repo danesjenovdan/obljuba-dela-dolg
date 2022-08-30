@@ -29,7 +29,6 @@
             <div class="col-12 d-flex justify-content-between">
                 <div class="d-flex">
                     <div class="form-group">
-                        <!-- <label for="select-category">{{ page.category_label }}</label> -->
                         <div class="position-relative select-input">
                             <select id="select-category" name="kategorija" class="form-control" onchange="selectCategory()">
                                 <option value="" selected>Izberi vsebinsko polje</option>
@@ -43,7 +42,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <!-- <label for="select-category">{{ page.category_label }}</label> -->
                         <div class="position-relative select-input">
                             <select id="select-status" name="status" class="form-control" onchange="selectStatus()">
                                 <option value="" selected>Izberi status</option>
@@ -59,7 +57,6 @@
                 </div>
                 <div>
                     <div class="form-group">
-                        <!-- <label for="search-header">{{ page.search_label }}</label> -->
                         <div class="search-input position-relative d-flex align-items-center">
                             <input type="text" id="search-header" placeholder="Vpiši ključno besedo" name="isci" class="form-control" value="{{ request.GET.isci }}">
                             <button class="btn-primary input-btn" type="submit">
@@ -86,8 +83,8 @@
                 <div class="promises-list mb-5">
                     {% for promise in promises %}
                     <hr />
-                    <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex">
-                            <div class="col-12 col-md-2">
+                    <a href="{% if current_mandate %}{% pageurl current_mandate %}{{ promise.slug }}{% endif %}" class="d-flex">
+                            <div class="col-12 col-md-2 px-4">
                                 {% if promise.first_category %}
                                 {% image promise.first_category width-1444 class="img-fluid w-100" %}
                                 {% endif %}
@@ -99,9 +96,12 @@
                                     {% endfor %}
                                 </div>
                                 <h4>{{ promise.title }}</h4>
-                                {% if promise.latest_updates.0 and promise.latest_updates.0.conclusion %}
                                 <p>
+                                    {% if promise.latest_updates.0.conclusion %}
                                     {{ promise.latest_updates.0.conclusion }}
+                                    {% else %}
+                                    {{ promise.search_description }}
+                                    {% endif %}
                                 </p>
                                 <div class="read-more">
                                     <span class="read-more-tag dotted-link-blue">
@@ -109,7 +109,6 @@
                                     </span>
                                     <span class="arrow-right-blue animated"></span>
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="col-12 col-md-3 updates-column">
                                 <div class="text-center date">
