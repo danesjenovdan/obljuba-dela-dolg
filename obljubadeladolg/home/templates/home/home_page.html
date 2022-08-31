@@ -96,7 +96,7 @@
                     <div class="col-12 col-md-7 px-5">
                         <div>
                             {% for category in promise.categories.all %}
-                            <span class="tag">{{ category }}</span>
+                            <span class="tag">{{ category.name }}</span>
                             {% endfor %}
                         </div>
                         <h4>{{ promise.title }}</h4>

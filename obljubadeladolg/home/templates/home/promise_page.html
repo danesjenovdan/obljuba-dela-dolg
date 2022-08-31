@@ -11,7 +11,7 @@
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div>
                     {% for category in page.categories.all %}
-                    <span class="tag">{{ category }}</span>
+                    <span class="tag">{{ category.name }}</span>
                     {% endfor %}
                 </div>
                 <h1 class="mb-4">

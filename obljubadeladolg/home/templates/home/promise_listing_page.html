@@ -18,6 +18,9 @@
                     {{ page.title }}
                     {% endif %}
                 </h1>
+                {% if government_page %}
+                <h2 class="text-center">Sledimo izbranim koalicijskim obljubam <a href="{% pageurl government_page %}" class="dotted-link-white text-light">{{ page.government }}</a></h2>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -92,7 +95,7 @@
                             <div class="col-12 col-md-7 px-5">
                                 <div>
                                     {% for category in promise.categories.all %}
-                                    <span class="tag">{{ category }}</span>
+                                    <span class="tag">{{ category.name }}</span>
                                     {% endfor %}
                                 </div>
                                 <h4>{{ promise.title }}</h4>
