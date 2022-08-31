@@ -37,6 +37,14 @@ class PromiseCategory(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Mandat vlade"),
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -44,13 +52,14 @@ class PromiseCategory(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name + " --- " + self.mandate.title
 
     panels = [
         FieldPanel("name"),
         FieldPanel("slug"),
         ImageChooserPanel("image_card"),
         ImageChooserPanel("image_listing_page"),
+        FieldPanel("mandate"),
     ]
 
     class Meta:
@@ -157,6 +166,7 @@ class PromiseUpdate(Orderable):
 
     class Meta:
         ordering = ['date']
+
 
 class Party(models.Model):
     name = models.TextField(verbose_name=_("Ime stranke"))

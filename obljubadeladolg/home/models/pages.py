@@ -87,7 +87,7 @@ class HomePage(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        context["promise_categories"] = PromiseCategory.objects.all().order_by('id') # TODO this is a hack
+        context["promise_categories"] = PromiseCategory.objects.filter(mandate=self.current_mandate).order_by('id') # TODO this is a hack
 
         promises = (
             PromisePage.objects.live()
@@ -109,7 +109,6 @@ class HomePage(Page):
         context["current_mandate"] = self.current_mandate
 
         return context
-
 
 class PromisePage(Page):
     quote = models.TextField(
@@ -237,16 +236,21 @@ class PromiseListingPage(Page):
         related_name="+",
         verbose_name="Povezava do strani z razlago 'Kaj pomenijo posamezni statusi?'"
     )
+    government = models.TextField(
+        blank=True,
+        verbose_name="Sledimo izbranim koalicijskim obljubam"
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("about_statuses_link"),
+        FieldPanel("government"),
     ]
 
     parent_page_types = ["home.HomePage"]
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["promise_categories"] = PromiseCategory.objects.all()
+        context["promise_categories"] = PromiseCategory.objects.filter(mandate=self)
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
 
@@ -312,6 +316,10 @@ class PromiseListingPage(Page):
         context["paginator"] = paginator
 
         context["current_mandate"] = self
+        try:
+            context["government_page"] = GovernmentPage.objects.get(mandate=self)
+        except GovernmentPage.DoesNotExist:
+            context["government_page"] = None
 
         return context
 
