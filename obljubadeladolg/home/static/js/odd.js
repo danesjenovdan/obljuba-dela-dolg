@@ -112,10 +112,15 @@ function readMore(event, id) {
         button.classList.toggle('close');
 
         if (button.classList.contains('close')) {
-            button.firstElementChild.textContent = 'Zapri';
-            console.log(button.firstChild)
+            if (id !== 'coalition-contract' && id !== 'party-mobile') {
+                button.firstElementChild.textContent = 'Zapri';
+            }
+            
         } else {
-            button.firstElementChild.textContent = 'Preberi celotno analizo';
+            if (id !== 'coalition-contract' && id !== 'party-mobile') {
+                button.firstElementChild.textContent = 'Preberi celotno analizo';
+            }
+            
         }
         
     }
