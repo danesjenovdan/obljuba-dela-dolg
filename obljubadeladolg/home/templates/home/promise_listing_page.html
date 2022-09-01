@@ -19,7 +19,7 @@
                     {% endif %}
                 </h1>
                 {% if government_page %}
-                <h2 class="text-center">Sledimo izbranim koalicijskim obljubam <a href="{% pageurl government_page %}" class="dotted-link-white text-light">{{ page.government }}</a></h2>
+                <h2 class="text-center">{{ page.government_text }} <a href="{% pageurl government_page %}" class="dotted-link-white text-light">{{ page.government }}</a>.</h2>
                 {% endif %}
             </div>
         </div>
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <div class="position-relative select-input">
                             <select id="select-category" name="kategorija" class="form-control" onchange="selectCategory()">
-                                <option value="" selected>Izberi vsebinsko polje</option>
+                                <option value="" selected>Izberi vsebinsko področje</option>
                                 {% for category in promise_categories %}
                                 <option value="{{ category.slug }}" {% if category.slug == request.GET.kategorija %}selected="selected"{% endif %}>{{ category.name }}</option>
                                 {% endfor %}
@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <div class="position-relative select-input">
                             <select id="select-status" name="status" class="form-control" onchange="selectStatus()">
-                                <option value="" selected>Izberi status</option>
+                                <option value="" selected>Izberi stanje obljube</option>
                                 {% for status in promise_statuses %}
                                 <option value="{{ status.slug }}" {% if status.slug == request.GET.status %}selected="selected"{% endif %}>{{ status.name }}</option>
                                 {% endfor %}
@@ -61,7 +61,7 @@
                 <div>
                     <div class="form-group">
                         <div class="search-input position-relative d-flex align-items-center">
-                            <input type="text" id="search-header" placeholder="Vpiši ključno besedo" name="isci" class="form-control" value="{{ request.GET.isci }}">
+                            <input type="text" id="search-header" placeholder="Vpiši iskani pojem" name="isci" class="form-control" value="{{ request.GET.isci }}">
                             <button class="btn-primary input-btn" type="submit">
                                 <span></span>
                             </button>
