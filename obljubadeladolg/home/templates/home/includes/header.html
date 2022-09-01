@@ -2,10 +2,10 @@
 {% wagtail_site as current_site %}
 
 <div class="header position-sticky top-0">
-    <nav class="navbar navbar-expand-md bg-primary py-2">
-        <div class="container px-lg-0 py-1">
+    <nav class="navbar navbar-expand-lg bg-primary py-2">
+        <div class="container px-lg-0 py-1 position-relative">
             <div class="d-flex justify-content-between align-items-center w-100">
-                <div class="d-flex">
+                <div class="d-lg-flex">
                     <a href="/">
                         <div class="logo">
                             <img src="{% static 'images/ODD-logo.png' %}">
@@ -31,9 +31,23 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+            
+            <div class="d-flex align-items-center justify-content-end">
+                {% if current_mandate %}
+                <form action="{% pageurl current_mandate %}" method="get" class="d-none d-lg-block">
+                    <div class="search-input position-relative">
+                        <input type="text" placeholder="Vpiši iskani pojem" name="isci" class="form-control">
+                        <button type="submit" class="input-btn btn-primary">
+                            <span></span>
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+
                 <!-- mobile -->
                 <div>
-                    <button class="navbar-toggler btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler btn btn-primary position-absolute" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon">
                             Meni
                             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="28" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -43,18 +57,8 @@
                     </button>
                 </div>
             </div>
-            {% if current_mandate %}
-            <div class="d-none d-lg-flex align-items-center justify-content-end">
-                <form action="{% pageurl current_mandate %}" method="get">
-                    <div class="search-input position-relative">
-                        <input type="text" placeholder="Vpiši iskani pojem" name="isci" class="form-control">
-                        <button type="submit" class="input-btn btn-primary">
-                            <span></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            {% endif %}
+            
+            
         </div>
     </nav>
 </div>

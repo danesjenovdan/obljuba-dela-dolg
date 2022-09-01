@@ -464,10 +464,14 @@ form.error {
     border: 2px solid #e2e3f8;
     padding: 2px 20px 5px 20px;
     font-size: 16px;
+    right: 12px;
+    top: 12px;
   }
+
   .navbar-toggler:focus {
     box-shadow: 0 0 0 0.125rem;
   }
+  
   .navbar-toggler-icon {
     color: #fbfaf7;
     width: unset;
@@ -511,7 +515,7 @@ form.error {
         }
       }
     }
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
       &:not(:last-child):after {
         content: "/";
         position: absolute;
@@ -1375,10 +1379,11 @@ footer {
 
     h1 {
       line-height: 1;
-      font-size: 60px;
+      font-size: 32px;
       font-weight: 700;
+
       @media (min-width: 992px) {
-        font-size: 3.5rem;
+        font-size: 3rem;
       }
     }
 
@@ -1542,9 +1547,14 @@ footer {
 .government-page {
   .hero {
     h1 {
+      line-height: 1;
+      font-size: 32px;
       font-weight: 700;
-      font-size: 60px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+
+      @media (min-width: 992px) {
+        font-size: 3rem;
+      }
     }
   }
 
@@ -1603,34 +1613,22 @@ footer {
 
   .party {
     .party-image img {
-      width: 30px;
-      height: 30px;
-      border-radius: 15px;
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
       margin-right: 10px;
     }
 
     h2 {
       color: #000000;
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 0;
-    }
-
-    h5 {
-      font-size: 16px;
-      margin-bottom: 0;
-      margin-right: 10px;
     }
 
     @media (min-width: 992px) {
       h2 {
         font-size: 40px;
-      }
-      
-      h5 {
-        font-size: 24px;
-        margin-right: 0;
-        margin-bottom: 0.5rem;
       }
 
       .party-image img {
