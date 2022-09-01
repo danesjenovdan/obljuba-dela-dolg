@@ -423,7 +423,7 @@ class GovernmentPage(Page):
         mandate_parties = Party.objects.filter(mandate=self.mandate)
         context["mandate_parties"] = mandate_parties
 
-        context["government_members"] = PartyMember.objects.filter(party__in=mandate_parties)
+        context["government_members"] = PartyMember.objects.filter(party__in=mandate_parties).order_by('created_at')
 
         return context
 
