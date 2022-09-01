@@ -7,8 +7,8 @@
 
 <div class="container-fluid bg-primary home-page">
     <div class="container">
-        <div class="row hero text-light">
-            <div class="col-lg-6 d-flex flex-column align-items-center align-items-lg-start justify-content-end px-5">
+        <div class="row hero text-light flex-column-reverse flex-lg-row">
+            <div class="col-lg-6 d-flex flex-column align-items-center align-items-lg-start justify-content-end px-lg-5">
                 <h1 class="mb-4">
                     {{ page.subtitle }}
                 </h1>
@@ -44,7 +44,7 @@
                 <div class="promises-overview">
                     <div>
                         {% for status in promise_statuses %}
-                            <div class="d-flex">
+                            <div class="d-flex flex-column flex-md-row">
                                 <div class="">
                                     <a class="status-name" href="{% pageurl page.current_mandate %}?status={{ status.slug }}">
                                         <span class="{% if status.slug == request.GET.status %}active{% endif %}">{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
@@ -87,13 +87,13 @@
             <div class="promises-list mb-5">
                 {% for promise in promises %}
                 <hr />
-                <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex">
-                    <div class="col-12 col-md-2 px-4">
+                <a href="{% pageurl current_mandate %}{{ promise.slug }}" class="d-flex flex-column flex-lg-row">
+                    <div class="col-12 col-md-2 px-5 px-lg-4">
                         {% if promise.first_category %}
                         {% image promise.first_category width-1444 class="img-fluid w-100" %}
                         {% endif %}
                     </div>
-                    <div class="col-12 col-md-7 px-5">
+                    <div class="col-12 col-md-7 px-2 px-lg-5">
                         <div>
                             {% for category in promise.categories.all %}
                             <span class="tag">{{ category.name }}</span>
@@ -121,7 +121,7 @@
                         <div class="d-flex justify-content-center align-items-center">
                             {% if promise.latest_updates.1 %}
                             <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
+                                <div class="status-circle d-none d-md-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
                                     {% image promise.latest_updates.1.status.icon width-1444 %}
                                 </div>
                                 <span class="status-text mx-2 mx-md-0">
@@ -131,7 +131,7 @@
                             <div class="arrow-right-blue-long"></div>
                             {% endif %}
                             <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                                <div class="status-circle d-none d-md-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
                                     {% image promise.status.icon width-1444 %}
                                 </div>
                                 <span class="status-text mx-2 mx-md-0">
