@@ -220,6 +220,7 @@ class PartyMember(models.Model):
         related_name="+",
         verbose_name=_("Stranka"),
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     panels = [
         FieldPanel("name"),
