@@ -236,14 +236,24 @@ class PromiseListingPage(Page):
         related_name="+",
         verbose_name="Povezava do strani z razlago 'Kaj pomenijo posamezni statusi?'"
     )
+    government_text = models.TextField(
+        blank=True,
+        verbose_name="Besedilo do povezave"
+    )
     government = models.TextField(
         blank=True,
-        verbose_name="Sledimo izbranim koalicijskim obljubam"
+        verbose_name="Besedilo na povezavi (do mandata)"
     )
 
     content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("government_text"),
+                FieldPanel("government"),
+            ],
+            heading="Podnaslov",
+        ),
         FieldPanel("about_statuses_link"),
-        FieldPanel("government"),
     ]
 
     parent_page_types = ["home.HomePage"]
