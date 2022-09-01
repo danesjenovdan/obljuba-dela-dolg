@@ -203,6 +203,7 @@ class Party(models.Model):
         verbose_name = "Stranka"
         verbose_name_plural = "Stranke"
 
+
 class PartyMember(models.Model):
     name = models.TextField(verbose_name=_("Ime"))
     role = models.TextField(verbose_name=_("Vloga"))
@@ -216,10 +217,13 @@ class PartyMember(models.Model):
     )
     party = models.ForeignKey(
         Party,
-        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
         related_name="+",
         verbose_name=_("Stranka"),
     )
+    party_comment = models.TextField(verbose_name="Komentar pod stranko", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     panels = [
@@ -227,6 +231,7 @@ class PartyMember(models.Model):
         FieldPanel("role"),
         ImageChooserPanel("image"),
         FieldPanel("party"),
+        FieldPanel("party_comment"),
     ]
 
     class Meta:
