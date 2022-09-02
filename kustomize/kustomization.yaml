@@ -9,4 +9,4 @@ resources:
 images:
   - name: obljubadeladolg-staging
     newName: rg.fr-par.scw.cloud/djnd/obljubadeladolg-staging
-    newTag: 'cef12ad8dad05f40ca748d21c078604c60a9962a'
+    newTag: '3b02481e07eb9602656562df253d69ed42232374'
