@@ -1593,7 +1593,7 @@ footer {
     height: 100%;
 
     .member-description {
-      height: 170px;
+      min-height: 170px;
       position: relative;
       padding-right: 130px;
     }
