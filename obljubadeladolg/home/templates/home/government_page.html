@@ -14,12 +14,14 @@
                 </h1>
                 <div class="party">
                     {% for party in mandate_parties %}
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="party-image">
-                            {% image party.icon fill-200x200 %}
+                        {% if party.icon %}
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="party-image">
+                                {% image party.icon fill-200x200 %}
+                            </div>
+                            <h2>{{ party.name }}</h2>
                         </div>
-                        <h2>{{ party.name }}</h2>
-                    </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
