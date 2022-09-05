@@ -89,9 +89,11 @@ class HomePage(Page):
 
         context["promise_categories"] = PromiseCategory.objects.filter(mandate=self.current_mandate).order_by('id') # TODO this is a hack
 
+        statuses_to_show = PromiseStatus.objects.exclude(order_no=1) # all statuses but 'Ni še ocene'
         promises = (
             PromisePage.objects.live()
             .child_of(self.current_mandate) # promises that belong to this mandate
+            .filter(updates__status__in=statuses_to_show) # exclude promises that only have status 'Ni še ocene'
         )
         context["promises"] = promises.annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5]
         
@@ -191,12 +193,20 @@ class PromisePage(Page):
         ImageChooserPanel("meta_image"),
     ]
 
-    search_fields = Page.search_fields # + [ index.SearchField("full_text"), ]
-
+    search_fields = Page.search_fields + [ index.RelatedFields('updates', [
+        index.SearchField('title'),
+        index.SearchField('content'),
+        index.SearchField('conclusion'),
+    ]) ] # ta related fields probably does nothing
+    
     parent_page_types = ["home.PromiseListingPage"]
 
     def sorted_updates(self):
-        return self.updates.order_by("date")[1:] # vemo, da bo vedno vsaj ena, sicer obljube ne moreš ustvariti
+        updates = self.updates.order_by("date")
+        if updates.first().status.order_no is 1:
+            return updates[1:] # if first update is 'Ni še ocene', skip it
+        else:
+            return updates
 
     @property
     def latest_updates(self):
@@ -277,7 +287,7 @@ class PromiseListingPage(Page):
             PromisePage.objects.all()
             .child_of(self) # promises that belong to this mandate
             .annotate(latest_update=Max("updates__date"))
-            .order_by("latest_update")
+            .order_by("-latest_update")
         )
 
         # filter promises by search query, if there is one in url params
