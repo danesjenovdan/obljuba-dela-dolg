@@ -89,13 +89,13 @@ class HomePage(Page):
 
         context["promise_categories"] = PromiseCategory.objects.filter(mandate=self.current_mandate).order_by('id') # TODO this is a hack
 
-        statuses_to_show = PromiseStatus.objects.exclude(order_no=1) # all statuses but 'Ni še ocene'
         promises = (
             PromisePage.objects.live()
             .child_of(self.current_mandate) # promises that belong to this mandate
-            .filter(updates__status__in=statuses_to_show) # exclude promises that only have status 'Ni še ocene'
         )
-        context["promises"] = promises.annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5]
+
+        statuses_to_show = PromiseStatus.objects.exclude(order_no=1) # all statuses but 'Ni še ocene'
+        context["promises"] = promises.filter(updates__status__in=statuses_to_show).annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5] # exclude promises that only have status 'Ni še ocene'
         
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
