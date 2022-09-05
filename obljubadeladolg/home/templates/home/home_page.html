@@ -45,14 +45,20 @@
                     <div>
                         {% for status in promise_statuses %}
                             <div class="d-flex flex-column flex-md-row">
-                                <div class="">
+                                <div>
+                                    {% if promises_by_statuses|get_item:status.slug|length > 0 %}
                                     <a class="status-name" href="{% pageurl page.current_mandate %}?status={{ status.slug }}">
-                                        <span class="{% if status.slug == request.GET.status %}active{% endif %}">{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
+                                        <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
                                     </a>
+                                    {% else %}
+                                    <div class="status-name">
+                                        <span>{{ status.name }} ({{ promises_by_statuses|get_item:status.slug|length }})</span>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <div class="option">
                                     <div>
-                                        <div class="d-flex">
+                                        <div class="d-flex justify-content-center justify-content-md-start">
         
                                         {% for s in promises_by_statuses|get_item:status.slug %}
                                         <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
@@ -120,8 +126,8 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
                             {% if promise.latest_updates.1 %}
-                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                <div class="status-circle d-none d-md-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.latest_updates.1.status.color }};">
                                     {% image promise.latest_updates.1.status.icon width-1444 %}
                                 </div>
                                 <span class="status-text mx-2 mx-md-0">
@@ -130,8 +136,8 @@
                             </div>
                             <div class="arrow-right-blue-long"></div>
                             {% endif %}
-                            <div class="d-flex flex-row-reverse flex-md-column align-items-center justify-content-md-center">
-                                <div class="status-circle d-none d-md-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ promise.status.color }};">
                                     {% image promise.status.icon width-1444 %}
                                 </div>
                                 <span class="status-text mx-2 mx-md-0">
