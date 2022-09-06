@@ -8,6 +8,7 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 
 class PromiseCategory(models.Model):
@@ -37,6 +38,14 @@ class PromiseCategory(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Mandat vlade"),
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -44,13 +53,17 @@ class PromiseCategory(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        if self.mandate:
+            return self.name + " --- " + self.mandate.title
+        else:
+            return self.name
 
     panels = [
         FieldPanel("name"),
         FieldPanel("slug"),
         ImageChooserPanel("image_card"),
         ImageChooserPanel("image_listing_page"),
+        FieldPanel("mandate"),
     ]
 
     class Meta:
@@ -116,7 +129,7 @@ class PromiseStatus(models.Model):
         verbose_name_plural = "Stanja obljub"
 
 
-class PromiseUpdate(Orderable):
+class PromiseUpdate(Orderable, index.Indexed):
     page = ParentalKey(
         "home.PromisePage",
         on_delete=models.CASCADE,
@@ -134,6 +147,10 @@ class PromiseUpdate(Orderable):
         default=timezone.now,
         verbose_name=_("Datum"),
     )
+    update_author = models.TextField(
+        blank=True,
+        verbose_name=_("Avtor/ica posodobitve")
+    )
     status = models.ForeignKey(
         "home.PromiseStatus",
         on_delete=models.CASCADE,
@@ -145,3 +162,79 @@ class PromiseUpdate(Orderable):
         blank=True,
         verbose_name=_("Vsebina"),
     )
+    conclusion = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Sklep"),
+    )
+
+    class Meta:
+        ordering = ['date']
+
+
+class Party(models.Model):
+    name = models.TextField(verbose_name=_("Ime stranke"))
+    icon = models.ForeignKey(
+        "wagtailimages.Image",
+        verbose_name=_("Logotip"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Mandat vlade"),
+    )
+
+    def __str__(self):
+        return self.name + ", " + self.mandate.title if self.name and self.mandate else self.name
+
+    panels = [
+        FieldPanel("name"),
+        ImageChooserPanel("icon"),
+        FieldPanel("mandate"),
+    ]
+
+    class Meta:
+        verbose_name = "Stranka"
+        verbose_name_plural = "Stranke"
+
+
+class PartyMember(models.Model):
+    name = models.TextField(verbose_name=_("Ime"))
+    role = models.TextField(verbose_name=_("Vloga"))
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        verbose_name=_("Slika"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    party = models.ForeignKey(
+        Party,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Stranka"),
+    )
+    party_comment = models.TextField(verbose_name="Komentar pod stranko", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("role"),
+        ImageChooserPanel("image"),
+        FieldPanel("party"),
+        FieldPanel("party_comment"),
+    ]
+
+    class Meta:
+        verbose_name = "Član vlade"
+        verbose_name_plural = "Člani vlade"

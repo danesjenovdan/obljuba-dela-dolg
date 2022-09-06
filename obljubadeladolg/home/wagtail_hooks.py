@@ -7,7 +7,7 @@ from wagtail.contrib.modeladmin.options import (
 from wagtail.core import hooks
 from wagtail.core.rich_text import LinkHandler
 
-from .models import PromiseCategory, PromiseStatus
+from .models import PromiseCategory, PromiseStatus, Party, PartyMember
 
 
 class NewTabExternalLinkHandler(LinkHandler):
@@ -29,23 +29,36 @@ def register_extra_rich_text_features(features):
 
 class PromiseCategoryAdmin(ModelAdmin):
     model = PromiseCategory
-    menu_icon = "group"
+    menu_icon = "folder-inverse"
     list_display = ("name",)
 
 
 class PromiseStatusAdmin(ModelAdmin):
     model = PromiseStatus
-    menu_icon = "time"
+    menu_icon = "tag"
     list_display = ("name",)
 
 
+class PartyMemberAdmin(ModelAdmin):
+    model = PartyMember
+    menu_icon = "group"
+    list_display = ("name", "role",)
+
+   
+class PartyAdmin(ModelAdmin):
+    model = Party
+    menu_icon = "group"
+    list_display = ("name",)
+
 class PromiseGroup(ModelAdminGroup):
-    menu_label = "Obljube"
+    menu_label = "Ostalo"
     menu_icon = "folder-open-inverse"
     menu_order = 200
     items = (
         PromiseCategoryAdmin,
         PromiseStatusAdmin,
+        PartyAdmin,
+        PartyMemberAdmin
     )
 
 

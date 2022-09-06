@@ -17,10 +17,16 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
-from .promise import PromiseCategory, PromiseStatus, PromiseUpdate
+from .promise import PromiseCategory, PromiseStatus, PromiseUpdate, Party, PartyMember
 
 
 class HomePage(Page):
+    subtitle = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Podnaslov"),
+    )
+    # če ne bo popravkov, izbriši ta field
     description = models.TextField(
         null=True,
         blank=True,
@@ -32,118 +38,81 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name=_("Povezava do prejšnjega mandata"),
     )
+    # če ne bo popravkov, izbriši ta field
     more_link_text = models.CharField(
         max_length=255,
         null=True,
         blank=True,
+        verbose_name=_("Povezava pod opisom (tekst)"),
     )
     image = models.ForeignKey(
         'wagtailimages.Image',
-        verbose_name=_('Slika'),
+        verbose_name=_('Naslovna slika'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    categories_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_link = models.ForeignKey(
+    current_mandate = models.ForeignKey(
         "wagtailcore.Page",
+        verbose_name=_('Trenutno aktualna stran z obljubami'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    latest_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    latest_link = models.ForeignKey(
+    current_mandate_government_page = models.ForeignKey(
         "wagtailcore.Page",
+        verbose_name=_('Trenutno aktualna vladna stran'),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-    )
-    latest_button_text = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    social_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    newsletter_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika ob polju za prijavo na novice'),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    social_media_image = models.ForeignKey(
-        'wagtailimages.Image',
-        verbose_name=_('Slika ob polju za delitev na družbenih omrežjih'),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("description"),
+        FieldPanel("subtitle"),
+        # FieldPanel("description"),
         PageChooserPanel("more_link"),
-        FieldPanel("more_link_text"),
+        # FieldPanel("more_link_text"),
         ImageChooserPanel("image"),
-        FieldPanel("categories_heading"),
-        FieldPanel("search_heading"),
-        FieldPanel("search_placeholder"),
-        PageChooserPanel("search_link"),
-        FieldPanel("latest_heading"),
-        PageChooserPanel("latest_link"),
-        FieldPanel("latest_button_text"),
-        FieldPanel("social_heading"),
-        ImageChooserPanel("newsletter_image"),
-        ImageChooserPanel("social_media_image"),
+        PageChooserPanel("current_mandate"),
+        PageChooserPanel("current_mandate_government_page"),
     ]
 
     parent_page_types = []
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["promise_categories"] = PromiseCategory.objects.all().order_by('id') # TODO this is a hack
-        context["promises"] = (
-            PromisePage.objects.all()
-            .live()
-            .annotate(latest_update=Max("updates__date"))
-            .order_by("-latest_update")[:10]
+
+        context["promise_categories"] = PromiseCategory.objects.filter(mandate=self.current_mandate).order_by('id') # TODO this is a hack
+
+        promises = (
+            PromisePage.objects.live()
+            .child_of(self.current_mandate) # promises that belong to this mandate
         )
+
+        statuses_to_show = PromiseStatus.objects.exclude(order_no=1) # all statuses but 'Ni še ocene'
+        context["promises"] = promises.filter(updates__status__in=statuses_to_show).annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5] # exclude promises that only have status 'Ni še ocene'
+        
+        all_statuses = PromiseStatus.objects.all().order_by('order_no')
+        context["promise_statuses"] = all_statuses
+        # get number of filtered promises for each status
+        promises_by_statuses = {}
+        for promise in promises:
+            if (promises_by_statuses.get(promise.status.slug)):
+                promises_by_statuses[promise.status.slug].append(promise)
+            else:
+                promises_by_statuses[promise.status.slug] = [promise]
+        context["promises_by_statuses"] = promises_by_statuses
+
+        context["current_mandate"] = self.current_mandate
+
         return context
 
-
 class PromisePage(Page):
-    full_text = models.TextField(
-        null=True,
-        blank=True,
-        verbose_name=_("Polno besedilo obljube"),
-    )
     quote = models.TextField(
         null=True,
         blank=True,
@@ -165,6 +134,7 @@ class PromisePage(Page):
         blank=True,
         verbose_name=_("Kategorije"),
     )
+    # to polje ostane, ker imajo stare obljube tu dodane slike, ampak se skrije v adminu
     image = models.ForeignKey(
         'wagtailimages.Image',
         verbose_name=_('Slika'),
@@ -179,10 +149,29 @@ class PromisePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
+        verbose_name='OG slika',
+    )
+    party = models.ForeignKey(
+        'Party', 
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name='Stranka, ki je dala obljubo',
+    )
+    party_promised = models.TextField(
+        blank=True, 
+        verbose_name='Stranka je obljubila'
+    )
+    newsletter_box_title = models.TextField(
+        blank=True,
+        verbose_name='Novičnik naslov v škatli'
+    )
+    newsletter_box_text = models.TextField(
+        blank=True,
+        verbose_name='Novičnik tekst v škatli'
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("full_text"),
         FieldPanel("quote"),
         MultiFieldPanel(
             [
@@ -191,124 +180,118 @@ class PromisePage(Page):
             ],
             heading="Vir",
         ),
-        ImageChooserPanel("image"),
+        # ImageChooserPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
+        FieldPanel("party"),
+        FieldPanel("party_promised"),
         InlinePanel("updates", label="Posodobitve", min_num=1),
+        FieldPanel("newsletter_box_title"),
+        FieldPanel("newsletter_box_text"),
     ]
 
     promote_panels = Page.promote_panels + [
         ImageChooserPanel("meta_image"),
     ]
 
-    search_fields = Page.search_fields + [
-        index.SearchField("full_text"),
-    ]
-
+    search_fields = Page.search_fields + [ index.RelatedFields('updates', [
+        index.SearchField('title'),
+        index.SearchField('content'),
+        index.SearchField('conclusion'),
+    ]) ]
+    
     parent_page_types = ["home.PromiseListingPage"]
 
     def sorted_updates(self):
-        return self.updates.order_by("-date")
+        updates = self.updates.order_by("date")
+        if updates.first().status.order_no == 1:
+            return updates[1:] # if first update is 'Ni še ocene', skip it
+        else:
+            return updates
+
+    @property
+    def latest_updates(self):
+        sorted_updates = self.updates.order_by("-date")
+        latest_update = sorted_updates.first() if sorted_updates else None
+        second_to_latest_update = sorted_updates[1] if len(sorted_updates) > 1 else None
+        return (latest_update, second_to_latest_update)
 
     @property
     def status(self):
         latest_update = self.updates.order_by("-date").first()
         return latest_update.status if latest_update else None
 
+    @property
+    def first_category(self):
+        cat = self.categories.first()
+        return cat.image_card if cat else None
+
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["current_mandate"] = self.get_parent()
+
+        return context
+
     class Meta:
         verbose_name = "Obljuba"
         verbose_name_plural = "Obljube"
 
-
+# ta model predstavlja eno vlado
 class PromiseListingPage(Page):
-    search_title = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-        verbose_name=_("Naslov te strani, ko prikazuje rezultate iskanja"),
-    )
-    category_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    category_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    search_placeholder = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    status_help_label = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    status_help_text = models.TextField(
-        null=True,
-        blank=True,
-    )
     about_statuses_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name="Povezava do strani z razlago 'Kaj pomenijo posamezni statusi?'"
     )
-    about_statuses_text = models.CharField(
-        max_length=255,
-        null=True,
+    government_text = models.TextField(
         blank=True,
+        verbose_name="Besedilo do povezave"
     )
-    no_results = models.CharField(
-        max_length=255,
-        null=True,
+    government = models.TextField(
         blank=True,
+        verbose_name="Besedilo na povezavi (do mandata)"
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("search_title"),
-        FieldPanel("category_label"),
-        FieldPanel("category_placeholder"),
-        FieldPanel("search_label"),
-        FieldPanel("search_placeholder"),
-        FieldPanel("status_help_label"),
-        FieldPanel("status_help_text"),
+        MultiFieldPanel(
+            [
+                FieldPanel("government_text"),
+                FieldPanel("government"),
+            ],
+            heading="Podnaslov",
+        ),
         FieldPanel("about_statuses_link"),
-        FieldPanel("about_statuses_text"),
-        FieldPanel("no_results"),
     ]
 
     parent_page_types = ["home.HomePage"]
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["promise_categories"] = PromiseCategory.objects.all()
+        context["promise_categories"] = PromiseCategory.objects.filter(mandate=self)
         all_statuses = PromiseStatus.objects.all().order_by('order_no')
         context["promise_statuses"] = all_statuses
+
+        # kje je to že needed? 
         context['category_image'] = None
-        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('category', None)).first()
+        chosen_category = PromiseCategory.objects.filter(slug=request.GET.get('kategorija', None)).first()
         if chosen_category:
             context['category_image'] = chosen_category.image_listing_page
             context['category_name'] = chosen_category.name
+        # ***********************
 
         # get set of all promises and order them by latest update
         all_promises = (
             PromisePage.objects.all()
-            .child_of(self)
+            .child_of(self) # promises that belong to this mandate
             .annotate(latest_update=Max("updates__date"))
             .order_by("-latest_update")
         )
 
         # filter promises by search query, if there is one in url params
-        search_query = request.GET.get("query", None)
+        search_query = request.GET.get("isci", None)
         if search_query:
             filtered_promises = all_promises.search(
                 search_query,
@@ -318,7 +301,7 @@ class PromiseListingPage(Page):
             filtered_promises = all_promises
 
         # filter promises by category, if there is one in url params
-        category = request.GET.get("category", None)
+        category = request.GET.get("kategorija", None)
         if category:
            filtered_promises = filtered_promises.filter(categories__slug=category)
 
@@ -352,11 +335,17 @@ class PromiseListingPage(Page):
         context["promises"] = promises
         context["paginator"] = paginator
 
+        context["current_mandate"] = self
+        try:
+            context["government_page"] = GovernmentPage.objects.get(mandate=self)
+        except GovernmentPage.DoesNotExist:
+            context["government_page"] = None
+
         return context
 
     class Meta:
-        verbose_name = "Seznam obljub"
-        verbose_name_plural = "Seznami obljub"
+        verbose_name = "Vlada"
+        verbose_name_plural = "Vlade"
 
 
 class ContentPage(Page):
@@ -389,8 +378,8 @@ class ContentPage(Page):
     ]
 
     class Meta:
-        verbose_name = "Vsebina"
-        verbose_name_plural = "Vsebine"
+        verbose_name = "Navadna stran z vsebino"
+        verbose_name_plural = "Navadne strani z vsebino"
 
 class NewsletterPage(Page):
     description = models.TextField(
@@ -411,5 +400,43 @@ class NewsletterPage(Page):
     ]
 
     class Meta:
-        verbose_name = "Urejanje naročnine"
-        verbose_name_plural = "Urejanja naročnin"
+        verbose_name = "Stran za urejanje naročnine"
+        verbose_name_plural = "Strani za urejanje naročnine"
+
+class GovernmentPage(Page):
+    mandate = models.ForeignKey(
+        "home.PromiseListingPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Vladna stran za:"),
+    )
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Slika v glavi"),
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("mandate"),
+        ImageChooserPanel("header_image"),
+    ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["current_mandate"] = self.mandate
+
+        mandate_parties = Party.objects.filter(mandate=self.mandate)
+        context["mandate_parties"] = mandate_parties
+
+        context["government_members"] = PartyMember.objects.filter(party__in=mandate_parties).order_by('created_at')
+
+        return context
+
+    class Meta:
+        verbose_name = "Opis vlade"
+        verbose_name_plural = "Opisi vlade"
