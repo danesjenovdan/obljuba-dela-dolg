@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtail.contrib.styleguide',
     'wagtail.contrib.modeladmin',
+    'wagtail.contrib.postgres_search',
 ]
 
 MIDDLEWARE = [
@@ -188,5 +189,11 @@ WAGTAILEMBEDS_FINDERS = [
         'providers': [*all_providers, datawrapper],
     }
 ]
+
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+    },
+}
 
 WAGTAIL_ALLOW_UNICODE_SLUGS = False
