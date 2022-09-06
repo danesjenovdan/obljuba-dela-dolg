@@ -53,27 +53,6 @@
 })();
 
 (function () {
-    var shareLinks = document.querySelectorAll(".socials .social-circle");
-    shareLinks.forEach((shareLink) => {
-        shareLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            if (event.currentTarget.className.indexOf('isfbbox') != -1) {
-                const url = `https://www.facebook.com/dialog/feed?app_id=220548529891725&redirect_uri=${encodeURIComponent(document.location.href)}&link=${encodeURIComponent(document.location.href)}&ref=responsive`;
-                window.open(url, '_blank');
-            }
-            if (event.currentTarget.className.indexOf('istwbox') != -1) {
-                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${window.SHARE_TWEET_TEXT} ${document.location.href}`)}`;
-                window.open(url, '_blank');
-            }
-            if (event.currentTarget.className.indexOf('isembox') != -1) {
-                const url = `mailto:?subject=OBLJUBA+DELA+DOLG&body=${encodeURIComponent(window.SHARE_EMAIL_TEXT)}`;
-                window.open(url, '_blank');
-            }
-        });
-    });
-})();
-
-(function () {
     let popup = document.getElementById('filters-mobile');
     let popupButton = document.getElementById('filters-mobile-button');
     let disableBackground = document.getElementById('disable-background');
@@ -110,18 +89,39 @@ function selectCategory() {
 }
 
 function selectStatus() {
-    let category = document.getElementById("select-category").value;
-    let query = document.getElementById("search-header").value;
+    // let category = document.getElementById("select-category").value;
+    // let query = document.getElementById("search-header").value;
+    // TODO: porihti za mobile
     let popup = document.getElementById('filters-mobile');
-    let status = popup.getElementsByClassName("active")[0].dataset.status;
-    window.location.href = '?category=' + category + '&query=' + query + '&status=' + status;
+    // let status = popup.getElementsByClassName("active")[0].dataset.status;
+    // window.location.href = '?kategorija=' + category + '&isci=' + query + '&status=' + status;
+    document.getElementById("query-form").submit();
 }
 
-function makeActive(el) {
-    let popup = document.getElementById('filters-mobile');
-    let options = popup.getElementsByClassName("option");
-    for (const option of options){
-        option.classList.remove("active");
+function readMore(event, id) {
+    if (id) {
+        let updateContent = document.getElementById(id);
+        updateContent.classList.toggle('d-none');
+
+        let button = event.target;
+
+        if (!button.classList.contains('read-more')) {
+            button = button.parentElement;
+        }
+        
+        button.classList.toggle('close');
+
+        if (button.classList.contains('close')) {
+            if (id !== 'coalition-contract' && id !== 'party-mobile') {
+                button.firstElementChild.textContent = 'Zapri';
+            }
+            
+        } else {
+            if (id !== 'coalition-contract' && id !== 'party-mobile') {
+                button.firstElementChild.textContent = 'Preberi celotno analizo';
+            }
+            
+        }
+        
     }
-    el.classList.add("active");
 }

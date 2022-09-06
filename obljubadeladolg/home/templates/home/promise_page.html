@@ -5,60 +5,76 @@
 
 {% block page_body %}
 
-<div class="container-fluid bg-primary promise-page pb-5">
+<div class="container-fluid bg-beige promise-page pb-5">
     <div class="container">
-        <div class="row hero text-light py-5">
-            <div class="col-lg-7 offset-lg-1 mb-5 mb-lg-0">
+        <div class="row hero pt-4 pt-lg-5">
+            <div class="col-lg-8 mb-2 mb-lg-0">
+                <div>
+                    {% for category in page.categories.all %}
+                    <span class="tag">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
                 <h1 class="mb-4">
                     {% if page.full_text %}{{ page.full_text }}{% else %}{{ page.title }}{% endif %}
                 </h1>
-                <div>
-                    {% for category in page.categories.all %}
-                    <span class="tag">{{ category }}</span>
-                    {% endfor %}
-                </div>
-                {% if not page.quote %}
-                <div class="my-4 source">
-                    Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
-                </div>
-                {% endif %}
-                {% if page.quote %}
-                <div class="quote">
-                    <p>
-                        {{ page.quote }}
-                    </p>
-                    <div class="my-4 source">
-                        Vir: <a href="{{ page.source_url }}">{{ page.source_name }}</a>
+                <div class="row">
+                    <div class="col-4 d-none d-lg-block">
+                        {% if page.first_category %}
+                        {% image page.first_category width-1444 class="img-fluid w-100" %}
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-lg-8">
+                        <div class="coalition-contract-box">
+                            <div class="read-more d-flex justify-content-between d-sm-none" onclick="readMore(event, 'coalition-contract')">
+                                <span class="dotted-link-blue">Besedilo koalicijske pogodbe</span>
+                                <span class="arrow-down"></span>
+                            </div>
+                            <div id="coalition-contract" class="d-none d-sm-block">
+                                {% if page.quote %}
+                                <div class="quote">
+                                    <p>
+                                        {{ page.quote }}
+                                    </p>
+                                </div>
+                                {% endif %}
+                                <div class="my-4 source">
+                                    <a href="{{ page.source_url }}" class="dotted-link-blue">Vir: {{ page.source_name }}</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                {% endif %}
             </div>
             <div class="col-12 col-lg-4 position-relative promise-status">
-                <div class="white-blob"></div>
-                <div class="position-relative">
-                    <div class="icon d-flex justify-content-center align-items-center" style="background-color:{{ page.status.color }};">
-                        {% image page.status.icon width-1444 %}
+                <div class="white-box">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon d-flex justify-content-center align-items-center" style="background-color:{{ page.status.color }};">
+                            {% image page.status.icon width-1444 %}
+                        </div>
+                        <div class="description">
+                            <span>
+                                Trenutni status obljube
+                            </span>
+                            <span>{{ page.status }}</span>
+                        </div>
                     </div>
-                    <span>{{ page.status }}</span>
-                    <hr>
-                    <p>{{ page.status.description }}</p>
+                    <p>
+                        {% if page.latest_updates.0.conclusion %}
+                        {{ page.latest_updates.0.conclusion }}
+                        {% else %}
+                        {{ page.search_description }}
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         </div>
-        {% if page.image %}
-        <div class="d-none d-xl-block row position-relative">
-            <div class="position-absolute header-image">
-                {% image page.image fill-200x200 %}
-            </div>
-        </div>
-        {% endif %}
     </div>
 </div>
 
-<div class="container-fluid bg-light promise-page extra-padding">
+<div class="container-fluid promise-page extra-padding">
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8">
+        <div class="row flex-column-reverse flex-lg-row content">
+            <div class="col-12 col-lg-8 mt-5 mt-lg-0">
                 {% for update in page.sorted_updates.all %}
                     {% with next_index=forloop.counter0|add:1 %}
                         {% with next_update=page.sorted_updates.all|index:next_index %}
@@ -71,41 +87,88 @@
                                         </div>
                                         <span>{{ update.status }}</span>
                                     </div>
-                                    <span class="date">{{ update.date }}</span>
                                 </div>
                                 {% if not forloop.last %}
                                 <div class="d-none d-lg-block line" style="background-image: linear-gradient({{ update.status.color }}, {{ next_update.status.color }});"></div>
                                 {% endif %}
                             </div>
-                            <div class="col pl-0 pt-5 my-5 rich-text">
-                                {% if update.title %}<h2>{{ update.title }}</h2>{% endif %}
-                                {{ update.content|richtext }}
+                            <div class="col pl-0 pt-4 mt-5 rich-text">
+                                {% if update.title %}
+                                <h2 class="mb-3">{{ update.title }}</h2>
+                                {% endif %}
+                                {% if update.update_author %}
+                                <div class="update-author">{{ update.update_author }}</div>
+                                {% endif %}
+                                {% if update.date %}
+                                <div class="update-date">{{ update.date|date:'j. n. Y' }}</div>
+                                {% endif %}
+                                {% if update.conclusion %}
+                                <div class="update-conclusion">
+                                    <h4>Sklep</h4>
+                                    <p>{{ update.conclusion }}</p>
+                                </div>
+                                {% endif %}
+                                <div class="coalition-contract-box">
+                                    <div id="update-content-{{ forloop.counter0 }}" class="d-none">
+                                        {{ update.content|richtext }}
+                                    </div>
+                                    <div class="read-more my-sm-4" onclick="readMore(event, 'update-content-{{ forloop.counter0 }}')">
+                                        <span class="dotted-link-blue">Preberi celotno analizo</span>
+                                        <span class="arrow-down"></span>
+                                    </div>
+                                </div>
+                                <hr />
                             </div>
                         </div>
                         {% endwith %}
                     {% endwith %}
                 {% endfor %}
+                {% if current_mandate %}
+                <a href="{% pageurl current_mandate %}" class="d-none d-lg-flex justify-content-center align-items-center all-promises">
+                    <span class="dotted-link-blue">Pojdi na seznam vseh obljub</span>
+                    <span class="arrow-right-blue animated"></span>
+                </a>
+                {% endif %}
             </div>
             <div class="col-12 col-lg-4">
-                <div class="box socials">
-                    <h2>{{ settings.home.MetaSettings.share_label }}</h2>
-                    <h5>{{ settings.home.MetaSettings.share_sublabel }}</h5>
-                    <div class="d-flex justify-content-center">
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 isfbbox">
-                            <span class="fb-icon"></span>
-                        </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 istwbox">
-                            <span class="twitter-icon"></span>
-                        </div>
-                        <div class="social-circle d-flex justify-content-center align-items-center mt-4 mx-2 isembox">
-                            <span class="email-icon"></span>
+                {% if page.party %}
+                <div class="box party bg-beige">
+                    <div class="d-flex align-items-center d-lg-block">
+                        <h5 class="mb-lg-3">Za resor je odgovorna:</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="party-image">
+                                {% image page.party.icon fill-200x200 %}
+                            </div>
+                            <h2>{{ page.party.name }}</h2>
                         </div>
                     </div>
+                    <div class="d-none d-sm-block">
+                        <hr class="mt-4 mb-3" />
+                        <h5 class="mb-3">Kaj so obljubili v predvolilnem programu:</h5>
+                    </div>
+                    <div class="read-more d-flex justify-content-between d-sm-none my-2" onclick="readMore(event, 'party-mobile')">
+                        <span class="dotted-link-blue">Kaj je obljubila pred volitvami?</span>
+                        <span class="arrow-down"></span>
+                    </div>
+                    <p id="party-mobile" class="d-none d-sm-block">{{ page.party_promised }}</p>
                 </div>
-                <div class="box newsletter d-none d-lg-block">
+                {% endif %}
+                <div class="box newsletter d-none d-lg-block text-center">
                     <form>
-                        <h2>{{ settings.home.MetaSettings.newsletter_label }}</h2>
-                        <h5>{{ settings.home.MetaSettings.newsletter_sublabel }}</h5>
+                        <h2>
+                            {% if page.newsletter_box_title %}
+                            {{ page.newsletter_box_title }}
+                            {% else %}
+                            Prijavi se na mesečni e-novičnik
+                            {% endif %}
+                        </h2>
+                        <h5>
+                            {% if page.newsletter_box_text %}
+                            {{ page.newsletter_box_text }}
+                            {% else %}
+                            Te zanima, kaj se dogaja s to in podobnimi obljubami?
+                            {% endif %}
+                        </h5>
                         <div class="go-input position-relative mt-4">
                             <input type="email" name="email" required class="form-control border-dark" id="email">
                             <button type="submit" class="input-btn btn-primary hover-animation">
