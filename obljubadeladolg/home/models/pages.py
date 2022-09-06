@@ -197,13 +197,13 @@ class PromisePage(Page):
         index.SearchField('title'),
         index.SearchField('content'),
         index.SearchField('conclusion'),
-    ]) ] # ta related fields probably does nothing
+    ]) ]
     
     parent_page_types = ["home.PromiseListingPage"]
 
     def sorted_updates(self):
         updates = self.updates.order_by("date")
-        if updates.first().status.order_no is 1:
+        if updates.first().status.order_no == 1:
             return updates[1:] # if first update is 'Ni še ocene', skip it
         else:
             return updates

@@ -8,6 +8,7 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 
 class PromiseCategory(models.Model):
@@ -128,7 +129,7 @@ class PromiseStatus(models.Model):
         verbose_name_plural = "Stanja obljub"
 
 
-class PromiseUpdate(Orderable):
+class PromiseUpdate(Orderable, index.Indexed):
     page = ParentalKey(
         "home.PromisePage",
         on_delete=models.CASCADE,
