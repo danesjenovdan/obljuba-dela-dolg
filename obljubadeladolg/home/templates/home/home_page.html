@@ -61,9 +61,9 @@
                                         <div class="d-flex justify-content-center justify-content-md-start">
         
                                         {% for s in promises_by_statuses|get_item:status.slug %}
-                                        <div class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
+                                        <a title="{{ s.title }}" href="{% pageurl current_mandate %}{{ s.slug }}" class="status-circle d-flex justify-content-center align-items-center" style="background-color:{{ status.color }};">
                                             {% image status.icon width-1444 %}
-                                        </div>
+                                        </a>
         
                                         {% if forloop.counter|divisibleby:10 %}
                                         </div>
