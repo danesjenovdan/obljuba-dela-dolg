@@ -960,6 +960,17 @@ footer {
   color: #4e536a;
 }
 
+@media (min-width: 768px) {
+  .richtext-image.left {
+    float: left;
+    margin-right: 30px;
+  }
+  .richtext-image.right {
+    float: right;
+    margin-left: 30px;
+  }
+}
+
 .content-page {
   .hero {
     h2 {
