@@ -23,11 +23,15 @@
         {% if self.meta_image %}
             {% image self.meta_image max-1200x630 as og_image %}
             <meta property="og:image" content="{{ og_image.url }}">
+            <meta property="og:image:alt " content="{{ self.meta_image_alt_text }}"/>
             <meta name="twitter:image" content="{{ og_image.url }}">
+            <meta property="twitter:image:alt" content="{{ self.meta_image_alt_text }}">
         {% else %}
             {% image settings.home.MetaSettings.meta_image max-1200x630 as og_image %}
             <meta property="og:image" content="{{ og_image.url }}">
+            <meta property="og:image:alt " content="{{ settings.home.MetaSettings.meta_image_alt_text }}"/>
             <meta name="twitter:image" content="{{ og_image.url }}">
+            <meta property="twitter:image:alt" content="{{ settings.home.MetaSettings.meta_image_alt_text }}">
         {% endif %}
 
         <meta name="author" content="Danes je nov dan">

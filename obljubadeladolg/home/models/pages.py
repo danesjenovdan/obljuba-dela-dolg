@@ -151,6 +151,10 @@ class PromisePage(Page):
         related_name='+',
         verbose_name='OG slika',
     )
+    meta_image_alt_text = models.TextField(
+        blank=True,
+        verbose_name="OG slika alt tekst"
+    )
     party = models.ForeignKey(
         'Party', 
         null=True,
@@ -191,6 +195,7 @@ class PromisePage(Page):
 
     promote_panels = Page.promote_panels + [
         ImageChooserPanel("meta_image"),
+        FieldPanel("meta_image_alt_text"),
     ]
 
     search_fields = Page.search_fields + [ index.RelatedFields('updates', [

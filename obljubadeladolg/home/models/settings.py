@@ -146,11 +146,13 @@ class MetaSettings(BaseSetting):
         max_length=255,
         null=True,
         blank=True,
+        verbose_name="Meta naslov",
     )
     meta_description = models.CharField(
         max_length=255,
         null=True,
         blank=True,
+        verbose_name="Meta opis",
     )
     meta_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -158,7 +160,13 @@ class MetaSettings(BaseSetting):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name="OG slika",
     )
+    meta_image_alt_text = models.TextField(
+        blank=True,
+        verbose_name="Alt tekst za OG sliko"
+    )
+
     share_email_text = models.TextField(
         null=True,
         blank=True,
@@ -172,6 +180,7 @@ class MetaSettings(BaseSetting):
         FieldPanel("meta_title"),
         FieldPanel("meta_description"),
         ImageChooserPanel("meta_image"),
+        FieldPanel("meta_image_alt_text"),
         FieldPanel("share_email_text"),
         FieldPanel("share_twitter_text"),
     ]
