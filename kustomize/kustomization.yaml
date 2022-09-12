@@ -9,4 +9,4 @@ resources:
 images:
   - name: obljubadeladolg
     newName: rg.fr-par.scw.cloud/djnd/obljubadeladolg
-    newTag: '58ed8056ef2cc8d82748fb5ec95b5f948a5496e7'
+    newTag: 'c90e3081022fe15b0705d64c1289688e837f7b66'
