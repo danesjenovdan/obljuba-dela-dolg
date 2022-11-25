@@ -180,7 +180,7 @@ datawrapper = {
     "endpoint": "https://api.datawrapper.de/v3/oembed",
     "urls": [
         r'^https?://datawrapper.dwcdn.net/.+$',
-        r'^https?://www.datawrapper.de/*',
+        r'^https?://www.datawrapper.de/.+$',
     ]
 }
 
