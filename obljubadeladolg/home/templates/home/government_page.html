@@ -37,28 +37,28 @@
 <div class="container-fluid government-page extra-padding h-100">
     <div class="container">
         <div class="row">
-            {% for member in government_members %}
+            {% for orderable_member in page.members.all %}
                 <div class="col-12 col-md-6 col-xl-4 pb-4">
                     <div class="member">
                         <div class="member-description">
-                            <h6>{{ member.role }}</h6>
-                            <h4>{{ member.name }}</h4>
+                            <h6>{{ orderable_member.member.role }}</h6>
+                            <h4>{{ orderable_member.member.name }}</h4>
                             <div class="member-image">
-                                {% image member.image width-1444 class="img-fluid" %}
+                                {% image orderable_member.member.image width-1444 class="img-fluid" %}
                             </div>
                         </div>
                         <hr />
-                        {% if not member.party_comment %}
+                        {% if not orderable_member.member.party_comment %}
                         <div class="d-flex align-items-center justify-content-center py-3">
                             <div class="party-image">
-                                {% image member.party.icon fill-200x200 %}
+                                {% image orderable_member.member.party.icon fill-200x200 %}
                             </div>
-                            <h5>{{ member.party.name }}</h5>
+                            <h5>{{ orderable_member.member.party.name }}</h5>
                         </div>
                         {% endif %}
-                        {% if member.party_comment %}
+                        {% if orderable_member.member.party_comment %}
                         <div class="party-comment">
-                            {{ member.party_comment }}
+                            {{ orderable_member.member.party_comment }}
                         </div>
                         {% endif %}
                     </div>

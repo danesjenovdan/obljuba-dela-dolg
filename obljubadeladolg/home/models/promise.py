@@ -227,6 +227,9 @@ class PartyMember(models.Model):
     party_comment = models.TextField(verbose_name="Komentar pod stranko", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name + ", " + self.party.mandate.title
+    
     panels = [
         FieldPanel("name"),
         FieldPanel("role"),
@@ -238,3 +241,29 @@ class PartyMember(models.Model):
     class Meta:
         verbose_name = "Član vlade"
         verbose_name_plural = "Člani vlade"
+
+
+class OrderablePartyMember(Orderable):
+    member = models.ForeignKey(
+        PartyMember,
+        on_delete=models.CASCADE,
+        related_name="+",
+        verbose_name=_("Član vlade"),
+    )
+    government = ParentalKey("home.GovernmentPage",
+        on_delete=models.CASCADE,
+        related_name="members"
+    )
+
+    def __str__(self):
+        return self.member
+
+    panels = [
+        FieldPanel("member"),
+        FieldPanel("government"),
+    ]
+
+    class Meta:
+        verbose_name = "Član vlade"
+        verbose_name_plural = "Člani vlade"
+        ordering = ['sort_order']
