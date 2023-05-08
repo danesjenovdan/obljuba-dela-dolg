@@ -97,7 +97,7 @@ class HomePage(Page):
         statuses_to_show = PromiseStatus.objects.exclude(order_no=1) # all statuses but 'Ni še ocene'
         context["promises"] = promises.filter(updates__status__in=statuses_to_show).annotate(latest_update=Max("updates__date")).order_by("-latest_update")[:5] # exclude promises that only have status 'Ni še ocene'
         
-        all_statuses = PromiseStatus.objects.all().order_by('order_no')
+        all_statuses = PromiseStatus.objects.filter(order_no__gt=1).order_by('order_no')
         context["promise_statuses"] = all_statuses
         # get number of filtered promises for each status
         promises_by_statuses = {}
