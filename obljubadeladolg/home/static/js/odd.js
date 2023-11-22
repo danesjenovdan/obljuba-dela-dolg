@@ -7,21 +7,20 @@
         var checkbox = form.querySelector("#confirm-email");
         var response = form.querySelector("#response");
         form.addEventListener("submit", (event) => {
-            console.log("checkbox", checkbox.checked);
             event.preventDefault();
             if (checkbox.checked) {
                 form.classList.remove("error");
                 submitButton.setAttribute("disabled", "disabled");
                 emailElem.setAttribute("disabled", "disabled");
                 checkbox.setAttribute("disabled", "disabled");
-                fetch("https://podpri.djnd.si/api/subscribe/", {
+                fetch("https://podpri.lb.djnd.si/api/subscribe/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                         email: emailElem.value,
-                        segment: 18,
+                        segment_id: 23,
                     }),
                 })
                 .then((res) => {

@@ -99,30 +99,33 @@
 {% block extra_js %}
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script>
+    // !!! DEPRECATED: NewsletterPage and old mautic are no longer in use
+    
     $(document).ready(function() {
+        // deprecated, odjavljanje se dogaja samo 
         // delete subscription
-        $('.subscription').on('click', function() {
-            const reqUrl = `https://podpri.djnd.si/api/segments/obljuba-dela-dolg/contact/?email=${urlParams.get('email')}&token=${urlParams.get('token')}`;
-            fetch(reqUrl, {
-                method: 'DELETE',
-            }).then((response) => {
-                return response.json();
-            }).then((json) => {
-                console.log(json);
-            });
-        });
+        // $('.subscription').on('click', function() {
+        //     const reqUrl = `https://podpri.djnd.si/api/segments/obljuba-dela-dolg/contact/?email=${urlParams.get('email')}&token=${urlParams.get('token')}`;
+        //     fetch(reqUrl, {
+        //         method: 'DELETE',
+        //     }).then((response) => {
+        //         return response.json();
+        //     }).then((json) => {
+        //         console.log(json);
+        //     });
+        // });
 
         // submit email and subscribe
         $('#submit-managed-email').on('click', function() {
             if ($('#confirm-managed-email').is(':checked')) {
-                fetch("https://podpri.djnd.si/api/subscribe/", {
+                fetch("https://podpri.lb.djnd.si/api/subscribe/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                         email: $('#managed-email').val(),
-                        segment: 18,
+                        segment_id: 23,
                     }),
                 })
                 .then((res) => {
@@ -141,25 +144,25 @@
                 $('.confirm-label').css({'color': 'red'});
             }
         });
-        const urlParams = new URLSearchParams(document.location.search);
-        if (urlParams.has('token') && urlParams.has('email')) {
-            $('.manage').hide();
-            const endpoint = `https://podpri.djnd.si/api/segments/my?token=${urlParams.get('token')}&email=${urlParams.get('email')}`;
-            fetch(endpoint).then((response) => {
-                return response.json();
-            }).then((json) => {
-                if (json.segments.filter((segment) => segment.id === 18).length > 0) {
-                    $('.subscription').text('Odjavi se od prejemanja e-novičnika');
-                    $('.subscription').removeAttr('disabled');
-                } else {
-                    $('.unsubscribe').hide();
-                    $('.manage').show();
-                    $('#managed-email').focus();
-                }
-            });
-        } else {
-            $('.unsubscribe').hide();
-        }
+        // const urlParams = new URLSearchParams(document.location.search);
+        // if (urlParams.has('token') && urlParams.has('email')) {
+        //     $('.manage').hide();
+        //     const endpoint = `https://podpri.djnd.si/api/segments/my?token=${urlParams.get('token')}&email=${urlParams.get('email')}`;
+        //     fetch(endpoint).then((response) => {
+        //         return response.json();
+        //     }).then((json) => {
+        //         if (json.segments.filter((segment) => segment.id === 18).length > 0) {
+        //             $('.subscription').text('Odjavi se od prejemanja e-novičnika');
+        //             $('.subscription').removeAttr('disabled');
+        //         } else {
+        //             $('.unsubscribe').hide();
+        //             $('.manage').show();
+        //             $('#managed-email').focus();
+        //         }
+        //     });
+        // } else {
+        //     $('.unsubscribe').hide();
+        // }
     });
 </script>
 {% endblock %}
