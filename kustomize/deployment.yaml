@@ -17,28 +17,14 @@ spec:
       securityContext:
         fsGroup: 1000
       volumes:
-        - name: obljubadeladolg-persistent-storage
+        - name: obljubadeladolg-storage
           emptyDir: {}
       initContainers:
-        # - name: fixmanifest
-        #   image: obljubadeladolg
-        #   volumeMounts:
-        #     - name: obljubadeladolg-persistent-storage
-        #       mountPath: /pvc
-        #   command:
-        #     - rm
-        #     - /pvc/static/staticfiles.json
-        #   env:
-        #     - name: DJANGO_SETTINGS_MODULE
-        #       value: obljubadeladolg.settings.production
-        #   envFrom:
-        #     - secretRef:
-        #         name: obljubadeladolg-credentials
         - name: collectstatic
           image: obljubadeladolg
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
-              mountPath: /pvc
+            - name: obljubadeladolg-storage
+              mountPath: /vc
           command:
             - python
             - manage.py
@@ -80,8 +66,8 @@ spec:
         - name: obljubadeladolg
           image: obljubadeladolg
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
-              mountPath: /pvc
+            - name: obljubadeladolg-storage
+              mountPath: /vc
           command:
             - gunicorn
             - obljubadeladolg.wsgi:application
@@ -113,7 +99,7 @@ spec:
               protocol: TCP
           image: nginx:alpine
           volumeMounts:
-            - name: obljubadeladolg-persistent-storage
+            - name: obljubadeladolg-storage
               mountPath: /usr/share/nginx/html
           resources:
             requests:
