@@ -88,10 +88,10 @@ spec:
           resources:
             requests:
               memory: 200Mi
-              cpu: 1000m
+              cpu: 100m
             limits:
               memory: 200Mi
-              cpu: 1000m
+              cpu: 100m
         - name: obljubadeladolg-nginx
           ports:
             - name: http
