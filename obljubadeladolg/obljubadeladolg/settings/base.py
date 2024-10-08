@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 from wagtail.embeds.oembed_providers import all_providers
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,84 +26,79 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
-    'home',
-
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-    'wagtail.core',
-
-    'modelcluster',
-    'taggit',
-
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    'wagtail.contrib.table_block',
-    'wagtail.contrib.settings',
-    'wagtail.contrib.styleguide',
-    'wagtail.contrib.modeladmin',
-    'wagtail.contrib.postgres_search',
+    "home",
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail.core",
+    "modelcluster",
+    "taggit",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "wagtail.contrib.table_block",
+    "wagtail.contrib.settings",
+    "wagtail.contrib.styleguide",
+    "wagtail.contrib.modeladmin",
+    "wagtail.contrib.postgres_search",
 ]
 
 MIDDLEWARE = [
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-ROOT_URLCONF = 'obljubadeladolg.urls'
+ROOT_URLCONF = "obljubadeladolg.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(PROJECT_DIR, 'templates'),
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(PROJECT_DIR, "templates"),
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'wagtail.contrib.settings.context_processors.settings',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "wagtail.contrib.settings.context_processors.settings",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'obljubadeladolg.wsgi.application'
+WSGI_APPLICATION = "obljubadeladolg.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.getenv('DB_HOST', 'db'),
-        'NAME': os.getenv('DB_NAME', 'wagtail'),
-        'USER': os.getenv('DB_USERNAME', 'wagtail'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'changeme'),
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("DB_HOST", "db"),
+        "NAME": os.getenv("DB_NAME", "wagtail"),
+        "USER": os.getenv("DB_USERNAME", "wagtail"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "changeme"),
+        "PORT": "5432",
     }
 }
 
@@ -112,16 +108,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -129,9 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'sl-SI'
+LANGUAGE_CODE = "sl-SI"
 
-TIME_ZONE = 'Europe/Ljubljana'
+TIME_ZONE = "Europe/Ljubljana"
 
 USE_I18N = True
 
@@ -144,24 +140,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'static'),
+    os.path.join(PROJECT_DIR, "static"),
 ]
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
 # See https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 # Wagtail settings
 
@@ -169,31 +165,31 @@ WAGTAIL_SITE_NAME = "Obljuba dela dolg"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+BASE_URL = "http://example.com"
 
 # Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 # Wagtail embed settings
 datawrapper = {
     "endpoint": "https://api.datawrapper.de/v3/oembed",
     "urls": [
-        r'^https?://datawrapper.dwcdn.net/.+$',
-        r'^https?://www.datawrapper.de/.+$',
-    ]
+        r"^https?://datawrapper.dwcdn.net/.+$",
+        r"^https?://www.datawrapper.de/.+$",
+    ],
 }
 
 WAGTAILEMBEDS_FINDERS = [
     {
-        'class': 'wagtail.embeds.finders.oembed',
-        'providers': [*all_providers, datawrapper],
+        "class": "wagtail.embeds.finders.oembed",
+        "providers": [*all_providers, datawrapper],
     }
 ]
 
 WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+    "default": {
+        "BACKEND": "wagtail.contrib.postgres_search.backend",
     },
 }
 

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0017_promisestatus_icon'),
+        ("home", "0017_promisestatus_icon"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='homepage',
-            name='latest_button_text',
+            model_name="homepage",
+            name="latest_button_text",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]

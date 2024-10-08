@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0009_auto_20210604_1200'),
+        ("home", "0009_auto_20210604_1200"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promisepage',
-            name='full_text',
-            field=models.TextField(blank=True, null=True, verbose_name='Polno besedilo obljube'),
+            model_name="promisepage",
+            name="full_text",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Polno besedilo obljube"
+            ),
         ),
     ]

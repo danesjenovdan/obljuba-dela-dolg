@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0025_promisepage_image'),
+        ("home", "0025_promisepage_image"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promiselistingpage',
-            name='no_results',
+            model_name="promiselistingpage",
+            name="no_results",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]

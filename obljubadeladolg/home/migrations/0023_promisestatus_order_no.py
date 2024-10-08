@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0022_auto_20210615_1346'),
+        ("home", "0022_auto_20210615_1346"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promisestatus',
-            name='order_no',
-            field=models.IntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Vrstni red'),
+            model_name="promisestatus",
+            name="order_no",
+            field=models.IntegerField(
+                default=1,
+                validators=[django.core.validators.MinValueValidator(1)],
+                verbose_name="Vrstni red",
+            ),
         ),
     ]

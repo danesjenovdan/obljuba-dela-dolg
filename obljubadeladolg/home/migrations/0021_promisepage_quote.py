@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0020_metasettings_share_label'),
+        ("home", "0020_metasettings_share_label"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promisepage',
-            name='quote',
-            field=models.TextField(blank=True, null=True, verbose_name='Citat'),
+            model_name="promisepage",
+            name="quote",
+            field=models.TextField(blank=True, null=True, verbose_name="Citat"),
         ),
     ]

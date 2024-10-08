@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0011_auto_20210604_1223'),
+        ("home", "0011_auto_20210604_1223"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='promiseupdate',
-            options={'ordering': ['sort_order']},
+            name="promiseupdate",
+            options={"ordering": ["sort_order"]},
         ),
         migrations.AddField(
-            model_name='promiseupdate',
-            name='sort_order',
+            model_name="promiseupdate",
+            name="sort_order",
             field=models.IntegerField(blank=True, editable=False, null=True),
         ),
     ]

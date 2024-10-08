@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0048_promiselistingpage_government'),
+        ("home", "0048_promiselistingpage_government"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promiselistingpage',
-            name='government_text',
-            field=models.TextField(blank=True, verbose_name='Besedilo do povezave'),
+            model_name="promiselistingpage",
+            name="government_text",
+            field=models.TextField(blank=True, verbose_name="Besedilo do povezave"),
         ),
         migrations.AlterField(
-            model_name='promiselistingpage',
-            name='government',
-            field=models.TextField(blank=True, verbose_name='Besedilo na povezavi (do mandata)'),
+            model_name="promiselistingpage",
+            name="government",
+            field=models.TextField(
+                blank=True, verbose_name="Besedilo na povezavi (do mandata)"
+            ),
         ),
     ]

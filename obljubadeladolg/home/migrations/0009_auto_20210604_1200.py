@@ -6,20 +6,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0008_promisepage'),
+        ("home", "0008_promisepage"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='contentpage',
-            options={'verbose_name': 'Vsebina', 'verbose_name_plural': 'Vsebine'},
+            name="contentpage",
+            options={"verbose_name": "Vsebina", "verbose_name_plural": "Vsebine"},
         ),
         migrations.AlterModelOptions(
-            name='promiselistingpage',
-            options={'verbose_name': 'Seznam obljub', 'verbose_name_plural': 'Seznami obljub'},
+            name="promiselistingpage",
+            options={
+                "verbose_name": "Seznam obljub",
+                "verbose_name_plural": "Seznami obljub",
+            },
         ),
         migrations.AlterModelOptions(
-            name='promisepage',
-            options={'verbose_name': 'Obljuba', 'verbose_name_plural': 'Obljube'},
+            name="promisepage",
+            options={"verbose_name": "Obljuba", "verbose_name_plural": "Obljube"},
         ),
     ]

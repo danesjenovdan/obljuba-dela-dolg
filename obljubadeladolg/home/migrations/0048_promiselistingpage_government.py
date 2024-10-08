@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0047_promisecategory_mandate'),
+        ("home", "0047_promisecategory_mandate"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promiselistingpage',
-            name='government',
-            field=models.TextField(blank=True, verbose_name='Sledimo izbranim koalicijskim obljubam'),
+            model_name="promiselistingpage",
+            name="government",
+            field=models.TextField(
+                blank=True, verbose_name="Sledimo izbranim koalicijskim obljubam"
+            ),
         ),
     ]

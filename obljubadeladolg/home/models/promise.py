@@ -148,8 +148,7 @@ class PromiseUpdate(Orderable, index.Indexed):
         verbose_name=_("Datum"),
     )
     update_author = models.TextField(
-        blank=True,
-        verbose_name=_("Avtor/ica posodobitve")
+        blank=True, verbose_name=_("Avtor/ica posodobitve")
     )
     status = models.ForeignKey(
         "home.PromiseStatus",
@@ -169,7 +168,7 @@ class PromiseUpdate(Orderable, index.Indexed):
     )
 
     class Meta:
-        ordering = ['date']
+        ordering = ["date"]
 
 
 class Party(models.Model):
@@ -192,7 +191,11 @@ class Party(models.Model):
     )
 
     def __str__(self):
-        return self.name + ", " + self.mandate.title if self.name and self.mandate else self.name
+        return (
+            self.name + ", " + self.mandate.title
+            if self.name and self.mandate
+            else self.name
+        )
 
     panels = [
         FieldPanel("name"),
@@ -229,7 +232,7 @@ class PartyMember(models.Model):
 
     def __str__(self):
         return self.name + ", " + self.party.mandate.title
-    
+
     panels = [
         FieldPanel("name"),
         FieldPanel("role"),
@@ -250,9 +253,8 @@ class OrderablePartyMember(Orderable):
         related_name="+",
         verbose_name=_("Član vlade"),
     )
-    government = ParentalKey("home.GovernmentPage",
-        on_delete=models.CASCADE,
-        related_name="members"
+    government = ParentalKey(
+        "home.GovernmentPage", on_delete=models.CASCADE, related_name="members"
     )
 
     def __str__(self):
@@ -266,4 +268,4 @@ class OrderablePartyMember(Orderable):
     class Meta:
         verbose_name = "Član vlade"
         verbose_name_plural = "Člani vlade"
-        ordering = ['sort_order']
+        ordering = ["sort_order"]

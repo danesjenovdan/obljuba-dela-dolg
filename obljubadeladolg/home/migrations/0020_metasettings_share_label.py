@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0019_auto_20210610_1600'),
+        ("home", "0019_auto_20210610_1600"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='metasettings',
-            name='share_label',
+            model_name="metasettings",
+            name="share_label",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]
