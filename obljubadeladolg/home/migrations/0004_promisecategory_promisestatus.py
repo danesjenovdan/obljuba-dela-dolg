@@ -6,34 +6,72 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0003_metasettings'),
+        ("home", "0003_metasettings"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PromiseCategory',
+            name="PromiseCategory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Ime')),
-                ('slug', models.CharField(blank=True, max_length=255, null=True, verbose_name='Ključ (če je prazno se avtomatsko ustvari iz imena)')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Ime")),
+                (
+                    "slug",
+                    models.CharField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        verbose_name="Ključ (če je prazno se avtomatsko ustvari iz imena)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Kategorija obljub',
-                'verbose_name_plural': 'Kategorije obljub',
+                "verbose_name": "Kategorija obljub",
+                "verbose_name_plural": "Kategorije obljub",
             },
         ),
         migrations.CreateModel(
-            name='PromiseStatus',
+            name="PromiseStatus",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Ime')),
-                ('description', models.TextField(blank=True, null=True)),
-                ('slug', models.CharField(blank=True, max_length=255, null=True, verbose_name='Ključ (če je prazno se avtomatsko ustvari iz imena)')),
-                ('color', models.CharField(max_length=32, verbose_name='Barva (veljavni vsi css formati, npr. rgb(255, 255, 255), #fff ali #ffffff)')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Ime")),
+                ("description", models.TextField(blank=True, null=True)),
+                (
+                    "slug",
+                    models.CharField(
+                        blank=True,
+                        max_length=255,
+                        null=True,
+                        verbose_name="Ključ (če je prazno se avtomatsko ustvari iz imena)",
+                    ),
+                ),
+                (
+                    "color",
+                    models.CharField(
+                        max_length=32,
+                        verbose_name="Barva (veljavni vsi css formati, npr. rgb(255, 255, 255), #fff ali #ffffff)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Stanje obljub',
-                'verbose_name_plural': 'Stanja obljub',
+                "verbose_name": "Stanje obljub",
+                "verbose_name_plural": "Stanja obljub",
             },
         ),
     ]

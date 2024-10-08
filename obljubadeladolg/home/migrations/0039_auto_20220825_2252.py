@@ -6,26 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0038_promiseupdate_update_author'),
+        ("home", "0038_promiseupdate_update_author"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='metasettings',
-            name='share_label',
+            model_name="metasettings",
+            name="share_label",
         ),
         migrations.RemoveField(
-            model_name='metasettings',
-            name='share_sublabel',
+            model_name="metasettings",
+            name="share_sublabel",
         ),
         migrations.AddField(
-            model_name='promisepage',
-            name='newsletter_box_text',
-            field=models.TextField(blank=True, verbose_name='Novičnik tekst v škatli'),
+            model_name="promisepage",
+            name="newsletter_box_text",
+            field=models.TextField(blank=True, verbose_name="Novičnik tekst v škatli"),
         ),
         migrations.AddField(
-            model_name='promisepage',
-            name='newsletter_box_title',
-            field=models.TextField(blank=True, verbose_name='Novičnik naslov v škatli'),
+            model_name="promisepage",
+            name="newsletter_box_title",
+            field=models.TextField(blank=True, verbose_name="Novičnik naslov v škatli"),
         ),
     ]

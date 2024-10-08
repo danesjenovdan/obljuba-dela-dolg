@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0037_alter_party_options'),
+        ("home", "0037_alter_party_options"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promiseupdate',
-            name='update_author',
-            field=models.TextField(blank=True, verbose_name='Avtor/ica posodobitve'),
+            model_name="promiseupdate",
+            name="update_author",
+            field=models.TextField(blank=True, verbose_name="Avtor/ica posodobitve"),
         ),
     ]

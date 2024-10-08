@@ -1,15 +1,17 @@
 from django.core.management.base import BaseCommand, CommandError
-from home.models.pages import PromiseListingPage, GovernmentPage
-from home.models.promise import Party, PartyMember, OrderablePartyMember
+
+from home.models.pages import GovernmentPage, PromiseListingPage
+from home.models.promise import OrderablePartyMember, Party, PartyMember
+
 
 class Command(BaseCommand):
-    help = 'For given mandate IDs (PromiseListingPage) create missing OrderablePartyMember objects.'
+    help = "For given mandate IDs (PromiseListingPage) create missing OrderablePartyMember objects."
 
     def add_arguments(self, parser):
-        parser.add_argument('mandate_ids', nargs='+', type=int)
+        parser.add_argument("mandate_ids", nargs="+", type=int)
 
     def handle(self, *args, **options):
-        for mandate_id in options['mandate_ids']:
+        for mandate_id in options["mandate_ids"]:
             try:
                 mandate = PromiseListingPage.objects.get(pk=mandate_id)
             except PromiseListingPage.DoesNotExist:
@@ -24,7 +26,11 @@ class Command(BaseCommand):
                 try:
                     ordered_member = OrderablePartyMember.objects.get(member=member)
                 except OrderablePartyMember.DoesNotExist:
-                    ordered_member = OrderablePartyMember(member=member, government=government_page)
+                    ordered_member = OrderablePartyMember(
+                        member=member, government=government_page
+                    )
                     ordered_member.save()
 
-            self.stdout.write(self.style.SUCCESS('Finished for mandate ID "%s"' % mandate_id))
+            self.stdout.write(
+                self.style.SUCCESS('Finished for mandate ID "%s"' % mandate_id)
+            )

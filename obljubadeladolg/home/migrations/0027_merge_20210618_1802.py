@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0026_newsletterpage'),
-        ('home', '0026_promiselistingpage_no_results'),
+        ("home", "0026_newsletterpage"),
+        ("home", "0026_promiselistingpage_no_results"),
     ]
 
-    operations = [
-    ]
+    operations = []
