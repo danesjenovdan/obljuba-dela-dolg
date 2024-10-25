@@ -5,8 +5,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  - pvc.yaml
 images:
   - name: obljubadeladolg
     newName: rg.fr-par.scw.cloud/djnd/obljubadeladolg
-    newTag: 'latest'
+    newTag: 'ef1e2f2a99711eaafd45b4ac5933d33435d791cb'
