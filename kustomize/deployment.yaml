@@ -38,11 +38,11 @@ spec:
                 name: obljubadeladolg-credentials
           resources:
             requests:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 200m
             limits:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 400m
         - name: migrate
           image: obljubadeladolg
           command:
@@ -57,11 +57,11 @@ spec:
                 name: obljubadeladolg-credentials
           resources:
             requests:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 200m
             limits:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 400m
       containers:
         - name: obljubadeladolg
           image: obljubadeladolg
@@ -87,11 +87,11 @@ spec:
             #   value: 'True'
           resources:
             requests:
-              memory: 200Mi
-              cpu: 300m
+              memory: 400Mi
+              cpu: 200m
             limits:
-              memory: 200Mi
-              cpu: 300m
+              memory: 400Mi
+              cpu: 400m
         - name: obljubadeladolg-nginx
           ports:
             - name: http
@@ -103,8 +103,8 @@ spec:
               mountPath: /usr/share/nginx/html
           resources:
             requests:
-              memory: 100Mi
+              memory: 50Mi
               cpu: 50m
             limits:
-              memory: 100Mi
-              cpu: 50m
+              memory: 200Mi
+              cpu: 100m
