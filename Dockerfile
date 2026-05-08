@@ -22,6 +22,12 @@ RUN npm run css
 # ---
 FROM python:3.8.1-slim-buster
 
+# replace default mirrors with archive, bacause it sometimes fails to download packages
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+RUN sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+# add contrib and non-free repositories
+RUN sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list
+
 # Add user that will be used in the container.
 RUN useradd wagtail
 
