@@ -1,13 +1,41 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-www
+spec:
+  redirectRegex:
+    regex: ^https?://www.obljubadeladolg.si/(.*)
+    replacement: https://obljubadeladolg.si/${1}
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: enable-cors
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "https://obljubadeladolg.si"
+    accessControlAllowMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    accessControlAllowHeaders:
+      - "*"
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: obljubadeladolg
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
-    nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: |
+      traefik-redirect-to-https@kubernetescrd,
+      obljubadeladolg-redirect-www@kubernetescrd
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - obljubadeladolg.si
@@ -15,7 +43,7 @@ spec:
       secretName: obljubadeladolg-tls
   rules:
     - host: obljubadeladolg.si
-      http:
+      http: &http_paths
         paths:
           - path: /
             pathType: Prefix
@@ -24,6 +52,8 @@ spec:
                 name: obljubadeladolg
                 port:
                   number: 8000
+    - host: www.obljubadeladolg.si
+      http: *http_paths
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -31,13 +61,10 @@ metadata:
   name: obljubadeladolg-nginx
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*" # TODO
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    traefik.ingress.kubernetes.io/router.middlewares: |
+      obljubadeladolg-enable-cors@kubernetescrd
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - files.obljubadeladolg.si
