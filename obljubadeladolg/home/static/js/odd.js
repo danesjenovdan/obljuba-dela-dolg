@@ -8,45 +8,14 @@
         var response = form.querySelector("#response");
         form.addEventListener("submit", (event) => {
             event.preventDefault();
-            if (checkbox.checked) {
-                form.classList.remove("error");
-                submitButton.setAttribute("disabled", "disabled");
-                emailElem.setAttribute("disabled", "disabled");
-                checkbox.setAttribute("disabled", "disabled");
-                fetch("https://podpri.lb.djnd.si/api/subscribe/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: emailElem.value,
-                        segment_id: 23,
-                    }),
-                })
-                .then((res) => {
-                    if (res.ok) {
-                        return res.text();
-                    }
-                    throw new Error("Response not ok");
-                })
-                .then((res) => {
-                    response.className = "form-text text-start";
-                    response.textContent = "Hvala za prijavo!";
-                    console.log(res);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    response.className = "form-text text-start text-error";
-                    response.textContent = "Napaka pri prijavi :(";
-                })
-                .then(() => {
-                    submitButton.removeAttribute("disabled");
-                    emailElem.removeAttribute("disabled");
-                    checkbox.removeAttribute("disabled");
-                });
-            } else {
-                form.classList.add("error");
-            }
+
+            const campaign_slug = "obljuba-dela-dolg";
+            const segment_id = 23;
+            const email = emailElem.value;
+
+            let url = `https://moj.djnd.si/${campaign_slug}/prijava?segment_id=${segment_id}`;
+            url += `&email=${encodeURIComponent(email)}`;
+            window.open(`${url}`, `_blank`);
         });
     });
 })();
@@ -107,20 +76,20 @@ function readMore(event, id) {
         if (!button.classList.contains('read-more')) {
             button = button.parentElement;
         }
-        
+
         button.classList.toggle('close');
 
         if (button.classList.contains('close')) {
             if (id !== 'coalition-contract' && id !== 'party-mobile') {
                 button.firstElementChild.textContent = 'Zapri';
             }
-            
+
         } else {
             if (id !== 'coalition-contract' && id !== 'party-mobile') {
                 button.firstElementChild.textContent = 'Preberi celotno analizo';
             }
-            
+
         }
-        
+
     }
 }
