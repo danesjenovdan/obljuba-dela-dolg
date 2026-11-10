@@ -1,14 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
     ObjectList,
     PageChooserPanel,
-    FieldPanel,
     TabbedInterface,
 )
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail import blocks
 from wagtail.fields import StreamField
 from wagtail.snippets.models import register_snippet
 

@@ -196,7 +196,7 @@ WAGTAILSEARCH_BACKENDS = {
 WAGTAIL_ALLOW_UNICODE_SLUGS = False
 
 WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.search.backends.database',
+    "default": {
+        "BACKEND": "wagtail.search.backends.database",
     }
 }

@@ -62,9 +62,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "url",
-                                            wagtail.blocks.URLBlock(
-                                                label="Povezava"
-                                            ),
+                                            wagtail.blocks.URLBlock(label="Povezava"),
                                         ),
                                     ]
                                 ),
@@ -108,9 +106,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "url",
-                                            wagtail.blocks.URLBlock(
-                                                label="Povezava"
-                                            ),
+                                            wagtail.blocks.URLBlock(label="Povezava"),
                                         ),
                                     ]
                                 ),

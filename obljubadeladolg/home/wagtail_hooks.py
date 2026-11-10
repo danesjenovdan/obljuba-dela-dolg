@@ -1,11 +1,11 @@
 from django.utils.html import escape
+from wagtail import hooks
+from wagtail.rich_text import LinkHandler
 from wagtail_modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail import hooks
-from wagtail.rich_text import LinkHandler
 
 from .models import Party, PartyMember, PromiseCategory, PromiseStatus
 

@@ -9,7 +9,6 @@ from wagtail.admin.panels import (
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    FieldPanel,
 )
 from wagtail.fields import StreamField
 from wagtail.models import Page
