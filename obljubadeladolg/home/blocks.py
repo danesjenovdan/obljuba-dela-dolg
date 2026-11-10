@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
+from wagtail import blocks
 from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.core import blocks
 
 
 class RichTextBlock(blocks.StructBlock):

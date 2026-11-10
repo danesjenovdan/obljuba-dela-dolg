@@ -4,10 +4,9 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.core.fields import RichTextField
-from wagtail.core.models import Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
+from wagtail.models import Orderable
 from wagtail.search import index
 
 
@@ -61,8 +60,8 @@ class PromiseCategory(models.Model):
     panels = [
         FieldPanel("name"),
         FieldPanel("slug"),
-        ImageChooserPanel("image_card"),
-        ImageChooserPanel("image_listing_page"),
+        FieldPanel("image_card"),
+        FieldPanel("image_listing_page"),
         FieldPanel("mandate"),
     ]
 
@@ -120,7 +119,7 @@ class PromiseStatus(models.Model):
         FieldPanel("description"),
         FieldPanel("slug"),
         FieldPanel("color"),
-        ImageChooserPanel("icon"),
+        FieldPanel("icon"),
         FieldPanel("order_no"),
     ]
 
@@ -199,7 +198,7 @@ class Party(models.Model):
 
     panels = [
         FieldPanel("name"),
-        ImageChooserPanel("icon"),
+        FieldPanel("icon"),
         FieldPanel("mandate"),
     ]
 
@@ -236,7 +235,7 @@ class PartyMember(models.Model):
     panels = [
         FieldPanel("name"),
         FieldPanel("role"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         FieldPanel("party"),
         FieldPanel("party_comment"),
     ]

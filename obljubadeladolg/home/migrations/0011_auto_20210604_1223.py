@@ -3,7 +3,7 @@
 import django.db.models.deletion
 import django.utils.timezone
 import modelcluster.fields
-import wagtail.core.fields
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                         default=django.utils.timezone.now, verbose_name="Datum"
                     ),
                 ),
-                ("content", wagtail.core.fields.RichTextField(verbose_name="Vsebina")),
+                ("content", wagtail.fields.RichTextField(verbose_name="Vsebina")),
                 (
                     "page",
                     modelcluster.fields.ParentalKey(

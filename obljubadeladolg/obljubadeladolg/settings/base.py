@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail",
+    "wagtail_modeladmin",
     "modelcluster",
     "taggit",
     "django.contrib.admin",
@@ -46,11 +47,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "wagtail.contrib.table_block",
     "wagtail.contrib.settings",
     "wagtail.contrib.styleguide",
-    "wagtail.contrib.modeladmin",
-    "wagtail.contrib.postgres_search",
 ]
 
 MIDDLEWARE = [
@@ -194,3 +194,9 @@ WAGTAILSEARCH_BACKENDS = {
 }
 
 WAGTAIL_ALLOW_UNICODE_SLUGS = False
+
+WAGTAILSEARCH_BACKENDS = {
+    "default": {
+        "BACKEND": "wagtail.search.backends.database",
+    }
+}
