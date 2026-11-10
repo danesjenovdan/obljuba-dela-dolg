@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import wagtail.contrib.table_block.blocks
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -81,15 +81,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="contentpage",
             name="body",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "rich_text",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "alignment",
-                                    wagtail.core.blocks.ChoiceBlock(
+                                    wagtail.blocks.ChoiceBlock(
                                         choices=[
                                             ("start", "Leva"),
                                             ("center", "Sredinska"),
@@ -100,11 +100,11 @@ class Migration(migrations.Migration):
                                 ),
                                 (
                                     "aligned_content",
-                                    wagtail.core.blocks.StreamBlock(
+                                    wagtail.blocks.StreamBlock(
                                         [
                                             (
                                                 "text",
-                                                wagtail.core.blocks.RichTextBlock(
+                                                wagtail.blocks.RichTextBlock(
                                                     label="Obogateno besedilo"
                                                 ),
                                             ),

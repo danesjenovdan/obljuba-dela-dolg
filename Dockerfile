@@ -20,57 +20,78 @@ RUN npm run css
 # ---
 # wagtail image
 # ---
-FROM python:3.8.1-slim-buster
+# Use an official Python runtime based on Debian 12 "trixie" as a parent image.
+FROM python:3.14-slim-trixie AS builder
 
-# replace default mirrors with archive, bacause it sometimes fails to download packages
-RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
-RUN sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
-# add contrib and non-free repositories
-RUN sed -i 's/main/main contrib non-free/g' /etc/apt/sources.list
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 # Add user that will be used in the container.
 RUN useradd wagtail
-
-# Port used by this container to serve HTTP.
-EXPOSE 8000
-
-# Set environment variables.
-# 1. Force Python stdout and stderr streams to be unbuffered.
-# 2. Set PORT variable that is used by Gunicorn. This should match "EXPOSE"
-#    command.
-ENV PYTHONUNBUFFERED=1 \
-    PORT=8000
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
     libpq-dev \
-    libmariadbclient-dev \
+    libmariadb-dev \
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Install the application server.
-RUN pip install "gunicorn==20.0.4"
 
 # Install the project requirements.
-COPY ./obljubadeladolg/requirements.txt /
-RUN pip install -r /requirements.txt
+ENV UV_COMPILE_BYTECODE=1 \
+	UV_LINK_MODE=copy \
+	UV_PYTHON_DOWNLOADS=0 \
+	UV_PROJECT_ENVIRONMENT=/opt/venv \
+	PATH="/opt/venv/bin:$PATH"
+
+COPY stanovanja/pyproject.toml stanovanja/uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --no-dev --no-install-project
 
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app
 
-# Set this directory to be owned by the "wagtail" user.
+# Set this directory to be owned by the "wagtail" user. This Wagtail project
+# uses SQLite, the folder needs to be owned by the user that
+# will be writing to the database file.
 RUN chown wagtail:wagtail /app
 
 # Copy the source code of the project into the container.
 COPY --chown=wagtail:wagtail ./obljubadeladolg .
 
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --no-dev
+
+# Use user "wagtail" to run the build commands below and the server itself.
+USER wagtail
+
+# Collect static files.
+RUN python manage.py collectstatic --noinput --clear
+
 # Copy compiled css from other image
 COPY --chown=wagtail:wagtail --from=sass-compile /app/static/css ./obljubadeladolg/static/css
 
-# Use user "wagtail" to run the build commands below and the server itself.
+
+FROM python:3.14-slim-trixie AS runtime
+
+# Add user that will be used in the container.
+RUN useradd wagtail
+
+EXPOSE 8000
+
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
+	PATH="/opt/venv/bin:$PATH" \
+	PYTHONUNBUFFERED=1 \
+    PORT=8000
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /app /app
+
+# Use /app folder as a directory where the source code is stored.
+WORKDIR /app
+
 USER wagtail
 
 CMD gunicorn obljubadeladolg.wsgi:application -b 0.0.0.0:8000 --log-level DEBUG

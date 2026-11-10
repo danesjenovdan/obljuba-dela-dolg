@@ -4,16 +4,15 @@ from django.db import models
 from django.db.models import Max
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
+    FieldPanel,
 )
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.fields import StreamField
+from wagtail.models import Page
 from wagtail.search import index
 
 from ..blocks import RichTextBlock
@@ -77,7 +76,7 @@ class HomePage(Page):
         # FieldPanel("description"),
         PageChooserPanel("more_link"),
         # FieldPanel("more_link_text"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         PageChooserPanel("current_mandate"),
         PageChooserPanel("current_mandate_government_page"),
     ]
@@ -188,7 +187,7 @@ class PromisePage(Page):
             ],
             heading="Vir",
         ),
-        # ImageChooserPanel("image"),
+        # FieldPanel("image"),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         FieldPanel("party"),
         FieldPanel("party_promised"),
@@ -198,7 +197,7 @@ class PromisePage(Page):
     ]
 
     promote_panels = Page.promote_panels + [
-        ImageChooserPanel("meta_image"),
+        FieldPanel("meta_image"),
         FieldPanel("meta_image_alt_text"),
     ]
 
@@ -381,11 +380,11 @@ class ContentPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("description"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     promote_panels = Page.promote_panels + [
-        ImageChooserPanel("meta_image"),
+        FieldPanel("meta_image"),
     ]
 
     class Meta:
@@ -408,7 +407,7 @@ class NewsletterPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("description"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     class Meta:
@@ -436,7 +435,7 @@ class GovernmentPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("mandate"),
-        ImageChooserPanel("header_image"),
+        FieldPanel("header_image"),
         InlinePanel("members", label="Člani vlade"),
     ]
 
