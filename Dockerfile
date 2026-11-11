@@ -6,7 +6,7 @@
 # ---
 # build scss in separate image
 # ---
-FROM node:16-alpine as sass-compile
+FROM node:26-alpine as sass-compile
 
 WORKDIR /app
 
